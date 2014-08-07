@@ -46,13 +46,12 @@ if ( isset($_POST["submit"]) )
 		if( savePosts( $data, $db ) )
 		{
 			// hinweis, dass gespeichert wurde
-			// anderscht
-			echo "<p>Ihr Beitrag wurde erfolgreich gespeichert.<p>";
+			$message = "<p>Ihr Beitrag wurde erfolgreich gespeichert.</p>";
 		}
 		else
 		{
 			// fehlermeldung, keine weiterleitung
-			echo "<p>Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.<p>";                             
+			$message = "<p>Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.</p>";                             
 		}
 	}
 }
@@ -85,10 +84,6 @@ if ($currentpage < 1)
 {
 	$currentpage = 1;
 }
-
-// Ausgabe nach EVA weg vo hier!
-
-
 
 // Header, Content (Posts) und Footer ausgeben
 include('inc/header.php');

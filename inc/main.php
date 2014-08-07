@@ -13,6 +13,12 @@
 			<h2 class="articleHeading">Letzte Beiträge:</h2>
 		</article>
 		<?php
+
+			if ( isset($message) )
+			{
+				echo $message;
+			}
+			
 			$posts = getPosts( $db, $rowsperpage, $currentpage );
 
 			// Wenn query fehlgeschlagen ist Fehler ausgeben
