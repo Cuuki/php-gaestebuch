@@ -86,7 +86,7 @@ function validateForm ( array $params )
 }
 
 /**
- * @return int : last inserted id
+ * @return int
  */
 function savePosts ( array $params, mysqli $db )
 {
@@ -100,12 +100,16 @@ function savePosts ( array $params, mysqli $db )
 					"'. $db->real_escape_string( $params["textinput"] ) .'"
 				)';
 
-	$db->insert_id;
-	$dbSave = $db->query( $insert );
+	$db->query( $insert );
 
-	return $dbSave;
+	$lastId = $db->insert_id;
+
+	return $lastId;
 }
 
+/**
+ * @return int
+ */
 function totalEntries( mysqli $db )
 {
    // wie viele Zeilen hat Tabelle
@@ -113,16 +117,19 @@ function totalEntries( mysqli $db )
    $result = $db->query($sql);
    $row = mysqli_fetch_row($result);
 
-   return $row;
+	// Soll alle Zeilen als int zurückgeben
+   $count = (int) $row[0];
+
+   return $count;
 }
 
-function totalPages( $row, $rowsperpage )
+/**
+ * @return float
+ */
+function totalPages( $count, $rowsperpage )
 {
-   
-   $numrows = $row[0];
-   
    // Maximale Seitenzahl berechnen
-   $totalpages = ceil($numrows / $rowsperpage);
+   $totalpages = ceil($count / $rowsperpage);
 
    return $totalpages;
 }
@@ -141,7 +148,7 @@ function getPosts ( mysqli $db, $rowsperpage, $currentpage )
 				guestbook
 
 			ORDER BY created DESC
-			LIMIT $offset, $rowsperpage";
+			LIMIT " . (int) $offset . ", ". (int) $rowsperpage ."";
 
 	$dbRead = $db->query( $sql );
 

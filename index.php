@@ -43,7 +43,7 @@ if ( isset($_POST["submit"]) )
 	}
 	else
 	{
-		if( savePosts( $data, $db ) )
+		if( savePosts( $data, $db ) != 0 )
 		{
 			// hinweis, dass gespeichert wurde
 			$message = "<p>Ihr Beitrag wurde erfolgreich gespeichert.</p>";
