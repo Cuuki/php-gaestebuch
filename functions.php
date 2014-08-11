@@ -23,15 +23,14 @@ function dbConnect ( array $options )
 	// Wenn mysqli_connect_errno() nicht null zurückgibt ist ein Fehler aufgetreten
 	if ( mysqli_connect_errno() )
 	{
-		// entstandener Fehler als Parameter mitgeben
-		errorLog();
+		debug("Datenbankverbindung:", $db);
 
 		if( $db->connect_error )
 		{
 	    	header("Location: error.php");
 		}
 
-	    die('Datenbank nicht erreichbar.');
+	    header("Location: error.php");
 	}
 
 	return $db;
@@ -102,9 +101,7 @@ function savePosts ( array $params, mysqli $db )
 
 	$db->query( $insert );
 
-	$lastId = $db->insert_id;
-
-	return $lastId;
+	return $lastId = $db->insert_id;
 }
 
 /**
@@ -118,9 +115,7 @@ function totalEntries( mysqli $db )
    $row = mysqli_fetch_row($result);
 
 	// Soll alle Zeilen als int zurückgeben
-   $count = (int) $row[0];
-
-   return $count;
+   return $count = (int) $row[0];
 }
 
 /**
@@ -128,10 +123,8 @@ function totalEntries( mysqli $db )
  */
 function totalPages( $count, $rowsperpage )
 {
-   // Maximale Seitenzahl berechnen
-   $totalpages = ceil($count / $rowsperpage);
-
-   return $totalpages;
+	// Maximale Seitenzahl berechnen
+   return $totalpages = ceil($count / $rowsperpage);
 }
 
 /**

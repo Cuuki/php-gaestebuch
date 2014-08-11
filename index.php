@@ -1,5 +1,13 @@
 <?php
 
+// session_name('Login Session');
+// session_start();
+// echo "<pre>";
+// var_dump(session_id(SID));
+// var_dump(session_name());
+// var_dump(session_status());
+// echo "</pre>";
+
 error_reporting(-1);
 ini_set('log_errors', 1);
 
