@@ -8,6 +8,30 @@
 ?>
 
 <main>
+	<section id="login">
+		<article>
+			<h2 class="articleHeading">Login:</h2>
+		</article>		
+		<form action="" method="post">
+
+			<label for="username">
+				Benutzername:
+			</label>		
+			<input type="text" id="username" class="login" name="username" value="">
+			
+		<!--<label for="email">
+				E-Mail Adresse:
+			</label>
+			<input type="text" id="email" class="" name="useremail" value=""> -->
+
+			<label for="password">
+				Passwort:
+			</label>
+			<input type="password" id="password" class="login" name="password" value="">			
+			<input class="button" name="submit" type="submit" value="Einloggen">
+
+		</form>	
+	</section>
 	<section id="posts">
 		<article>
 			<h2 class="articleHeading">Letzte Beiträge:</h2>

@@ -14,6 +14,6 @@
 
 
 		<div id="wrapper">
-			<header>
+			<header>		
 				<h1 class="heading">Willkommen in diesem Gästebuch</h1>
 			</header>

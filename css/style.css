@@ -38,10 +38,16 @@ p {
 	font-family: inherit;
 }
 #posts {
+	border-top: 10px double rgb(90, 87, 81);
 	border-bottom: 10px double rgb(90, 87, 81);
 }
 #form {
 	display: block;
+	margin: 0 auto;
+	width: 275px;
+	padding: 15px;
+}
+#login {
 	margin: 0 auto;
 	width: 275px;
 	padding: 15px;

@@ -101,7 +101,7 @@ function savePosts ( array $params, mysqli $db )
 
 	$db->query( $insert );
 
-	return $lastId = $db->insert_id;
+	return $db->insert_id;
 }
 
 /**
@@ -115,7 +115,7 @@ function totalEntries( mysqli $db )
    $row = mysqli_fetch_row($result);
 
 	// Soll alle Zeilen als int zurückgeben
-   return $count = (int) $row[0];
+   return (int) $row[0];
 }
 
 /**
@@ -124,7 +124,7 @@ function totalEntries( mysqli $db )
 function totalPages( $count, $rowsperpage )
 {
 	// Maximale Seitenzahl berechnen
-   return $totalpages = ceil($count / $rowsperpage);
+   return ceil($count / $rowsperpage);
 }
 
 /**
