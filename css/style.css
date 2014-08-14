@@ -38,7 +38,6 @@ p {
 	font-family: inherit;
 }
 #posts {
-	border-top: 10px double rgb(90, 87, 81);
 	border-bottom: 10px double rgb(90, 87, 81);
 }
 #form {

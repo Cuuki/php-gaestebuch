@@ -1,18 +1,12 @@
 <?php
 
-// session_name('Login Session');
-// session_start();
-// echo "<pre>";
-// var_dump(session_id(SID));
-// var_dump(session_name());
-// var_dump(session_status());
-// echo "</pre>";
-
 error_reporting(-1);
 ini_set('log_errors', 1);
 
 // Funktionen einbinden
-include('functions.php');
+include('lib/dbconnect.php');
+include('lib/gb-functions.php');
+include('lib/debug-functions.php');
 
 $data = array(
 		"firstname" => "",
@@ -21,7 +15,7 @@ $data = array(
 		"textinput" => ""
 	);
 
-include_once "inc/dbconfig.php";
+include_once "lib/dbconfig.php";
 
 if ( isset($_POST["submit"]) )
 {	
