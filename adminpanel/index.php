@@ -100,6 +100,7 @@ if ( isset($_POST["login"]) )
 	    {
 	        // Login success
 	        $message = "<p>Sie haben sich erfolgreich eingeloggt.</p>";
+	        header("Location: dashboard.php");
 	    }
 	    else
 	    {

@@ -1,7 +1,7 @@
 <html>
 
 	<head>
-		<title>Gästebuch</title>
+		<title>Adminbereich</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 		<link rel="icon" href="../img/favicon.ico" type="image/x-icon">
@@ -15,5 +15,5 @@
 
 		<div id="wrapper">
 			<header>		
-				<h1 class="heading">Willkommen in diesem Gästebuch</h1>
+				<h1 class="heading">Willkommen im Adminbereich</h1>
 			</header>

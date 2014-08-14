@@ -1,15 +1,9 @@
 			<footer>
-				<h2 class="heading">Mehr Informationen:</h2>
+				<h2 class="heading">Hier gehts zum Gästebuch zurück:</h2>
 				<div class="list">
 					<ul>
 						<li>
-							<a href="#">Lorem</a>
-						</li>					
-						<li>
-							<a href="#">Ipsum</a>
-						</li>
-						<li>
-							<a href="#">Dolor</a>
+							<a href="../index.php">Gästebuch</a>
 						</li>
 					</ul>
 				</div>
