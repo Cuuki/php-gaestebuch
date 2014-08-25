@@ -4,7 +4,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 function form ()
 {
-	$form = file_get_contents( __DIR__ . '/add.html' );
+	$form = file_get_contents( __DIR__ . '/../../inc/add.html' );
 
 	return new Response( $form );
 };
