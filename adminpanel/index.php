@@ -3,121 +3,95 @@
 error_reporting(-1);
 ini_set('log_errors', 1);
 
-// Funktionen einbinden
-include('../lib/dbconnect.php');
-include('../lib/ap-functions.php');
-include('../lib/gb-functions.php');
-include('../lib/debug-functions.php');
+// Dateien einbinden
+require_once __DIR__ . '/vendor/autoload.php';
+include_once __DIR__ . '/../lib/debug-functions.php';
+include_once __DIR__ . '/../lib/dbconnect.php';
+include_once __DIR__ . '/../lib/dbconfig.php';
 
-$login = array(
-		"username" => "",
-		"useremail" => "",
-		"password" => ""
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+
+define( 'ROUTES_DIR' , realpath( __DIR__ . '/routes' ));
+define( 'USER_DIR' , realpath( __DIR__ . '/user' ));
+
+$app = new Silex\Application();
+
+$app['debug'] = true;
+
+// First method will be used for match
+$app->match('/auth/login', function () use ( $app )
+{
+	$route = include_once ROUTES_DIR . '/auth/login.php';
+
+	return $route( $app );
+});
+
+// nach eingeloggen weiterleiten auf dashboard
+$app->match('/user/dashboard/', function() use ($app)
+{
+	$route = include_once USER_DIR . '/dashboard.php';
+
+	return $route( $app );
+});
+
+// Benutzer hinzufügen
+$app->match('/user/dashboard/add', function () use ($app)
+{
+	include_once USER_DIR . '/dashboard/add.php';
+
+	return form( $app );
+});
+
+// Benutzerdaten bearbeiten
+$app->match('/user/dashboard/update', function () use ($app)
+{
+	$route = include_once USER_DIR . '/dashboard/update.php';
+
+	return $route( $app );
+});
+
+// Benutzer löschen
+$app->match('/user/dashboard/delete', function () use ($app)
+{
+	$route = include_once USER_DIR . '/dashboard/delete.php';
+
+	return $route( $app );
+});
+
+// Ausloggem
+$app->match('/user/dashboard/logout', function () use ($app)
+{
+	$route = include_once USER_DIR . '/dashboard/logout.php';
+
+	return $route( $app );
+})
+->method('GET');
+
+$app->post('/user/dashboard/add', function (Request $username, Request $useremail, Request $password) use ($db)
+{
+	include_once USER_DIR . '/dashboard/add.php';
+
+	$user = array(
+		'username' => $username->get('username'),
+		'useremail' => $useremail->get('useremail'),
+		'password' => $password->get('password')		
 	);
 
-include_once "../lib/dbconfig.php";
+	$user = sanitizeLogindata( $user );
 
-if ( isset($_POST["register"]) )
-{
-	if ( ! ( isset( $_POST['username'], $_POST['useremail'], $_POST['password'] ) ) )
+	if( saveLogindata( $user, $db ) != 0 )
 	{
-		return;
+		return new Response('<p>Ihr Beitrag wurde gespeichert!</p>', 201);
 	}
 
-	$login = array_intersect_key($_POST, $login);
+	return new Response('<p>Ihr Beitrag konnte nicht gepseichert werden!</p>', 404);
+});
 
-	$login = sanitizeData( $login );
+// nach ausloggen weiterleiten auf loginseite
+// $app->get('/user/dashboard/logout')
 
-	$invalidInput = validateForm( $login );	
+$app->run();
 
-	if( ! empty($invalidInput) )
-	{
-		$errorMessages = getErrorMessages( $invalidInput );
-	}
-	else
-	{
-		if(	saveLogindata( $login, $db ) != 0 )
-		{
-			$message = "<p>Danke für Ihre Registrierung!</p>";
-		}
-		else
-		{
-			$sql = "SELECT id FROM user WHERE useremail = ? LIMIT 1";
-		    $dbPrepare = $db->prepare($sql);
-
-		   // check existing email
-		    if ( $dbPrepare )
-		    {
-		        $dbPrepare->bind_param('s', $login['useremail']);
-		        $dbPrepare->execute();
-		        $dbPrepare->store_result();		        
-
-		        if ( $dbPrepare->num_rows == 1 )
-		        {
-		            // A user with this email address already exists
-		            $message = '<p>Es existiert bereits ein Benutzer mit dieser E-Mail Adresse. Loggen Sie sich ein!</p>';
-		        }
-		    }
-		    else
-		    {
-		        $message = "<p>Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.</p>";
-		    }
-		 
-		    // check existing username
-		    $sql = "SELECT id FROM user WHERE username = ? LIMIT 1";
-		    $dbPrepare = $db->prepare($sql);
-		 
-		    if ( $dbPrepare )
-		    {
-		        $dbPrepare->bind_param('s', $login['username']);
-		        $dbPrepare->execute();
-		        $dbPrepare->store_result();
-		 
-		        if (  $dbPrepare->num_rows == 1)
-		        {
-		                // A user with this username already exists
-		                $message = '<p>Es existiert bereits ein Benutzer mit diesem Benutzernamen. Loggen Sie sich ein!</p>';
-		        }
-		    }
-		    else
-		    {
-				$message = "<p>Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.</p>";
-		    }                      
-		}
-	}
-}
-
-if ( isset($_POST["login"]) )
-{
-	$session = sessionStart();
-
-	if ( isset($login['username'], $login['password']) )
-	{
-	    $username = $login['username'];
-	    $password = $login['password'];
-	 
-	    if ( login( $db, $username, $password ) == true )
-	    {
-	        // Login success
-	        $message = "<p>Sie haben sich erfolgreich eingeloggt.</p>";
-	        header("Location: dashboard.php");
-	    }
-	    else
-	    {
-	        // Login failed
-	        $message = "<p>Der Login ist fehlgeschlagen.</p>";
-	    }
-	}
-	else
-	{
-	    // The correct POST variables were not sent to this page. 
-	    $message = '<p>Invalid Request</p>';
-	}
-}
-
-// Header, Content (Posts) und Footer ausgeben
-include('inc/header.php');
-include('inc/loginpage.php');
-include('inc/footer.php');
 
 

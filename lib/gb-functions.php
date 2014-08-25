@@ -8,26 +8,14 @@ ini_set('log_errors', 1);
  */
 function sanitizeData ( array $params )
 {
-	if( isset($params["username"]) && isset($params["useremail"]) && isset($params["password"]) )
-	{
-		$data = array(
-			"username" => filter_var( trim($params["username"]), FILTER_SANITIZE_STRING ),
-			"useremail" => filter_var( trim($params["useremail"]), FILTER_VALIDATE_EMAIL ),
-			// Password hashen
-			"password" => filter_var( trim($params["password"]), FILTER_SANITIZE_STRING )
-		);
-	}
-	else
-	{
-		$data = array(
-			// eingaben nach ungültigen Zeichen filtern
-			"firstname" => trim( filter_var($params["firstname"], FILTER_SANITIZE_STRING) ),
-			"lastname" => trim( filter_var($params["lastname"], FILTER_SANITIZE_STRING) ),
-			"email" => filter_var( trim($params["email"]), FILTER_VALIDATE_EMAIL ),
-			"textinput" => trim( filter_var($params["textinput"], FILTER_SANITIZE_STRING) ),
-			"date" => date('m/d/Y, H:i:s')
-		);
-	}
+	$data = array(
+		// eingaben nach ungültigen Zeichen filtern
+		"firstname" => trim( filter_var($params["firstname"], FILTER_SANITIZE_STRING) ),
+		"lastname" => trim( filter_var($params["lastname"], FILTER_SANITIZE_STRING) ),
+		"email" => filter_var( trim($params["email"]), FILTER_VALIDATE_EMAIL ),
+		"textinput" => trim( filter_var($params["textinput"], FILTER_SANITIZE_STRING) ),
+		"date" => date('m/d/Y, H:i:s')
+	);
 
 	return $data;
 }
