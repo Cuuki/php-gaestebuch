@@ -175,7 +175,7 @@ function getErrorMessages ( $invalidInput )
 				break;
 
 			case "password":
-				$errorMessages[$value] = "Bitte geben Sie ein Password ein. Lassen Sie das Feld nicht frei.";				
+				$errorMessages[$value] = "Bitte geben Sie ein sicheres Passwort ein. Lassen Sie das Feld nicht frei.";				
 				break;
 		}
 	}
