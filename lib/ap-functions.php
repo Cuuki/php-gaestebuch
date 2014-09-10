@@ -42,7 +42,7 @@ function saveLogindata ( array $params, mysqli $db )
 function getLogindata ( mysqli $db, $username )
 {
     $sql = 'SELECT
-                username, useremail, password
+                id, username, useremail, password, role
             FROM
                 user
             WHERE
@@ -75,21 +75,5 @@ function getUsers ( mysqli $db )
     }
 
     return $userdata;
-}
-
-/**
- * @return boolean
- */
-function login ( mysqli $db, array $params )
-{
-
-}
-
-/**
- * @return boolean
- */
-function login_check (mysqli $db)
-{
-
 }
 

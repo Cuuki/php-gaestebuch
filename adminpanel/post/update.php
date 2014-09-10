@@ -76,7 +76,7 @@ EOD;
 
 function getForm ()
 {
-	return file_get_contents(__DIR__ . '/../../inc/user/update-form.html');
+	return file_get_contents(__DIR__ . '/../../inc/post/update-form.html');
 };
 
 function update ( mysqli $db, array $params, $id )
