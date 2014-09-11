@@ -20,14 +20,13 @@
 
 			$posts = getPosts( $db, $rowsperpage, $currentpage );
 
-			// Wenn query fehlgeschlagen ist Fehler ausgeben
+			// Wenn keine Posts vorhanden
 			if( !$posts )
 			{
 				debug("3 ", $posts);
-			    header("Location: error.php");
+			    echo "<p>Keine Beiträge vorhanden</p>";
 			}
-
-			if( !isset( $errorMessages ) )
+			elseif( !isset( $errorMessages ) )
 			{
 			  echo displayPosts( $posts );
 			  include('inc/pagination.php');

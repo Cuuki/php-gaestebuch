@@ -23,8 +23,7 @@ for ( $pagenum = ($currentpage - $range); $pagenum < (($currentpage + $range)  +
       }
    }
 }
-
-// if not on last page, show forward and last page links        
+// if not on last page, show forward and last page links
 if ( $currentpage != $totalpages )
 {
    $nextpage = $currentpage + 1;

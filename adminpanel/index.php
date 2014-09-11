@@ -19,6 +19,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 define( 'ROUTES_DIR' , realpath( __DIR__ . '/routes' ));
 define( 'USER_DIR' , realpath( __DIR__ . '/user' ));
+define( 'POST_DIR' , realpath( __DIR__ . '/post' ));
 
 $app = new Silex\Application();
 $app->register(new Silex\Provider\UrlGeneratorServiceProvider());
@@ -26,9 +27,19 @@ $app->register(new Silex\Provider\SessionServiceProvider());
 
 $app['debug'] = TRUE;
 
+// $app->mount('/user/dashboard/add', include_once __DIR__ . '/user-controllers/add-controller.php' );
+// $app->mount('/user/dashboard/update', include_once __DIR__ . '/user-controllers/update-controller.php' );
+// $app->mount('/user/dashboard/delete', include_once __DIR__ . '/user-controllers/delete-controller.php' );
+// $app->mount('/user/dashboard/settings', include_once __DIR__ . '/user-controllers/settings-controller.php' );
+
 $app->get('/', function () use ( $app )
 {
 	return $app->redirect( 'user/dashboard/' );
+});
+
+$app->get('/post/', function () use ( $app )
+{
+	return $app->redirect( '../user/dashboard/' );
 });
 
 $app->get('/user/', function () use ( $app )
@@ -86,7 +97,6 @@ $app->post('/auth/login', function ( Request $username, Request $password ) use 
 	}
 });
 
-
 // nach eingeloggen weiterleiten auf dashboard
 $app->get('/user/dashboard/', function () use ( $app )
 {
@@ -119,7 +129,7 @@ $app->get('/user/dashboard/settings', function () use ( $app )
 	return $route( $app );
 })->bind('settings');
 
-$app->get('/user/dashboard/update/username', function () use ( $app )
+$app->get('/user/dashboard/settings/username', function () use ( $app )
 {
 	// Wenn Session null weiterleiten auf login
 	if( ($app['session']->get('user')) == NULL )
@@ -133,7 +143,7 @@ $app->get('/user/dashboard/update/username', function () use ( $app )
 	return $route( $app );
 })->bind('changeUsername');
 
-$app->post('/user/dashboard/update/username', function ( Request $username ) use ( $db, $app, $apFunctions )
+$app->post('/user/dashboard/settings/username', function ( Request $username ) use ( $db, $app, $apFunctions )
 {
 	$postdata = array(
 		'oldusername' => $username->get('oldusername'),
@@ -175,7 +185,7 @@ $app->post('/user/dashboard/update/username', function ( Request $username ) use
 	}
 });
 
-$app->get('/user/dashboard/update/password', function () use ( $app )
+$app->get('/user/dashboard/settings/password', function () use ( $app )
 {
 	// Wenn Session null weiterleiten auf login
 	if( ($app['session']->get('user')) == NULL )
@@ -189,7 +199,7 @@ $app->get('/user/dashboard/update/password', function () use ( $app )
 	return $route( $app );
 })->bind('changePassword');
 
-$app->post('/user/dashboard/update/password', function ( Request $password ) use ( $db, $app, $apFunctions )
+$app->post('/user/dashboard/settings/password', function ( Request $password ) use ( $db, $app, $apFunctions )
 {
 	$postdata = array(
 		'oldpassword' => $password->get('oldpassword'),
@@ -230,7 +240,7 @@ $app->post('/user/dashboard/update/password', function ( Request $password ) use
 	}
 });
 
-$app->get('/user/dashboard/update/email', function () use ( $app )
+$app->get('/user/dashboard/settings/email', function () use ( $app )
 {
 	// Wenn Session null weiterleiten auf login
 	if( ($app['session']->get('user')) == NULL )
@@ -244,7 +254,7 @@ $app->get('/user/dashboard/update/email', function () use ( $app )
 	return $route( $app );
 })->bind('changeEmail');
 
-$app->post('/user/dashboard/update/email', function ( Request $email ) use ( $db, $app, $apFunctions )
+$app->post('/user/dashboard/settings/email', function ( Request $email ) use ( $db, $app, $apFunctions )
 {
 	$postdata = array(
 		'oldemail' => $email->get('oldemail'),
@@ -480,6 +490,26 @@ $app->get('/user/dashboard/delete/{id}', function( $id ) use ( $app, $db, $apFun
 });
 
 
+$app->get('/post/add', function () use ( $app )
+{
+	$route = include_once POST_DIR . '/add.php';
+
+	return $route( $app );
+})->bind('posts');
+
+$app->get('/post/update', function () use ( $app )
+{
+	include_once POST_DIR . '/update.php';
+
+	return getForm();
+});
+
+$app->get('/post/delete', function () use ( $app )
+{
+	return new Response( 'Löschen', 201 );
+});
+
+
 // Ausloggen
 $app->get('/user/dashboard/logout', function () use ( $app )
 {
@@ -494,6 +524,5 @@ $app->get('/user/dashboard/logout', function () use ( $app )
 $app['session']->start();
 
 $app->run();
-
 
 
