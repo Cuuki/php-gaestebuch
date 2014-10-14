@@ -27,11 +27,6 @@ $app->register(new Silex\Provider\SessionServiceProvider());
 
 $app['debug'] = TRUE;
 
-// $app->mount('/user/dashboard/add', include_once __DIR__ . '/user-controllers/add-controller.php' );
-// $app->mount('/user/dashboard/update', include_once __DIR__ . '/user-controllers/update-controller.php' );
-// $app->mount('/user/dashboard/delete', include_once __DIR__ . '/user-controllers/delete-controller.php' );
-// $app->mount('/user/dashboard/settings', include_once __DIR__ . '/user-controllers/settings-controller.php' );
-
 $app->get('/', function () use ( $app )
 {
 	return $app->redirect( 'user/dashboard/' );
@@ -492,13 +487,14 @@ $app->get('/user/dashboard/delete/{id}', function( $id ) use ( $app, $db, $apFun
 
 $app->get('/post/add', function () use ( $app )
 {
-	$route = include_once POST_DIR . '/add.php';
-
-	return $route( $app );
-})->bind('posts');
+	return $app->redirect('../../#add');
+});
 
 $app->get('/post/update', function () use ( $app )
 {
+	// Alle Beiträge aus Datenbank anzeigen mit bearbeiten Button
+	// und dann auf diesen bestimmten Beitrag springen
+
 	include_once POST_DIR . '/update.php';
 
 	return getForm();

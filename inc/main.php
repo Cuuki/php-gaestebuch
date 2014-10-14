@@ -10,7 +10,7 @@
 <main>
 	<section id="posts">
 		<article>
-			<h2 class="articleHeading">Letzte Beiträge:</h2>
+			<h2 class="articleHeading"><a name="posts">Letzte Beiträge:</a></h2>
 		</article>
 		<?php
 			if ( isset($message) )
@@ -35,7 +35,7 @@
 	</section>
 	<section id="form">
 		<article>
-			<h2 class="articleHeading">Tragen Sie sich ein:</h2>
+			<h2 class="articleHeading"><a name="add">Tragen Sie sich ein:</a></h2>
 			
 			<?php
 				include('inc/guestbookform.php');	

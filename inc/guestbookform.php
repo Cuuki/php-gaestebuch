@@ -16,7 +16,7 @@
 			<label for="firstName">
 				Vorname:
 			</label>		
-			<input type="text" id="firstName" class="<?php echo $cssclass; ?>" name="firstname" value="<?php echo $value['firstname']; ?>">
+			<input type="text" id="firstName" name="firstname" value="<?php echo $value['firstname']; ?>">
 			<?php 
 				if ( isset( $errorMessages ) && array_key_exists("firstname", $errorMessages) )
 				{
@@ -26,7 +26,7 @@
 			<label for="lastName">
 				Nachname:
 			</label>
-			<input type="text" id="lastName" class="<?php echo $cssclass; ?>" name="lastname" value="<?php echo $value['lastname']; ?>">
+			<input type="text" id="lastName" name="lastname" value="<?php echo $value['lastname']; ?>">
 			<?php
 				if ( isset( $errorMessages ) && array_key_exists("lastname", $errorMessages) )
 				{
@@ -36,7 +36,7 @@
 			<label for="userEmail">
 				E-Mail Adresse:
 			</label>
-			<input type="text" id="userEmail" class="<?php echo $cssclass; ?>" name="email" value="<?php echo $value['email']; ?>">
+			<input type="text" id="userEmail" name="email" value="<?php echo $value['email']; ?>">
 			<?php
 				if ( isset( $errorMessages ) && array_key_exists("email", $errorMessages) )
 				{
@@ -47,7 +47,7 @@
 				Geben Sie Ihren Beitrag ein:
 			</label>
 
-			<textarea id="userTextinput" class="<?php echo $cssclass; ?>" name="textinput" rows="10" cols="20"><?php 
+			<textarea id="userTextinput" name="textinput" rows="10" cols="20"><?php 
 					echo $value['textinput'];
 				?></textarea>
 			<?php
@@ -56,7 +56,7 @@
 					echo "<p class='errorMessage'>" . $errorMessages["textinput"] . "</p>";
 				}
 			?>
-			<input class="button" name="submit" type="submit" value="Absenden">
-			<input class="button" type="reset" value="Zurücksetzen">
+			<input class="button" name="submit" type="submit" value="Hinzufügen">
+			<input class="button" type="reset" value="Eingabe löschen">
 		</form>
 
