@@ -64,8 +64,6 @@ $rowsperpage = 5;
 
 $totalpages = totalPages($totalentries, $rowsperpage);
 
-debug(1, $totalpages);
-
 // aktuelle Seite oder Default
 if ( isset($_GET['currentpage']) && is_numeric($_GET['currentpage']) )
 {

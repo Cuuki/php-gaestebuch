@@ -68,7 +68,7 @@ function getPosts ( mysqli $db, $rowsperpage, $currentpage )
 
 	// Ausgabe in Variable speichern
 	$sql = "SELECT
-				firstname, lastname, email, content, created
+				id_entry, firstname, lastname, email, content, created
 			FROM
 				guestbook
 

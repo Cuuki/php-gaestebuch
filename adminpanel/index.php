@@ -409,13 +409,11 @@ $app->post('/user/dashboard/update/{id}', function ( $id, Request $username, Req
 	if( ! empty($invalidInput) )
 	{
 		$errorMessages = getErrorMessages( $invalidInput );
-		return new Response( implode('<br>', $errorMessages) . 
-				'<br>' . '<a href="'.$app['url_generator']->generate('update').'">Zurück</a>', 201 );
+		return new Response( implode('<br>', $errorMessages), 201 );
 	}
 	elseif( $postdata['username'] == $oldusername || $postdata['useremail'] == $oldemail ||  $postdata['password'] == $oldpassword )
 	{
-		return new Response( 'Die alten Daten dürfen nicht mit den neuen übereinstimmen! 
-			<a href="'.$app['url_generator']->generate('update').'">Zurück</a>', 404 );		
+		return new Response( 'Die alten Daten dürfen nicht mit den neuen übereinstimmen!', 404 );		
 	}
 	else
 	{
@@ -490,14 +488,105 @@ $app->get('/post/add', function () use ( $app )
 	return $app->redirect('../../#add');
 });
 
-$app->get('/post/update', function () use ( $app )
+$app->get('/post/update', function () use ( $db, $app, $gbFunctions )
 {
-	// Alle Beiträge aus Datenbank anzeigen mit bearbeiten Button
-	// und dann auf diesen bestimmten Beitrag springen
+	// TODO: Alle Beiträge aus Datenbank anzeigen mit auswählen Button
+	// TODO: Beiträge paginiert anzeigen
+
+	$totalentries = totalEntries($db);
+
+	$rowsperpage = 5;
+
+	$totalpages = totalPages($totalentries, $rowsperpage);
+
+	// aktuelle Seite oder Default
+	if ( isset($_GET['currentpage']) && is_numeric($_GET['currentpage']) )
+	{
+		$currentpage = (int) $_GET['currentpage'];
+	}
+	else
+	{
+		// Nummer von Default-Seite
+		$currentpage = 1;
+	}
+
+	if ($currentpage > $totalpages)
+	{
+		// Aktuelle Seite = letzter Seite
+		$currentpage = $totalpages;
+	}
+	if ($currentpage < 1)
+	{
+		$currentpage = 1;
+	}
+
+	$posts = getPosts( $db, $rowsperpage, $currentpage );
+
+	include_once POST_DIR . '/update.php';
+	include_once __DIR__ . '/../inc/pagination.php';
+
+	return new Response ( displayPostsforUpdate( $posts ) . '<br>' . '<a href="../">Zurück</a>', 201 );
+})->bind('postUpdate');
+
+$app->get('/post/update/{id}', function ( $id ) use ( $db, $app )
+{
+	// TODO: Ausgewählten Beitrag anzeigen
 
 	include_once POST_DIR . '/update.php';
 
-	return getForm();
+	$selectedPost = getSelectedPost( $db, $id );
+	$displaySelectedPost = displaySelectedPost( $selectedPost );
+
+	return $displaySelectedPost . getForm();
+});
+
+$app->post('/post/update/{id}', function ( $id, Request $firstname, Request $lastname, Request $email, Request $textinput ) use ( $db, $app, $gbFunctions )
+{
+	$postdata = array(
+		'firstname' => $firstname->get('firstname'),
+		'lastname' => $lastname->get('lastname'),
+		'email' => $email->get('email'),
+		'textinput' => $textinput->get('textinput')
+	);
+
+	include_once POST_DIR . '/update.php';
+
+	$selectedPost = getSelectedPost( $db, $id );
+
+	foreach($selectedPost as $post)
+	{
+		$oldfirstname = $post['firstname'];
+		$oldlastname = $post['lastname'];
+		$oldemail = $post['email'];
+		$oldcontent = $post['content'];
+	}
+
+	$postdata = sanitizeData( $postdata );
+
+	$invalidInput = validateForm( $postdata );
+
+	if( ! empty($invalidInput) )
+	{
+		$errorMessages = getErrorMessages( $invalidInput );
+		return new Response( implode('<br>', $errorMessages), 201 );
+	}
+	elseif( $postdata['firstname'] == $oldfirstname || $postdata['lastname'] == $oldlastname || $postdata['email'] == $oldemail ||  $postdata['textinput'] == $oldcontent )
+	{
+		return new Response( 'Die alten Daten dürfen nicht mit den neuen übereinstimmen!', 404 );		
+	}
+	else
+	{
+		if( update( $db, $postdata, $id ) )
+		{
+			return new Response( 'Die Daten wurden geändert!  ' . 
+				'<a href="'.$app['url_generator']->generate('postUpdate').'">Zurück</a>', 201 );
+		}
+		// Wenn User in Datenbank schon so existiert wie das geänderte Meldung ausgeben weil dieser nicht mehrfach vorkommen darf
+		else
+		{
+			return new Response( 'Die Daten konnten nicht geändert werden! ', 404 );		
+		}
+	}
 });
 
 $app->get('/post/delete', function () use ( $app )

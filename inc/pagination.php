@@ -2,7 +2,7 @@
 
 if ($currentpage > 1)
 {
-	echo "<p><a href='" . $_GET['currentpage'] = '?currentpage=1' . "'>Zurück zu Seite 1</a></p>";
+	echo "<p><a href='" . $_GET['currentpage'] = '?currentpage=1' . "'>Erste Seite</a></p>";
 }
 
 // range of num links to show
@@ -15,7 +15,7 @@ for ( $pagenum = ($currentpage - $range); $pagenum < (($currentpage + $range)  +
    {
       if ($pagenum == $currentpage)
       {
-        echo "<p>Sie befinden sich auf Seite $pagenum</p>";
+        echo "<p>Aktuelle Seite: $pagenum</p>";
       }
       else
       {

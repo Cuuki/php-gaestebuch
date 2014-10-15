@@ -3,14 +3,14 @@
 /**
  * @return array
  */
-function getSelectedUser ( mysqli $db, $id )
+function getSelectedPost ( mysqli $db, $id )
 {
     $sql = 'SELECT
-                id, username, useremail, password
+                firstname, lastname, email, content, created
             FROM
-                user
+                guestbook
             WHERE
-            	id = "'. $id .'"';
+            	id_entry = "'. $id .'"';
 
     $dbRead = $db->query( $sql );
     $userdata = array();
@@ -25,23 +25,28 @@ function getSelectedUser ( mysqli $db, $id )
 /**
  * @return string
  */
-function displayUsers ( $data )
+function displayPostsforUpdate ( $data )
 {
     $output = '';
 
     foreach($data as $row)
     {
-        $username = $row['username'];
-        $useremail = $row['useremail'];
-        $password = $row['password'];
-        $id = $row["id"];
+        $id_entry = $row['id_entry'];
+        $firstname = $row['firstname'];
+        $lastname = $row['lastname'];
+        $email = $row['email'];
+        $content = $row['content'];
+        $created = $row['created'];
+
 
         $output .= <<<EOD
-            <article style='margin-bottom: 50px;'>
-                <p>Benutzername: $username</p>
-                <p>E-Mail: $useremail</p>
-                <p>Passwort: $password</p>
-                <a href='$id'>Bearbeiten</a>
+            <article style='margin-top: 50px; margin-bottom: 50px;'>
+                <p>Vorname: $firstname</p>
+                <p>Nachname: $lastname</p>
+                <p>E-Mail: $email</p>
+                <p>Beitrag: $content</p>
+                <p>Erstellt: $created</p>
+                <a href='update/$id_entry'>Bearbeiten</a>
             </article>
 EOD;
     }
@@ -52,21 +57,25 @@ EOD;
 /**
  * @return string
  */
-function displaySelectedUser ( $data )
+function displaySelectedPost ( $data )
 {
     $output = '';
 
     foreach($data as $row)
     {
-        $username = $row['username'];
-        $useremail = $row['useremail'];
-        $password = $row['password'];
+        $firstname = $row['firstname'];
+        $lastname = $row['lastname'];
+        $email = $row['email'];
+        $content = $row['content'];
+        $created = $row['created'];
 
         $output .= <<<EOD
-            <article style='margin-bottom: 50px;'>
-                <p>Benutzername: $username</p>
-                <p>E-Mail: $useremail</p>
-                <p>Passwort: $password</p>
+            <article style='margin-top: 50px; margin-bottom: 50px;'>
+                <p>Vorname: $firstname</p>
+                <p>Nachname: $lastname</p>
+                <p>E-Mail: $email</p>
+                <p>Beitrag: $content</p>
+                <p>Erstellt: $created</p>
             </article>
 EOD;
     }
@@ -81,13 +90,14 @@ function getForm ()
 
 function update ( mysqli $db, array $params, $id )
 {
-	$update =	'UPDATE user
+	$update =	'UPDATE guestbook
 				SET
-                    username = "'. $db->real_escape_string( $params["username"] ) .'",
-                    useremail = "'. $db->real_escape_string( $params["useremail"] ). '",
-                    password = "'. $db->real_escape_string( password_hash( $params["password"], PASSWORD_BCRYPT ) ) .'"
+                    firstname = "'. $db->real_escape_string( $params["firstname"] ) .'",
+                    lastname = "'. $db->real_escape_string( $params["lastname"] ). '",
+                    email = "'. $db->real_escape_string( $params["email"] ). '",                    
+                    content = "'. $db->real_escape_string( $params["textinput"] ) .'"
 				WHERE
-					id = "'. $id .'"';
+					id_entry = "'. $id .'"';
 
 	$dbRead = $db->query( $update );
 
