@@ -62,6 +62,28 @@ function savePosts ( array $params, mysqli $db )
 /**
  * @return array
  */
+function getEntry ( mysqli $db, $id )
+{
+    $sql = 'SELECT
+                firstname, lastname, email, content, created
+            FROM
+                guestbook
+            WHERE
+            	id_entry = "'. $id .'"';
+
+    $dbRead = $db->query( $sql );
+    $userdata = array();
+
+    $row = $dbRead->fetch_assoc();
+
+    array_push($userdata, $row);
+
+    return $userdata;
+}
+
+/**
+ * @return array
+ */
 function getPosts ( mysqli $db, $rowsperpage, $currentpage )
 {
 	$offset = ($currentpage - 1) * $rowsperpage;
@@ -105,7 +127,7 @@ function displayPosts ( $post )
 		$output .= <<<EOD
 			<article class="entries">
 				<p>Autor:<br>$firstname $lastname</p>
-				<p>$content</p>
+				<p>Beitrag: <br>$content</p>
 				<p>E-Mail:<br>$email</p>
 				<p>Veröffentlicht am:<br>$created</p>
 			</article>

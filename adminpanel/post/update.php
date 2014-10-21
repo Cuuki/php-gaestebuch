@@ -1,31 +1,17 @@
 <?php
 
 /**
- * @return array
+ * @return string
  */
-function getSelectedPost ( mysqli $db, $id )
+function getUpdateForm ()
 {
-    $sql = 'SELECT
-                firstname, lastname, email, content, created
-            FROM
-                guestbook
-            WHERE
-            	id_entry = "'. $id .'"';
-
-    $dbRead = $db->query( $sql );
-    $userdata = array();
-
-    $row = $dbRead->fetch_assoc();
-
-    array_push($userdata, $row);
-
-    return $userdata;
-}
+    return file_get_contents(__DIR__ . '/../inc/post/update-form.html');
+};
 
 /**
  * @return string
  */
-function displayPostsforUpdate ( $data )
+function displayUpdateEntries ( $data )
 {
     $output = '';
 
@@ -55,40 +41,9 @@ EOD;
 }
 
 /**
- * @return string
+ * @return boolean
  */
-function displaySelectedPost ( $data )
-{
-    $output = '';
-
-    foreach($data as $row)
-    {
-        $firstname = $row['firstname'];
-        $lastname = $row['lastname'];
-        $email = $row['email'];
-        $content = $row['content'];
-        $created = $row['created'];
-
-        $output .= <<<EOD
-            <article style='margin-top: 50px; margin-bottom: 50px;'>
-                <p>Vorname: $firstname</p>
-                <p>Nachname: $lastname</p>
-                <p>E-Mail: $email</p>
-                <p>Beitrag: $content</p>
-                <p>Erstellt: $created</p>
-            </article>
-EOD;
-    }
-
-    return $output;
-}
-
-function getForm ()
-{
-	return file_get_contents(__DIR__ . '/../inc/post/update-form.html');
-};
-
-function update ( mysqli $db, array $params, $id )
+function updatePost ( mysqli $db, array $params, $id )
 {
 	$update =	'UPDATE guestbook
 				SET
@@ -100,45 +55,6 @@ function update ( mysqli $db, array $params, $id )
 					id_entry = "'. $id .'"';
 
 	$dbRead = $db->query( $update );
-
-    return $dbRead;
-}
-
-function updateUsername ( mysqli $db, $username, $id )
-{
-    $update =   'UPDATE user
-                SET
-                    username = "'. $db->real_escape_string( $username ) .'"
-                WHERE
-                    id = "'. $id .'"';
-
-    $dbRead = $db->query( $update );
-
-    return $dbRead;
-}
-
-function updateEmail ( mysqli $db, $email, $id )
-{
-    $update =   'UPDATE user
-                SET
-                    useremail = "'. $db->real_escape_string( $email ). '"
-                WHERE
-                    id = "'. $id .'"';
-
-    $dbRead = $db->query( $update );
-
-    return $dbRead;
-}
-
-function updatePassword ( mysqli $db, $password, $id )
-{
-    $update =   'UPDATE user
-                SET
-                    password = "'. $db->real_escape_string( password_hash( $password, PASSWORD_BCRYPT ) ) .'"
-                WHERE
-                    id = "'. $id .'"';
-
-    $dbRead = $db->query( $update );
 
     return $dbRead;
 }

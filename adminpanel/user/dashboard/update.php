@@ -1,31 +1,17 @@
 <?php
 
 /**
- * @return array
+ * @return string
  */
-function getSelectedUser ( mysqli $db, $id )
+function getUpdateForm ()
 {
-    $sql = 'SELECT
-                id, username, useremail, password
-            FROM
-                user
-            WHERE
-            	id = "'. $id .'"';
-
-    $dbRead = $db->query( $sql );
-    $userdata = array();
-
-    $row = $dbRead->fetch_assoc();
-
-    array_push($userdata, $row);
-
-    return $userdata;
+    return file_get_contents(__DIR__ . '/../../inc/user/update-form.html');
 }
 
 /**
  * @return string
  */
-function displayUsers ( $data )
+function displayUser ( $data )
 {
     $output = '';
 
@@ -34,7 +20,38 @@ function displayUsers ( $data )
         $username = $row['username'];
         $useremail = $row['useremail'];
         $password = $row['password'];
-        $id = $row["id"];
+        $id = $row['id'];
+
+        $output .= <<<EOD
+            <article style='margin-bottom: 50px;'>
+                <p>Benutzername: $username</p>
+                <p><a href='$id/username'>Nur Benutzername bearbeiten</a></p>
+                <br>
+                <p>E-Mail: $useremail</p>
+                <p><a href='$id/email'>Nur E-Mail bearbeiten</a></p>
+                <br>
+                <p>Passwort: $password</p>
+                <p><a href='$id/password'>Nur Passwort bearbeiten</a></p>
+            </article>
+EOD;
+    }
+
+    return $output;
+}
+
+/**
+ * @return string
+ */
+function displayUpdateUsers ( $data )
+{
+    $output = '';
+
+    foreach($data as $row)
+    {
+        $username = $row['username'];
+        $useremail = $row['useremail'];
+        $password = $row['password'];
+        $id = $row['id'];
 
         $output .= <<<EOD
             <article style='margin-bottom: 50px;'>
@@ -50,36 +67,9 @@ EOD;
 }
 
 /**
- * @return string
+ * @return boolean
  */
-function displaySelectedUser ( $data )
-{
-    $output = '';
-
-    foreach($data as $row)
-    {
-        $username = $row['username'];
-        $useremail = $row['useremail'];
-        $password = $row['password'];
-
-        $output .= <<<EOD
-            <article style='margin-bottom: 50px;'>
-                <p>Benutzername: $username</p>
-                <p>E-Mail: $useremail</p>
-                <p>Passwort: $password</p>
-            </article>
-EOD;
-    }
-
-    return $output;
-}
-
-function getForm ()
-{
-	return file_get_contents(__DIR__ . '/../../inc/user/update-form.html');
-};
-
-function update ( mysqli $db, array $params, $id )
+function updateUser ( mysqli $db, array $params, $id )
 {
 	$update =	'UPDATE user
 				SET
@@ -94,6 +84,9 @@ function update ( mysqli $db, array $params, $id )
     return $dbRead;
 }
 
+/**
+ * @return boolean
+ */
 function updateUsername ( mysqli $db, $username, $id )
 {
     $update =   'UPDATE user
@@ -107,6 +100,9 @@ function updateUsername ( mysqli $db, $username, $id )
     return $dbRead;
 }
 
+/**
+ * @return boolean
+ */
 function updateEmail ( mysqli $db, $email, $id )
 {
     $update =   'UPDATE user
@@ -120,6 +116,9 @@ function updateEmail ( mysqli $db, $email, $id )
     return $dbRead;
 }
 
+/**
+ * @return boolean
+ */
 function updatePassword ( mysqli $db, $password, $id )
 {
     $update =   'UPDATE user

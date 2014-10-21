@@ -59,7 +59,29 @@ function getLogindata ( mysqli $db, $username )
 /**
  * @return array
  */
-function getUsers ( mysqli $db )
+function getUser ( mysqli $db, $id )
+{
+    $sql = 'SELECT
+                id, username, useremail, password
+            FROM
+                user
+            WHERE
+                id = "'. $id .'"';
+
+    $dbRead = $db->query( $sql );
+    $userdata = array();
+
+    $row = $dbRead->fetch_assoc();
+
+    array_push($userdata, $row);
+
+    return $userdata;
+}
+
+/**
+ * @return array
+ */
+function getAllUsers ( mysqli $db )
 {
     $sql = 'SELECT
                 id, username, useremail, password

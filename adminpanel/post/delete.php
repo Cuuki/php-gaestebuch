@@ -3,23 +3,28 @@
 /**
  * @return string
  */
-function displayUsers ( $data )
+function displayDeleteEntries ( $data )
 {
     $output = '';
 
     foreach($data as $row)
     {
-        $username = $row['username'];
-        $useremail = $row['useremail'];
-        $password = $row['password'];
-        $id = $row["id"];
+        $id_entry = $row['id_entry'];
+        $firstname = $row['firstname'];
+        $lastname = $row['lastname'];
+        $email = $row['email'];
+        $content = $row['content'];
+        $created = $row['created'];
+
 
         $output .= <<<EOD
-            <article style='margin-bottom: 50px;'>
-                <p>Username: $username</p>
-                <p>E-Mail: $useremail</p>
-                <p>Passwort: $password</p>
-                <a href='$id'>Löschen</a>
+            <article style='margin-top: 50px; margin-bottom: 50px;'>
+                <p>Vorname: $firstname</p>
+                <p>Nachname: $lastname</p>
+                <p>E-Mail: $email</p>
+                <p>Beitrag: $content</p>
+                <p>Erstellt: $created</p>
+                <a href='delete/$id_entry'>Löschen</a>
             </article>
 EOD;
     }
@@ -27,9 +32,14 @@ EOD;
     return $output;
 }
 
-function deleteUser ( mysqli $db, $id )
+/**
+ * @return boolean
+ */
+function deletePost ( mysqli $db, $id )
 {
-    $delete = 'DELETE FROM user WHERE id = "'. $id .'"';
+    $delete = 'DELETE FROM guestbook WHERE id_entry = "'. $id .'"';
 
     $dbRead = $db->query( $delete );
+
+    return $dbRead;
 }

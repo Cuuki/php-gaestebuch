@@ -1,20 +1,20 @@
 body{
-	background: url(img/doubexp-three.jpg) no-repeat center center fixed;
+	/*background: url(../img/doubexp-three.jpg) no-repeat center center fixed;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;
-	background-size: cover;
+	background-size: cover;*/
 }
 
 #wrapper {
 	width: 100%;
 }
 main {
-	background: url(img/doubexp-one.jpg) no-repeat center center fixed;
+	/*background: url(../img/doubexp-one.jpg) no-repeat center center fixed;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;
-	background-size: cover;
+	background-size: cover;*/
 	text-align: center;
 	margin-bottom: 20px;
 	border-radius: 5px;
@@ -173,11 +173,11 @@ header, footer {
     box-shadow: 0 10px 50px rgb(0, 0, 0);	
     text-shadow: 0px 2px 3px rgb(0, 0, 0);
    	border-radius: 5px;
-   	background: url(img/doubexp-two.jpg) no-repeat center center fixed;
+  /* 	background: url(../img/doubexp-two.jpg) no-repeat center center fixed;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;
-	background-size: cover;
+	background-size: cover;*/
 	font-size: 20px;
 	text-align: center;
 	width: 100%;

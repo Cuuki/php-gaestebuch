@@ -42,6 +42,11 @@ $app->get('/user/', function () use ( $app )
 	return $app->redirect('dashboard/');
 });
 
+$app->get('/auth/', function () use ( $app )
+{
+	return $app->redirect( 'login' );
+});
+
 $app->get('/auth/login', function () use ( $app, $db, $apFunctions, $insert )
 {
 	// lege superuser an, wenn nicht schon vorhanden
@@ -87,8 +92,91 @@ $app->post('/auth/login', function ( Request $username, Request $password ) use 
 	}
 	else
 	{
-		return new Response( 'Login fehlgeschlagen.' .  '</br>' . 
+		return new Response( 'Login fehlgeschlagen. Ihre Daten sind nicht korrekt.' .  '</br>' . 
 			'<a href="' . $app['url_generator']->generate('login') . '">Zurück zum Loginformular</a>', 404 );
+	}
+});
+
+$app->get('/auth/reset', function () use ( $app, $db, $apFunctions )
+{
+	// Wenn Session nicht null dann weiterleiten auf dashboard
+	if( ($app['session']->get('user')) != NULL )
+	{
+		return $app->redirect($app['url_generator']->generate('dashboard'));	
+	}
+
+	include_once ROUTES_DIR . '/auth/reset.php';
+
+	return getResetForm();
+});
+
+$app->post('/auth/reset', function ( Request $email ) use ( $db, $app )
+{
+	$postdata = array(
+		'email' => $email->get('email')
+	);
+
+	include_once ROUTES_DIR . '/auth/reset.php';
+	$result = getMail( $db, $postdata['email'] );
+
+	// Abfrage ob E-Mail mit einer aus DB übereinstimmt
+	if( $result['useremail'] == NULL )
+	{
+		return new Response ( 'Es existiert kein Benutzer mit der angegebenen E-Mail Adresse.
+			<br><a href="../auth/reset">Zurück zur Eingabe</a>', 404 );
+	}
+
+	$code = mt_rand( 1000, 9999 );
+
+	$subject = 'Authentifizierungscode Passwort-Neuvergabe';
+
+	$message = 'Bitte geben Sie folgenden Code: ' . $code . ' im Eingabefeld der Website ein. ACHTUNG der Code wird aus Sicherheitsgründen entfernt, nachdem er eingegeben wurde (Laden Sie die Seite danach nicht neu, ansonsten müssen Sie erst wieder einen neuen Code anfordern)!';
+
+	mb_internal_encoding("UTF-8");
+
+	mb_send_mail( $postdata['email'], $subject, $message );
+
+	include_once ROUTES_DIR . '/auth/code.php';
+	saveCode( $db, $code, $result['id'] );
+
+	return new Response ( 'Sie erhalten in Kürze eine E-Mail mit dem Authentifizierungscode. 
+		<br><a href="reset/code">Weiter zur Codeeingabe</a>', 201 );
+});
+
+$app->get('auth/reset/code', function () use ( $app )
+{
+	include_once ROUTES_DIR . '/auth/code.php';
+
+	return getCodeForm();
+});
+
+$app->post('auth/reset/code', function ( Request $code, Request $password ) use ( $db, $app )
+{
+	$postdata = array(
+		'code' => $code->get('code'),
+		'password' => $password->get('password')
+	);
+
+	include_once ROUTES_DIR . '/auth/code.php';
+	$result = getCode( $db, $postdata['code'] );
+
+	// Abfrage ob Code mit einem aus DB übereinstimmt
+	if( $result['code'] == NULL )
+	{
+		return new Response ( 'Sie haben den falschen Code eingegegeben.
+			<br><a href="../reset/code">Zurück zur Eingabe</a>', 404 );
+	}
+	else
+	{
+		// Altes Passwort mit dem neuen überschreiben wenn Code stimmt
+		include_once USER_DIR . '/dashboard/update.php';
+		updatePassword( $db, $postdata['password'], $result['id_user'] );
+
+		// Wenn Code eingegeben wurde lösche ihn aus DB
+		deleteCode( $db, $result['code'] );
+
+		return new Response ( 'Ihr Passwort wurde geändert! <a href="' 
+			. $app['url_generator']->generate('login') . '">Zurück zum Login</a>', 201 );
 	}
 });
 
@@ -188,7 +276,7 @@ $app->get('/user/dashboard/settings/password', function () use ( $app )
 		return $app->redirect($app['url_generator']->generate('login'));	
 	}
 
-	// Alter Benutzername, Neuer Benutzername einbinden
+	// Altes Passwort, Neues Passwort einbinden
 	$route = include_once USER_DIR . '/dashboard/update-password.php';
 
 	return $route( $app );
@@ -243,7 +331,7 @@ $app->get('/user/dashboard/settings/email', function () use ( $app )
 		return $app->redirect($app['url_generator']->generate('login'));	
 	}
 
-	// Alter Benutzername, Neuer Benutzername einbinden
+	// Alte E-Mail, Neue E-Mail einbinden
 	$route = include_once USER_DIR . '/dashboard/update-email.php';
 
 	return $route( $app );
@@ -282,7 +370,7 @@ $app->post('/user/dashboard/settings/email', function ( Request $email ) use ( $
 		if( updateEmail( $db, $postdata['email'], $id ) )
 		{
 			return new Response( 'Die E-Mail Adresse wurde geändert! ' . 
-				'<a href="'.$app['url_generator']->generate('settings').'">Zurück zum Profil</a>', 201 );
+				'<a href="'.$app['url_generator']->generate('logout').'">Mit neuen Daten erneut einloggen</a>', 201 );
 		}
 		else
 		{
@@ -355,16 +443,16 @@ $app->get('/user/dashboard/update/', function () use ( $app, $db, $apFunctions )
 
 	$userHeader = '<header><h3 style="text-align: right">Sie sind als <a href="' . $app['url_generator']->generate('settings') .'">' . $app['session']->get('user') . '</a> eingeloggt.</h3></header>';
 
-	$getUsers = getUsers( $db );
+	$getAllUsers = getAllUsers( $db );
 
 	include_once USER_DIR . '/dashboard/update.php';
-	$displayUsers = displayUsers( $getUsers );
+	$displayUpdateUsers = displayUpdateUsers( $getAllUsers );
 
-	return new Response( $userHeader . $displayUsers . 
+	return new Response( $userHeader . $displayUpdateUsers . 
 		'<a href="'.$app['url_generator']->generate('dashboard').'">Zurück zur Übersicht</a>', 201 );
 })->bind('update');
 
-$app->get('/user/dashboard/update/{id}', function ( $id ) use ( $app, $db )
+$app->get('/user/dashboard/update/{id}', function ( $id ) use ( $app, $db, $gbFunctions )
 {
 	if( ($app['session']->get('user')) == NULL )
 	{
@@ -375,11 +463,11 @@ $app->get('/user/dashboard/update/{id}', function ( $id ) use ( $app, $db )
 
 	include_once USER_DIR . '/dashboard/update.php';
 	// Ausgewählten Benutzer aus Datenbank holen mit $id aus URL
-	$selectedUser = getSelectedUser( $db, $id );
-	$displaySelectedUser = displaySelectedUser( $selectedUser );
-	$getForm = getForm();
+	$userData = getUser( $db, $id );
+	$displayUser = displayUser( $userData );
+	$userForm = getUpdateForm();
 
-	return new Response( $userHeader . $displaySelectedUser . $getForm, 201 );
+	return new Response( $userHeader . $displayUser . $userForm, 201 );
 });
 
 $app->post('/user/dashboard/update/{id}', function ( $id, Request $username, Request $useremail, Request $password ) use ( $db, $app, $apFunctions, $gbFunctions )
@@ -392,9 +480,9 @@ $app->post('/user/dashboard/update/{id}', function ( $id, Request $username, Req
 
 	include_once USER_DIR . '/dashboard/update.php';
 
-	$selectedUser = getSelectedUser( $db, $id );
+	$userData = getUser( $db, $id );
 
-	foreach($selectedUser as $user)
+	foreach($userData as $user)
 	{
 		$id = $user['id'];
 		$oldusername = $user['username'];
@@ -406,18 +494,19 @@ $app->post('/user/dashboard/update/{id}', function ( $id, Request $username, Req
 
 	$invalidInput = validateForm( $postdata );
 
+	// var_dump($invalidInput);
+
 	if( ! empty($invalidInput) )
 	{
 		$errorMessages = getErrorMessages( $invalidInput );
 		return new Response( implode('<br>', $errorMessages), 201 );
 	}
-	elseif( $postdata['username'] == $oldusername || $postdata['useremail'] == $oldemail ||  $postdata['password'] == $oldpassword )
-	{
-		return new Response( 'Die alten Daten dürfen nicht mit den neuen übereinstimmen!', 404 );		
+	elseif ( $invalidInput == '' ) {
+		var_dump($invalidInput);
 	}
 	else
 	{
-		if( update( $db, $postdata, $id ) )
+		if( updateUser( $db, $postdata, $id ) )
 		{
 			return new Response( 'Die Daten wurden geändert! ' . 
 				'<a href="'.$app['url_generator']->generate('update').'">Zurück</a>', 201 );
@@ -428,6 +517,42 @@ $app->post('/user/dashboard/update/{id}', function ( $id, Request $username, Req
 			return new Response( 'Die Daten konnten nicht geändert werden! ', 404 );		
 		}
 	}
+});
+
+$app->get('/user/dashboard/update/{id}/username', function ( $id ) use ( $app, $db )
+{
+	if( ($app['session']->get('user')) == NULL )
+	{
+		return $app->redirect($app['url_generator']->generate('login'));	
+	}
+
+	$userHeader = '<header><h3 style="text-align: right">Sie sind als <a href="' . $app['url_generator']->generate('settings') .'">' . $app['session']->get('user') . '</a> eingeloggt.</h3></header>';
+
+	return new Response( $userHeader . 'Username', 201 );
+});
+
+$app->get('/user/dashboard/update/{id}/email', function ( $id ) use ( $app, $db )
+{
+	if( ($app['session']->get('user')) == NULL )
+	{
+		return $app->redirect($app['url_generator']->generate('login'));	
+	}
+
+	$userHeader = '<header><h3 style="text-align: right">Sie sind als <a href="' . $app['url_generator']->generate('settings') .'">' . $app['session']->get('user') . '</a> eingeloggt.</h3></header>';
+
+	return new Response( $userHeader . 'Email', 201 );
+});
+
+$app->get('/user/dashboard/update/{id}/password', function ( $id ) use ( $app, $db )
+{
+	if( ($app['session']->get('user')) == NULL )
+	{
+		return $app->redirect($app['url_generator']->generate('login'));	
+	}
+
+	$userHeader = '<header><h3 style="text-align: right">Sie sind als <a href="' . $app['url_generator']->generate('settings') .'">' . $app['session']->get('user') . '</a> eingeloggt.</h3></header>';
+
+	return new Response( $userHeader . 'Passwort', 201 );
 });
 
 
@@ -442,12 +567,12 @@ $app->get('/user/dashboard/delete/', function () use ( $app, $db, $apFunctions )
 
 	$userHeader = '<header><h3 style="text-align: right">Sie sind als <a href="' . $app['url_generator']->generate('settings') .'">' . $app['session']->get('user') . '</a> eingeloggt.</h3></header>';
 
-	$getUsers = getUsers( $db );
+	$getAllUsers = getAllUsers( $db );
 
 	include_once USER_DIR . '/dashboard/delete.php';
-	$displayUsers = displayUsers( $getUsers );
+	$displayDeleteUsers = displayDeleteUsers( $getAllUsers );
 
-	return new Response( $userHeader . $displayUsers . 
+	return new Response( $userHeader . $displayDeleteUsers . 
 		'<a href="'.$app['url_generator']->generate('dashboard').'">Zurück zur Übersicht</a>', 201 );
 })->bind('delete');
 
@@ -466,19 +591,23 @@ $app->get('/user/dashboard/delete/{id}', function( $id ) use ( $app, $db, $apFun
 		$role = $user['role'];	
 	}
 
-	// Wenn die Benutzerrolle 'adm' ist, darf der Benutzer nichts löschen
+	include_once USER_DIR . '/dashboard/delete.php';
+
+	// Wenn die Benutzerrolle 'adm' ist, darf der Benutzer keinen anderen Benutzer löschen
 	if( $role == 'adm' )
 	{
 		return new Response('Sie haben nicht die nötigen Rechte um einen Benutzer zu löschen.
 			<a href="'.$app['url_generator']->generate('dashboard').'">Zurück zur Übersicht</a>', 404);
 	}
-	else
+	else if( deleteUser( $db, $id ) )
 	{
-		include_once USER_DIR . '/dashboard/delete.php';
-		deleteUser( $db, $id );
-
 		return new Response( 'User erfolgreich gelöscht!
 			<a href="'.$app['url_generator']->generate('delete').'">Zurück</a>', 201 );
+	}
+	else
+	{
+		return new Response( 'User konnte nicht gelöscht werden, versuchen sie es erneut!
+			<a href="'.$app['url_generator']->generate('delete').'">Zurück</a>', 404 );		
 	}
 });
 
@@ -490,8 +619,12 @@ $app->get('/post/add', function () use ( $app )
 
 $app->get('/post/update', function () use ( $db, $app, $gbFunctions )
 {
-	// TODO: Alle Beiträge aus Datenbank anzeigen mit auswählen Button
-	// TODO: Beiträge paginiert anzeigen
+	if( ($app['session']->get('user')) == NULL )
+	{
+		return $app->redirect($app['url_generator']->generate('login'));	
+	}
+
+	$userHeader = '<header><h3 style="text-align: right">Sie sind als <a href="' . $app['url_generator']->generate('settings') .'">' . $app['session']->get('user') . '</a> eingeloggt.</h3></header>';
 
 	$totalentries = totalEntries($db);
 
@@ -522,22 +655,30 @@ $app->get('/post/update', function () use ( $db, $app, $gbFunctions )
 
 	$posts = getPosts( $db, $rowsperpage, $currentpage );
 
+	//  TODO: This is not cool!
+	echo $userHeader;
+
 	include_once POST_DIR . '/update.php';
 	include_once __DIR__ . '/../inc/pagination.php';
 
-	return new Response ( displayPostsforUpdate( $posts ) . '<br>' . '<a href="../">Zurück</a>', 201 );
+	return new Response ( displayUpdateEntries( $posts ) . '<br>' . '<a href="../">Zurück zur Übersicht</a>', 201 );
 })->bind('postUpdate');
 
-$app->get('/post/update/{id}', function ( $id ) use ( $db, $app )
+$app->get('/post/update/{id}', function ( $id ) use ( $db, $app, $gbFunctions )
 {
-	// TODO: Ausgewählten Beitrag anzeigen
+	if( ($app['session']->get('user')) == NULL )
+	{
+		return $app->redirect($app['url_generator']->generate('login'));	
+	}
+
+	$userHeader = '<header><h3 style="text-align: right">Sie sind als <a href="' . $app['url_generator']->generate('settings') .'">' . $app['session']->get('user') . '</a> eingeloggt.</h3></header>';
 
 	include_once POST_DIR . '/update.php';
 
-	$selectedPost = getSelectedPost( $db, $id );
-	$displaySelectedPost = displaySelectedPost( $selectedPost );
+	$entryData = getEntry( $db, $id );
+	$postForm = getUpdateForm();
 
-	return $displaySelectedPost . getForm();
+	return new Response ( $userHeader . displayPosts( $entryData ) . $postForm, 201 ) ;
 });
 
 $app->post('/post/update/{id}', function ( $id, Request $firstname, Request $lastname, Request $email, Request $textinput ) use ( $db, $app, $gbFunctions )
@@ -551,7 +692,7 @@ $app->post('/post/update/{id}', function ( $id, Request $firstname, Request $las
 
 	include_once POST_DIR . '/update.php';
 
-	$selectedPost = getSelectedPost( $db, $id );
+	$entryData = getEntry( $db, $id );
 
 	foreach($selectedPost as $post)
 	{
@@ -576,7 +717,7 @@ $app->post('/post/update/{id}', function ( $id, Request $firstname, Request $las
 	}
 	else
 	{
-		if( update( $db, $postdata, $id ) )
+		if( updatePost( $db, $postdata, $id ) )
 		{
 			return new Response( 'Die Daten wurden geändert!  ' . 
 				'<a href="'.$app['url_generator']->generate('postUpdate').'">Zurück</a>', 201 );
@@ -589,9 +730,71 @@ $app->post('/post/update/{id}', function ( $id, Request $firstname, Request $las
 	}
 });
 
-$app->get('/post/delete', function () use ( $app )
+$app->get('/post/delete', function () use ( $db, $app, $gbFunctions )
 {
-	return new Response( 'Löschen', 201 );
+	if( ($app['session']->get('user')) == NULL )
+	{
+		return $app->redirect($app['url_generator']->generate('login'));	
+	}
+
+	$userHeader = '<header><h3 style="text-align: right">Sie sind als <a href="' . $app['url_generator']->generate('settings') .'">' . $app['session']->get('user') . '</a> eingeloggt.</h3></header>';
+
+	$totalentries = totalEntries($db);
+
+	$rowsperpage = 5;
+
+	$totalpages = totalPages($totalentries, $rowsperpage);
+
+	// aktuelle Seite oder Default
+	if ( isset($_GET['currentpage']) && is_numeric($_GET['currentpage']) )
+	{
+		$currentpage = (int) $_GET['currentpage'];
+	}
+	else
+	{
+		// Nummer von Default-Seite
+		$currentpage = 1;
+	}
+
+	if ($currentpage > $totalpages)
+	{
+		// Aktuelle Seite = letzter Seite
+		$currentpage = $totalpages;
+	}
+	if ($currentpage < 1)
+	{
+		$currentpage = 1;
+	}
+
+	$posts = getPosts( $db, $rowsperpage, $currentpage );
+
+	echo $userHeader;
+
+	include_once POST_DIR . '/delete.php';
+	include_once __DIR__ . '/../inc/pagination.php';
+
+	return new Response ( displayDeleteEntries( $posts ) . '<br>' . '<a href="../">Zurück zur Übersicht</a>', 201 );
+})->bind('deletePost');
+
+$app->get('/post/delete/{id}', function ( $id ) use ( $db, $app )
+{
+	if( ($app['session']->get('user')) == NULL )
+	{
+		return $app->redirect($app['url_generator']->generate('login'));	
+	}
+
+	include_once POST_DIR . '/delete.php';
+
+	if( deletePost( $db, $id ) )
+	{
+		return new Response( 'Beitrag erfolgreich gelöscht!
+			<a href="'.$app['url_generator']->generate('deletePost').'">Zurück</a>', 201 );
+	}
+	else
+	{
+		return new Response( 'Der Beitrag konnte nicht gelöscht werden, versuchen sie es erneut!
+					<a href="'.$app['url_generator']->generate('deletePost').'">Zurück</a>', 404 );
+	}
 });
 
 

@@ -3,7 +3,7 @@
 /**
  * @return string
  */
-function displayUsers ( $data )
+function displayDeleteUsers ( $data )
 {
     $output = '';
 
@@ -27,9 +27,12 @@ EOD;
     return $output;
 }
 
+/**
+ * @return boolean
+ */
 function deleteUser ( mysqli $db, $id )
 {
     $delete = 'DELETE FROM user WHERE id = "'. $id .'"';
 
-    $dbRead = $db->query( $delete );
+    return $db->query( $delete );
 }
