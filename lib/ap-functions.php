@@ -18,6 +18,31 @@ function sanitizeLogindata ( array $params )
 }
 
 /**
+ * @return array
+ */
+function sanitizeIndividualFields ( array $params )
+{
+    $data = array();
+
+    switch ( $params )
+    {
+        case isset( $params['username'] ):
+            $data['username'] = filter_var( trim($params['username']), FILTER_SANITIZE_STRING );
+            break;
+
+        case isset( $params['useremail'] ):
+            $data['useremail'] = filter_var( trim($params['useremail']), FILTER_VALIDATE_EMAIL );
+            break;
+            
+        case isset( $params['password'] ):
+            $data['password'] = filter_var( trim($params['password']), FILTER_SANITIZE_STRING );
+            break;
+    }
+
+    return $data;
+}
+
+/**
  * @return int
  */
 function saveLogindata ( array $params, mysqli $db )

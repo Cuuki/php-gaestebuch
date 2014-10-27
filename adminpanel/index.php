@@ -55,7 +55,7 @@ $app->get('/auth/login', function () use ( $app, $db, $apFunctions, $insert )
 		$db->query($insert);
 	}
 
-	// Wenn Session nicht null dann weiterleiten auf dashboard
+	// Wenn bereits eingeloggt weiterleiten auf Dashboard
 	if( ($app['session']->get('user')) != NULL )
 	{
 		return $app->redirect($app['url_generator']->generate('dashboard'));	
@@ -66,11 +66,12 @@ $app->get('/auth/login', function () use ( $app, $db, $apFunctions, $insert )
 	return $route( $app );
 })->bind('login');
 
-$app->post('/auth/login', function ( Request $username, Request $password ) use ( $app, $db, $apFunctions )
+$app->post('/auth/login', function ( Request $username, Request $password, Request $staylogged ) use ( $app, $db, $apFunctions )
 {
 	$postdata = array(
 		'username' => $username->get('username'),
-		'password' => $password->get('password')		
+		'password' => $password->get('password'),
+		'staylogged' => $staylogged->get('staylogged')
 	);
 
 	// Daten aus Datenbank holen
@@ -84,10 +85,22 @@ $app->post('/auth/login', function ( Request $username, Request $password ) use 
 	// mit Eingabe vergleichen, Authentifizierung
 	if( password_verify( $postdata['password'], $hash ) )
 	{
+		// todo
+		// Wenn 'angemeldet bleiben' ausgewählt lifetime auf 0 setzen und nicht automatisch ausloggen
+		if( $postdata['staylogged'] == 'staylogged' )
+		{	
+			$app['session']->set('cookie_lifetime', 0);
+		}
+		else
+		{
+			// Wenn nicht Cookie Lifetime auf einen anderen wert als 0 setzen
+			$app['session']->set('cookie_lifetime', 900);
+		}
 		// Sessionnamen auf Usernamen setzen
 		$app['session']->set('user', $postdata['username']);
+		$app['session']->set('time', time());
 
-		// Wenn eingeloggt weiterleiten auf Dashboard
+		// Weiterleiten auf Dashboard
 		return $app->redirect($app['url_generator']->generate('dashboard'));
 	}
 	else
@@ -132,10 +145,13 @@ $app->post('/auth/reset', function ( Request $email ) use ( $db, $app )
 
 	$message = 'Bitte geben Sie folgenden Code: ' . $code . ' im Eingabefeld der Website ein. ACHTUNG der Code wird aus Sicherheitsgründen entfernt, nachdem er eingegeben wurde (Laden Sie die Seite danach nicht neu, ansonsten müssen Sie erst wieder einen neuen Code anfordern)!';
 
+	// Mail Encoding auf UTF-8 setzen
 	mb_internal_encoding("UTF-8");
 
+	// UTF-8 codierte mail versenden
 	mb_send_mail( $postdata['email'], $subject, $message );
 
+	// Code und ID von User der diesen angefordert hat in Datenbank speichern
 	include_once ROUTES_DIR . '/auth/code.php';
 	saveCode( $db, $code, $result['id'] );
 
@@ -145,6 +161,12 @@ $app->post('/auth/reset', function ( Request $email ) use ( $db, $app )
 
 $app->get('auth/reset/code', function () use ( $app )
 {
+	// Wenn Session nicht null dann weiterleiten auf dashboard
+	if( ($app['session']->get('user')) != NULL )
+	{
+		return $app->redirect($app['url_generator']->generate('dashboard'));	
+	}
+
 	include_once ROUTES_DIR . '/auth/code.php';
 
 	return getCodeForm();
@@ -180,50 +202,50 @@ $app->post('auth/reset/code', function ( Request $code, Request $password ) use 
 	}
 });
 
-// nach eingeloggen weiterleiten auf dashboard
-$app->get('/user/dashboard/', function () use ( $app )
-{
-	// Wenn Session null weiterleiten auf login
-	if( ($app['session']->get('user')) == NULL )
-	{
-		return $app->redirect($app['url_generator']->generate('login'));	
-	}
-
-	// Userzeile anzeigen als Rückmeldung das er eingeloggt ist
-	$userHeader = '<header><h3 style="text-align: right">Sie sind als <a href="' . $app['url_generator']->generate('settings') .'">' . $app['session']->get('user') . '</a> eingeloggt.</h3></header>';
-
-	$route = include_once USER_DIR . '/dashboard.php';
-
-	return $userHeader . $route( $app );
-})->bind('dashboard');
-
-
 // User Einstellungen
 $app->get('/user/dashboard/settings', function () use ( $app )
 {
-	// Wenn Session null weiterleiten auf login
+	// Wenn Session NULL weiterleiten auf Login da User nicht mehr eingeloggt ist
 	if( ($app['session']->get('user')) == NULL )
 	{
 		return $app->redirect($app['url_generator']->generate('login'));	
 	}
 
-	$route = include_once USER_DIR . '/settings.php';;
+	$route = include_once USER_DIR . '/settings.php';
 
 	return $route( $app );
 })->bind('settings');
 
+// Userzeile als Rückmeldung das er eingeloggt ist
+$userHeader = '<header><h3 style="text-align: right">Sie sind als <a href="/php-gaestebuch/adminpanel' . $app['url_generator']->generate('settings') .'">' . $app['session']->get('user') . '</a> eingeloggt.</h3></header>';
+
+$app->get('/user/dashboard/', function () use ( $app, $userHeader )
+{
+	// Wenn Session NULL weiterleiten auf Login da User nicht mehr eingeloggt ist
+	if( ($app['session']->get('user')) == NULL )
+	{
+		return $app->redirect($app['url_generator']->generate('login'));	
+	}
+
+	$loggedInSince = $app['session']->get('time');
+
+	$route = include_once USER_DIR . '/dashboard.php';
+
+	return new Response ( $userHeader . 'Sie sind eingeloggt seid: ' . date('h:i:s A', $loggedInSince) . '<br>' . $route( $app ), 201 );
+})->bind('dashboard');
+
 $app->get('/user/dashboard/settings/username', function () use ( $app )
 {
-	// Wenn Session null weiterleiten auf login
+	// Wenn Session NULL weiterleiten auf Login da User nicht mehr eingeloggt ist
 	if( ($app['session']->get('user')) == NULL )
 	{
 		return $app->redirect($app['url_generator']->generate('login'));	
 	}
 
 	// Alter Benutzername, Neuer Benutzername einbinden
-	$route = include_once USER_DIR . '/dashboard/update-username.php';
+	$route = include_once USER_DIR . '/dashboard/settings-username.php';
 
-	return $route( $app );
+	return new Response ( $route( $app ) . '<a href="'.$app['url_generator']->generate('settings').'">Zurück zum Profil</a>', 201 );
 })->bind('changeUsername');
 
 $app->post('/user/dashboard/settings/username', function ( Request $username ) use ( $db, $app, $apFunctions )
@@ -249,12 +271,11 @@ $app->post('/user/dashboard/settings/username', function ( Request $username ) u
 	elseif( $postdata['oldusername'] == $postdata['username'] )
 	{
 		return new Response( 'Der alte darf nicht mit dem neuen Benutzernamen übereinstimmen! 
-			<a href="'.$app['url_generator']->generate('changeEmail').'">Zurück</a>', 404 );		
+			<a href="'.$app['url_generator']->generate('changeUsername').'">Zurück</a>', 404 );		
 	}
 	else
 	{
 		include_once USER_DIR . '/dashboard/update.php';
-
 		// Ändere alten Benutzernamen wenn Funktion updateUsername() 'true' zurückgibt
 		if( updateUsername( $db, $postdata['username'], $id ) )
 		{
@@ -270,16 +291,16 @@ $app->post('/user/dashboard/settings/username', function ( Request $username ) u
 
 $app->get('/user/dashboard/settings/password', function () use ( $app )
 {
-	// Wenn Session null weiterleiten auf login
+	// Wenn Session NULL weiterleiten auf Login da User nicht mehr eingeloggt ist
 	if( ($app['session']->get('user')) == NULL )
 	{
 		return $app->redirect($app['url_generator']->generate('login'));	
 	}
 
 	// Altes Passwort, Neues Passwort einbinden
-	$route = include_once USER_DIR . '/dashboard/update-password.php';
+	$route = include_once USER_DIR . '/dashboard/settings-password.php';
 
-	return $route( $app );
+	return new Response ( $route( $app ) . '<a href="'.$app['url_generator']->generate('settings').'">Zurück zum Profil</a>', 201 );
 })->bind('changePassword');
 
 $app->post('/user/dashboard/settings/password', function ( Request $password ) use ( $db, $app, $apFunctions )
@@ -306,7 +327,7 @@ $app->post('/user/dashboard/settings/password', function ( Request $password ) u
 	elseif( $postdata['oldpassword'] == $postdata['password'] )
 	{
 		return new Response( 'Das alte darf nicht mit dem neuen Passwort übereinstimmen! 
-			<a href="'.$app['url_generator']->generate('changeEmail').'">Zurück</a>', 404 );		
+			<a href="'.$app['url_generator']->generate('changePassword').'">Zurück</a>', 404 );		
 	}
 	else
 	{
@@ -325,16 +346,16 @@ $app->post('/user/dashboard/settings/password', function ( Request $password ) u
 
 $app->get('/user/dashboard/settings/email', function () use ( $app )
 {
-	// Wenn Session null weiterleiten auf login
+	// Wenn Session NULL weiterleiten auf Login da User nicht mehr eingeloggt ist
 	if( ($app['session']->get('user')) == NULL )
 	{
 		return $app->redirect($app['url_generator']->generate('login'));	
 	}
 
 	// Alte E-Mail, Neue E-Mail einbinden
-	$route = include_once USER_DIR . '/dashboard/update-email.php';
+	$route = include_once USER_DIR . '/dashboard/settings-email.php';
 
-	return $route( $app );
+	return new Response ( $route( $app ) . '<a href="'.$app['url_generator']->generate('settings').'">Zurück zum Profil</a>', 201 );
 })->bind('changeEmail');
 
 $app->post('/user/dashboard/settings/email', function ( Request $email ) use ( $db, $app, $apFunctions )
@@ -366,7 +387,6 @@ $app->post('/user/dashboard/settings/email', function ( Request $email ) use ( $
 	else
 	{
 		include_once USER_DIR . '/dashboard/update.php';
-
 		if( updateEmail( $db, $postdata['email'], $id ) )
 		{
 			return new Response( 'Die E-Mail Adresse wurde geändert! ' . 
@@ -379,21 +399,18 @@ $app->post('/user/dashboard/settings/email', function ( Request $email ) use ( $
 	}
 });
 
-
 // Benutzer hinzufügen
-$app->get('/user/dashboard/add', function () use ( $app, $gbFunctions )
+$app->get('/user/dashboard/add', function () use ( $app, $gbFunctions, $userHeader )
 {
-	// Wenn Session null weiterleiten auf login
+	// Wenn Session NULL weiterleiten auf Login da User nicht mehr eingeloggt ist
 	if( ($app['session']->get('user')) == NULL )
 	{
 		return $app->redirect($app['url_generator']->generate('login'));	
 	}
 
-	$userHeader = '<header><h3 style="text-align: right">Sie sind als <a href="' . $app['url_generator']->generate('settings') .'">' . $app['session']->get('user') . '</a> eingeloggt.</h3></header>';
-
 	$route = include_once USER_DIR . '/dashboard/add.php';
 
-	return $userHeader . $route( $app );
+	return new Response ( $userHeader . $route( $app ), 201 );
 })->bind('add');
 
 $app->post('/user/dashboard/add', function ( Request $username, Request $useremail, Request $password ) use ( $app, $db, $apFunctions, $gbFunctions )
@@ -433,33 +450,58 @@ $app->post('/user/dashboard/add', function ( Request $username, Request $userema
 
 
 // Benutzerdaten bearbeiten
-$app->get('/user/dashboard/update/', function () use ( $app, $db, $apFunctions )
+$app->get('/user/dashboard/update/', function () use ( $app, $db, $apFunctions, $userHeader )
 {
-	// Wenn Session null weiterleiten auf login
+	// Wenn Session NULL weiterleiten auf Login da User nicht mehr eingeloggt ist
 	if( ($app['session']->get('user')) == NULL )
 	{
 		return $app->redirect($app['url_generator']->generate('login'));	
 	}
 
-	$userHeader = '<header><h3 style="text-align: right">Sie sind als <a href="' . $app['url_generator']->generate('settings') .'">' . $app['session']->get('user') . '</a> eingeloggt.</h3></header>';
+	// Daten für gerade eingeloggten User aus Datenbank holen
+	$users = getLogindata( $db, $app['session']->get('user') );
+
+	foreach($users as $user)
+	{
+		$role = $user['role'];	
+	}
+
+	// Wenn die Benutzerrolle 'adm' ist, darf der Benutzer keinen anderen Benutzer löschen
+	if( $role == 'adm' )
+	{
+		return new Response('Sie haben nicht die nötigen Rechte um einen Benutzer zu bearbeiten, wenden Sie sich an einen Administrator.
+			<a href="'.$app['url_generator']->generate('dashboard').'">Zurück zur Übersicht</a>', 404);
+	}
 
 	$getAllUsers = getAllUsers( $db );
 
 	include_once USER_DIR . '/dashboard/update.php';
 	$displayUpdateUsers = displayUpdateUsers( $getAllUsers );
 
-	return new Response( $userHeader . $displayUpdateUsers . 
-		'<a href="'.$app['url_generator']->generate('dashboard').'">Zurück zur Übersicht</a>', 201 );
+	return new Response( $userHeader . $displayUpdateUsers . '<a href="'.$app['url_generator']->generate('dashboard').'">Zurück zur Übersicht</a>', 201 );
 })->bind('update');
 
-$app->get('/user/dashboard/update/{id}', function ( $id ) use ( $app, $db, $gbFunctions )
+$app->get('/user/dashboard/update/{id}', function ( $id ) use ( $app, $db, $apFunctions, $gbFunctions, $userHeader )
 {
 	if( ($app['session']->get('user')) == NULL )
 	{
 		return $app->redirect($app['url_generator']->generate('login'));	
 	}
 
-	$userHeader = '<header><h3 style="text-align: right">Sie sind als <a href="' . $app['url_generator']->generate('settings') .'">' . $app['session']->get('user') . '</a> eingeloggt.</h3></header>';
+	// Daten für gerade eingeloggten User aus Datenbank holen
+	$users = getLogindata( $db, $app['session']->get('user') );
+
+	foreach($users as $user)
+	{
+		$role = $user['role'];	
+	}
+
+	// Wenn die Benutzerrolle 'adm' ist, darf der Benutzer keinen anderen Benutzer löschen
+	if( $role == 'adm' )
+	{
+		return new Response('Sie haben nicht die nötigen Rechte um einen Benutzer zu bearbeiten, wenden Sie sich an einen Administrator.
+			<a href="'.$app['url_generator']->generate('dashboard').'">Zurück zur Übersicht</a>', 404);
+	}
 
 	include_once USER_DIR . '/dashboard/update.php';
 	// Ausgewählten Benutzer aus Datenbank holen mit $id aus URL
@@ -485,24 +527,16 @@ $app->post('/user/dashboard/update/{id}', function ( $id, Request $username, Req
 	foreach($userData as $user)
 	{
 		$id = $user['id'];
-		$oldusername = $user['username'];
-		$oldemail = $user['useremail'];
-		$oldpassword = $user['password'];
 	}
 
 	$postdata = sanitizeLogindata( $postdata );
 
 	$invalidInput = validateForm( $postdata );
 
-	// var_dump($invalidInput);
-
-	if( ! empty($invalidInput) )
+	if( ! empty( $invalidInput ) )
 	{
 		$errorMessages = getErrorMessages( $invalidInput );
 		return new Response( implode('<br>', $errorMessages), 201 );
-	}
-	elseif ( $invalidInput == '' ) {
-		var_dump($invalidInput);
 	}
 	else
 	{
@@ -519,65 +553,163 @@ $app->post('/user/dashboard/update/{id}', function ( $id, Request $username, Req
 	}
 });
 
-$app->get('/user/dashboard/update/{id}/username', function ( $id ) use ( $app, $db )
+$app->get('/user/dashboard/update/{id}/username', function ( $id ) use ( $app, $db, $userHeader )
 {
+	// Wenn Session NULL weiterleiten auf Login da User nicht mehr eingeloggt ist
 	if( ($app['session']->get('user')) == NULL )
 	{
 		return $app->redirect($app['url_generator']->generate('login'));	
 	}
 
-	$userHeader = '<header><h3 style="text-align: right">Sie sind als <a href="' . $app['url_generator']->generate('settings') .'">' . $app['session']->get('user') . '</a> eingeloggt.</h3></header>';
+	$route = include_once USER_DIR . '/dashboard/update-username.php';
 
-	return new Response( $userHeader . 'Username', 201 );
+	return new Response( $userHeader . $route( $app ) . '<a href="'.$app['url_generator']->generate('update') . $id .'">Zurück</a>', 201 );
 });
 
-$app->get('/user/dashboard/update/{id}/email', function ( $id ) use ( $app, $db )
+$app->post('/user/dashboard/update/{id}/username', function ( $id, Request $username ) use ( $app, $db, $apFunctions, $gbFunctions )
 {
+	$postdata = array(
+		'username' => $username->get('username')
+	);	
+
+	$userData = getUser( $db, $id );
+
+	foreach($userData as $user)
+	{
+		$id = $user['id'];
+	}
+
+	$postdata = sanitizeIndividualFields( $postdata );
+
+	$invalidInput = validateForm( $postdata );
+
+	if( ! empty( $invalidInput ) )
+	{
+		$errorMessages = getErrorMessages( $invalidInput );
+		return new Response( implode('<br>', $errorMessages), 201 );
+	}
+	else
+	{
+		include_once USER_DIR . '/dashboard/update.php';
+		if( updateUsername( $db, $postdata['username'], $id ) )
+		{
+			return new Response( 'Die Daten wurden geändert! ' . 
+				'<a href="'.$app['url_generator']->generate('update') . $id .'">Zurück</a>', 201 );
+		}
+		// Wenn User in Datenbank schon so existiert wie das geänderte Meldung ausgeben weil dieser nicht mehrfach vorkommen darf
+		else
+		{
+			return new Response( 'Die Daten konnten nicht geändert werden! ', 404 );		
+		}
+	}
+});
+
+$app->get('/user/dashboard/update/{id}/email', function ( $id ) use ( $app, $db, $userHeader )
+{
+	// Wenn Session NULL weiterleiten auf Login da User nicht mehr eingeloggt ist
 	if( ($app['session']->get('user')) == NULL )
 	{
 		return $app->redirect($app['url_generator']->generate('login'));	
 	}
 
-	$userHeader = '<header><h3 style="text-align: right">Sie sind als <a href="' . $app['url_generator']->generate('settings') .'">' . $app['session']->get('user') . '</a> eingeloggt.</h3></header>';
+	$route = include_once USER_DIR . '/dashboard/update-email.php';
 
-	return new Response( $userHeader . 'Email', 201 );
+	return new Response( $userHeader . $route( $app ) . '<a href="'.$app['url_generator']->generate('update') . $id .'">Zurück</a>', 201 );
 });
 
-$app->get('/user/dashboard/update/{id}/password', function ( $id ) use ( $app, $db )
+$app->post('/user/dashboard/update/{id}/email', function ( $id, Request $useremail ) use ( $app, $db, $apFunctions, $gbFunctions )
 {
+	$postdata = array(
+		'useremail' => $useremail->get('useremail')
+	);
+
+	$userData = getUser( $db, $id );
+
+	foreach($userData as $user)
+	{
+		$id = $user['id'];
+	}
+
+	$postdata = sanitizeIndividualFields( $postdata );
+
+	$invalidInput = validateForm( $postdata );
+
+	if( ! empty( $invalidInput ) )
+	{
+		$errorMessages = getErrorMessages( $invalidInput );
+		return new Response( implode('<br>', $errorMessages), 201 );
+	}
+	else
+	{
+		include_once USER_DIR . '/dashboard/update.php';
+		if( updateEmail( $db, $postdata['useremail'], $id ) )
+		{
+			return new Response( 'Die Daten wurden geändert! ' . 
+				'<a href="'.$app['url_generator']->generate('update') . $id .'">Zurück</a>', 201 );
+		}
+		// Wenn User in Datenbank schon so existiert wie das geänderte Meldung ausgeben weil dieser nicht mehrfach vorkommen darf
+		else
+		{
+			return new Response( 'Die Daten konnten nicht geändert werden! ', 404 );		
+		}
+	}
+});
+
+$app->get('/user/dashboard/update/{id}/password', function ( $id ) use ( $app, $db, $userHeader )
+{
+	// Wenn Session NULL weiterleiten auf Login da User nicht mehr eingeloggt ist
 	if( ($app['session']->get('user')) == NULL )
 	{
 		return $app->redirect($app['url_generator']->generate('login'));	
 	}
 
-	$userHeader = '<header><h3 style="text-align: right">Sie sind als <a href="' . $app['url_generator']->generate('settings') .'">' . $app['session']->get('user') . '</a> eingeloggt.</h3></header>';
+	$route = include_once USER_DIR . '/dashboard/update-password.php';
 
-	return new Response( $userHeader . 'Passwort', 201 );
+	return new Response( $userHeader . $route( $app ) . '<a href="'.$app['url_generator']->generate('update') . $id .'">Zurück</a>', 201 );
 });
 
+$app->post('/user/dashboard/update/{id}/password', function ( $id, Request $password ) use ( $app, $db, $apFunctions, $gbFunctions )
+{
+	$postdata = array(
+		'password' => $password->get('password')
+	);
+
+	$userData = getUser( $db, $id );
+
+	foreach($userData as $user)
+	{
+		$id = $user['id'];
+	}
+
+	$postdata = sanitizeIndividualFields( $postdata );
+
+	$invalidInput = validateForm( $postdata );
+
+	if( ! empty( $invalidInput ) )
+	{
+		$errorMessages = getErrorMessages( $invalidInput );
+		return new Response( implode('<br>', $errorMessages), 201 );
+	}
+	else
+	{
+		include_once USER_DIR . '/dashboard/update.php';
+		if( updatePassword( $db, $postdata['password'], $id ) )
+		{
+			return new Response( 'Die Daten wurden geändert! ' . 
+				'<a href="'.$app['url_generator']->generate('update') . $id .'">Zurück</a>', 201 );
+		}
+		// Wenn User in Datenbank schon so existiert wie das geänderte Meldung ausgeben weil dieser nicht mehrfach vorkommen darf
+		else
+		{
+			return new Response( 'Die Daten konnten nicht geändert werden! ', 404 );		
+		}
+	}
+});
 
 // Benutzer löschen
-$app->get('/user/dashboard/delete/', function () use ( $app, $db, $apFunctions )
+$app->get('/user/dashboard/delete/', function () use ( $app, $db, $apFunctions, $userHeader )
 {
-	// Wenn Session null weiterleiten auf login
-	if( ($app['session']->get('user')) == NULL )
-	{
-		return $app->redirect($app['url_generator']->generate('login'));	
-	}
-
-	$userHeader = '<header><h3 style="text-align: right">Sie sind als <a href="' . $app['url_generator']->generate('settings') .'">' . $app['session']->get('user') . '</a> eingeloggt.</h3></header>';
-
-	$getAllUsers = getAllUsers( $db );
-
-	include_once USER_DIR . '/dashboard/delete.php';
-	$displayDeleteUsers = displayDeleteUsers( $getAllUsers );
-
-	return new Response( $userHeader . $displayDeleteUsers . 
-		'<a href="'.$app['url_generator']->generate('dashboard').'">Zurück zur Übersicht</a>', 201 );
-})->bind('delete');
-
-$app->get('/user/dashboard/delete/{id}', function( $id ) use ( $app, $db, $apFunctions )
-{
+	// Wenn Session NULL weiterleiten auf Login da User nicht mehr eingeloggt ist
 	if( ($app['session']->get('user')) == NULL )
 	{
 		return $app->redirect($app['url_generator']->generate('login'));	
@@ -596,9 +728,44 @@ $app->get('/user/dashboard/delete/{id}', function( $id ) use ( $app, $db, $apFun
 	// Wenn die Benutzerrolle 'adm' ist, darf der Benutzer keinen anderen Benutzer löschen
 	if( $role == 'adm' )
 	{
-		return new Response('Sie haben nicht die nötigen Rechte um einen Benutzer zu löschen.
+		return new Response('Sie haben nicht die nötigen Rechte um einen Benutzer zu löschen, wenden Sie sich an einen Administrator.
 			<a href="'.$app['url_generator']->generate('dashboard').'">Zurück zur Übersicht</a>', 404);
 	}
+
+	$getAllUsers = getAllUsers( $db );
+
+	include_once USER_DIR . '/dashboard/delete.php';
+	$displayDeleteUsers = displayDeleteUsers( $getAllUsers );
+
+	return new Response( $userHeader . $displayDeleteUsers . 
+		'<a href="'.$app['url_generator']->generate('dashboard').'">Zurück zur Übersicht</a>', 201 );
+})->bind('delete');
+
+$app->get('/user/dashboard/delete/{id}', function( $id ) use ( $app, $db, $apFunctions )
+{
+	// Wenn Session NULL weiterleiten auf Login da User nicht mehr eingeloggt ist
+	if( ($app['session']->get('user')) == NULL )
+	{
+		return $app->redirect($app['url_generator']->generate('login'));	
+	}
+
+	// Daten für gerade eingeloggten User aus Datenbank holen
+	$users = getLogindata( $db, $app['session']->get('user') );
+
+	foreach($users as $user)
+	{
+		$role = $user['role'];	
+	}
+
+	include_once USER_DIR . '/dashboard/delete.php';
+
+	// Wenn die Benutzerrolle 'adm' ist, darf der Benutzer keinen anderen Benutzer löschen
+	if( $role == 'adm' )
+	{
+		return new Response('Sie haben nicht die nötigen Rechte um einen Benutzer zu löschen, wenden Sie sich an einen Administrator.
+			<a href="'.$app['url_generator']->generate('dashboard').'">Zurück zur Übersicht</a>', 404);
+	}
+	//  Wenn deleteUser 'true' zurück gibt wurde User erfolgreich gelöscht
 	else if( deleteUser( $db, $id ) )
 	{
 		return new Response( 'User erfolgreich gelöscht!
@@ -611,26 +778,26 @@ $app->get('/user/dashboard/delete/{id}', function( $id ) use ( $app, $db, $apFun
 	}
 });
 
-
+// Auf Home des Gästebuchs weiterleiten zur Sprungmarke 'add'
 $app->get('/post/add', function () use ( $app )
 {
 	return $app->redirect('../../#add');
 });
 
-$app->get('/post/update', function () use ( $db, $app, $gbFunctions )
+$app->get('/post/update', function () use ( $db, $app, $gbFunctions, $userHeader )
 {
+	// Wenn Session NULL weiterleiten auf Login da User nicht mehr eingeloggt ist
 	if( ($app['session']->get('user')) == NULL )
 	{
 		return $app->redirect($app['url_generator']->generate('login'));	
 	}
 
-	$userHeader = '<header><h3 style="text-align: right">Sie sind als <a href="' . $app['url_generator']->generate('settings') .'">' . $app['session']->get('user') . '</a> eingeloggt.</h3></header>';
+	$totalentries = totalEntries( $db );
 
-	$totalentries = totalEntries($db);
-
+	// Anzahl an angezeigen Einträgen pro Seite
 	$rowsperpage = 5;
 
-	$totalpages = totalPages($totalentries, $rowsperpage);
+	$totalpages = totalPages( $totalentries, $rowsperpage );
 
 	// aktuelle Seite oder Default
 	if ( isset($_GET['currentpage']) && is_numeric($_GET['currentpage']) )
@@ -643,35 +810,31 @@ $app->get('/post/update', function () use ( $db, $app, $gbFunctions )
 		$currentpage = 1;
 	}
 
-	if ($currentpage > $totalpages)
+	if ( $currentpage > $totalpages )
 	{
-		// Aktuelle Seite = letzter Seite
+		// Aktuelle Seite = letzte Seite
 		$currentpage = $totalpages;
 	}
-	if ($currentpage < 1)
+	if ( $currentpage < 1 )
 	{
 		$currentpage = 1;
 	}
 
 	$posts = getPosts( $db, $rowsperpage, $currentpage );
 
-	//  TODO: This is not cool!
-	echo $userHeader;
-
 	include_once POST_DIR . '/update.php';
-	include_once __DIR__ . '/../inc/pagination.php';
+	include_once __DIR__ . '/../lib/pagination.php';
 
-	return new Response ( displayUpdateEntries( $posts ) . '<br>' . '<a href="../">Zurück zur Übersicht</a>', 201 );
+	return new Response ( $userHeader . displayPagination( $currentpage, $totalpages ) . displayUpdateEntries( $posts ) . '<br>' . '<a href="../">Zurück zur Übersicht</a>', 201 );
 })->bind('postUpdate');
 
-$app->get('/post/update/{id}', function ( $id ) use ( $db, $app, $gbFunctions )
+$app->get('/post/update/{id}', function ( $id ) use ( $db, $app, $gbFunctions, $userHeader )
 {
+	// Wenn Session NULL weiterleiten auf Login da User nicht mehr eingeloggt ist
 	if( ($app['session']->get('user')) == NULL )
 	{
 		return $app->redirect($app['url_generator']->generate('login'));	
 	}
-
-	$userHeader = '<header><h3 style="text-align: right">Sie sind als <a href="' . $app['url_generator']->generate('settings') .'">' . $app['session']->get('user') . '</a> eingeloggt.</h3></header>';
 
 	include_once POST_DIR . '/update.php';
 
@@ -681,7 +844,7 @@ $app->get('/post/update/{id}', function ( $id ) use ( $db, $app, $gbFunctions )
 	return new Response ( $userHeader . displayPosts( $entryData ) . $postForm, 201 ) ;
 });
 
-$app->post('/post/update/{id}', function ( $id, Request $firstname, Request $lastname, Request $email, Request $textinput ) use ( $db, $app, $gbFunctions )
+$app->post('/post/update/{id}', function ( $id, Request $firstname, Request $lastname, Request $email, Request $textinput ) use ( $db, $app, $gbFunctions, $userHeader )
 {
 	$postdata = array(
 		'firstname' => $firstname->get('firstname'),
@@ -694,11 +857,8 @@ $app->post('/post/update/{id}', function ( $id, Request $firstname, Request $las
 
 	$entryData = getEntry( $db, $id );
 
-	foreach($selectedPost as $post)
+	foreach($entryData as $post)
 	{
-		$oldfirstname = $post['firstname'];
-		$oldlastname = $post['lastname'];
-		$oldemail = $post['email'];
 		$oldcontent = $post['content'];
 	}
 
@@ -711,9 +871,9 @@ $app->post('/post/update/{id}', function ( $id, Request $firstname, Request $las
 		$errorMessages = getErrorMessages( $invalidInput );
 		return new Response( implode('<br>', $errorMessages), 201 );
 	}
-	elseif( $postdata['firstname'] == $oldfirstname || $postdata['lastname'] == $oldlastname || $postdata['email'] == $oldemail ||  $postdata['textinput'] == $oldcontent )
+	elseif( $postdata['textinput'] == $oldcontent )
 	{
-		return new Response( 'Die alten Daten dürfen nicht mit den neuen übereinstimmen!', 404 );		
+		return new Response( 'Bitte geben Sie mindestenes einen neuen Beitrag ein!', 404 );		
 	}
 	else
 	{
@@ -730,14 +890,13 @@ $app->post('/post/update/{id}', function ( $id, Request $firstname, Request $las
 	}
 });
 
-$app->get('/post/delete', function () use ( $db, $app, $gbFunctions )
+$app->get('/post/delete', function () use ( $db, $app, $gbFunctions, $userHeader )
 {
+	// Wenn Session NULL weiterleiten auf Login da User nicht mehr eingeloggt ist
 	if( ($app['session']->get('user')) == NULL )
 	{
 		return $app->redirect($app['url_generator']->generate('login'));	
 	}
-
-	$userHeader = '<header><h3 style="text-align: right">Sie sind als <a href="' . $app['url_generator']->generate('settings') .'">' . $app['session']->get('user') . '</a> eingeloggt.</h3></header>';
 
 	$totalentries = totalEntries($db);
 
@@ -768,16 +927,15 @@ $app->get('/post/delete', function () use ( $db, $app, $gbFunctions )
 
 	$posts = getPosts( $db, $rowsperpage, $currentpage );
 
-	echo $userHeader;
-
 	include_once POST_DIR . '/delete.php';
-	include_once __DIR__ . '/../inc/pagination.php';
+	include_once __DIR__ . '/../lib/pagination.php';
 
-	return new Response ( displayDeleteEntries( $posts ) . '<br>' . '<a href="../">Zurück zur Übersicht</a>', 201 );
+	return new Response ( $userHeader . displayPagination( $currentpage, $totalpages ) . displayDeleteEntries( $posts ) . '<br>' . '<a href="../">Zurück zur Übersicht</a>', 201 );
 })->bind('deletePost');
 
 $app->get('/post/delete/{id}', function ( $id ) use ( $db, $app )
 {
+	// Wenn Session NULL weiterleiten auf Login da User nicht mehr eingeloggt ist
 	if( ($app['session']->get('user')) == NULL )
 	{
 		return $app->redirect($app['url_generator']->generate('login'));	
@@ -797,20 +955,24 @@ $app->get('/post/delete/{id}', function ( $id ) use ( $db, $app )
 	}
 });
 
-
 // Ausloggen
 $app->get('/user/dashboard/logout', function () use ( $app )
 {
 	session_destroy();
 
 	// nach ausloggen weiterleiten auf loginseite
-	return $app->redirect($app['url_generator']->generate('login'));
+	return $app->redirect( $app['url_generator']->generate('login') );
 })->bind('logout');
-
 
 // Loginsession starten
 $app['session']->start();
 
+$sessionLastUsed = $app['session']->getMetadataBag()->getLastUsed();
+
+// Wenn nach 15 Minuten (900sek) keine Aktivität in der Session war und das Cookie Lifetime nicht 0 ist zerstöre diese
+if ( ( $app['session']->get('cookie_lifetime') !== 0 ) && ( time() - $sessionLastUsed > 900 ) )
+{
+    session_destroy();
+}
+
 $app->run();
-
-
