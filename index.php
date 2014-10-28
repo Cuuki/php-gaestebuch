@@ -58,6 +58,8 @@ if ( isset($_POST["submit"]) )
 	}
 }
 
+include('lib/pagination.php');
+
 $totalentries = totalEntries($db);
 
 $rowsperpage = 5;

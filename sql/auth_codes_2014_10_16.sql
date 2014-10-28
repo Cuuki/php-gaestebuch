@@ -1,0 +1,7 @@
+CREATE TABLE `auth_codes` (
+    `code_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	`code` INT NOT NULL UNIQUE KEY,
+	`created` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	`id_user` INT NOT NULL,
+    INDEX created (created)
+) ENGINE = InnoDB DEFAULT CHARSET=utf8;

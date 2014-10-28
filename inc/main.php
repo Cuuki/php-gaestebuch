@@ -28,9 +28,9 @@
 			}
 			elseif( !isset( $errorMessages ) )
 			{
-			  echo displayPosts( $posts );
-			  include('lib/pagination.php');
-			  echo displayPagination( $currentpage, $totalpages );
+			  	echo displayPosts( $posts );
+
+			  	echo displayPagination( $currentpage, $totalpages );
 			}
 		?>
 	</section>

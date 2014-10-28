@@ -1,1 +1,11 @@
 Dies ist ein Gästebuch. Das Projekt befindet sich in einem ständigen Ausbauprozess und dient als Lehrmaßnahme.
+
+Zugang Adminpanel:
+
+Rolle Superadmin
+Benutzername: sudo
+Passwort: sudo
+
+Rolle Admin
+Benutzername: adm
+Passwort: adm

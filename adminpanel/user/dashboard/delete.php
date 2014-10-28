@@ -15,7 +15,7 @@ function displayDeleteUsers ( $data )
         $id = $row["id"];
 
         $output .= <<<EOD
-            <article style='margin-bottom: 50px;'>
+            <article style='margin-top: 50px; margin-bottom: 50px;'>
                 <p>Username: $username</p>
                 <p>E-Mail: $useremail</p>
                 <p>Passwort: $password</p>
