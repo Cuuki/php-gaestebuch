@@ -30,6 +30,10 @@ $app->register(new Silex\Provider\SessionServiceProvider());
 
 $app['debug'] = TRUE;
 
+$app['session.storage.options'] = array(
+	'lifetime' => 900
+);
+
 $app->get('/', function () use ( $app )
 {
 	return $app->redirect( 'user/dashboard/' );
@@ -1042,6 +1046,7 @@ $app->get('/user/dashboard/logout', function () use ( $app )
 // Loginsession starten
 $app['session']->start();
 
+// Letzte Aktivität in der Session
 $sessionLastUsed = $app['session']->getMetadataBag()->getLastUsed();
 
 var_dump($app['session']->get('cookie_lifetime'));
