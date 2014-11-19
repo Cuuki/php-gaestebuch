@@ -1,5 +1,7 @@
 {
 	"require" : {
-		"silex/silex": "1.2.1"
+		"silex/silex": "1.2.1",
+		"twig/twig": "~1.0",
+                "doctrine/orm": "2.4.*"
 	}
 }

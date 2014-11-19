@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+                <section>
+                    <article>
+                        <h2>Beitrag bearbeiten:</h2>
+                    </article>
+                    <form  action="" method="post">
+                        <label for="firstName">
+                            Vorname:
+                        </label>		
+                        <input type="text" id="firstName" name="firstname">				
+                        <label for="lastName">
+                            Nachname:
+                        </label>
+                        <input type="text" id="lastName" name="lastname">
+                        <label for="userEmail">
+                            E-Mail Adresse:
+                        </label>
+                        <input type="text" id="userEmail" name="email">
+                        <label for="userTextinput">
+                            Geben Sie Ihren Beitrag ein:
+                        </label>						
+                        <textarea id="userTextinput" name="textinput" rows="10" cols="20"></textarea>								
+                        <input name="login" type="submit" value="Ändern">
+                    </form>
+                    <a href="../update">Zurück</a>
+                </section>	
+{% endblock %}

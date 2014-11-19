@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <section>
+        <form action="" method="post">
+            <label for="email">
+                Geben Sie ihre E-Mail Adresse ein:
+            </label>		
+            <input type="text" name="email" value="">
+            <input name="reset" type="submit" value="Versenden">
+        </form>
+        <a href="../auth/login">Zurück</a>
+    </section>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <section>
+        <article>
+            <h2>{{headline}}</h2>
+        </article>
+        <form  action="" method="post">
+            <label for="username">
+                Benutzername:
+            </label>
+            <input type="text" name="username" value="">					
+            <label for="useremail">
+                E-Mail:
+            </label>
+            <input type="text" name="useremail" value="">					
+            <label for="password">
+                Passwort:
+            </label>
+            <input type="password" name="password" value="">										
+            <input type="submit" value="{{submitvalue}}">
+        </form>
+        <a href="{{link_back}}">Zurück</a>
+    </section>	
+{% endblock %}

@@ -5,7 +5,7 @@
  */
 function getUpdateForm ()
 {
-    return file_get_contents(__DIR__ . '/../../inc/user/update-form.html');
+    return file_get_contents(__DIR__ . '/../../inc/templates/user_form.html');
 }
 
 /**

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <section>
+        <article>
+            <h1>Willkommen im Adminbereich</h1>
+            <h2>Benutzerverwaltung:</h2>
+            <ul>
+                <li>
+                    <a href="add">Benutzer hinzufügen</a>
+                </li>					
+                <li>
+                    <a href="update">Benutzerdaten bearbeiten</a>
+                </li>
+                <li>
+                    <a href="delete">Benutzer löschen</a>
+                </li>
+            </ul>
+            <h2>Beitragsverwaltung:</h2>
+            <ul>
+                <li>
+                    <a href="../../post/add">Beitrag hinzufügen</a>
+                </li>					
+                <li>
+                    <a href="../../post/update">Beitrag bearbeiten</a>
+                </li>
+                <li>
+                    <a href="../../post/delete">Beitrag löschen</a>
+                </li>						
+            </ul>
+            <ul>
+                <li>
+                    <a href="logout">Ausloggen</a>
+                </li>
+            </ul>
+        </article>
+    </section>
+{% endblock %}

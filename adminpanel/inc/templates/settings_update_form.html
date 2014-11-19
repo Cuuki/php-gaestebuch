@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <section>
+        <article>
+            <h2>Benutzer bearbeiten:</h2>
+        </article>
+        <form  action="" method="post">
+            <label for="{{oldinput_for}}">
+                {{oldinput_text}}
+            </label>
+            <input type="text" name="{{oldinput_name}}" value="">
+            <label for="{{newinput_for}}">
+                {{newinput_text}}
+            </label>
+            <input type="text" name="{{newinput_name}}" value="">
+            <input type="submit" value="Ändern">
+        </form>
+    </section>	
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <section>
+        <article>
+            <h2>Login:</h2>
+        </article>
+        <form action="" method="post">
+            <label for="username">
+                Benutzername:
+            </label>		
+            <input type="text" name="username" value="">
+            <label for="password">
+                Passwort:
+            </label>
+            <input type="password" name="password" value="">
+            <input name="login" type="submit" value="Einloggen">
+            <input  name="staylogged" type="checkbox" value="staylogged">Angemeldet bleiben
+        </form>
+        <a href="reset">Passwort vergessen?</a>
+    </section>
+{% endblock %}

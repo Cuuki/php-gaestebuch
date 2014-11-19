@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <section>
+        <form action="" method="post">
+            <label for="code">
+                Geben Sie den Code ein:
+            </label>		
+            <input type="text" name="code" value="">
+            <label for="password">
+                Geben Sie das neue Passwort ein:
+            </label>		
+            <input type="password" name="password" value="">
+            <input name="codesubmit" type="submit" value="Weiter">
+        </form>
+        <a href="../login">Zurück</a>
+    </section>
+{% endblock %}
