@@ -1,95 +1,66 @@
 <?php
 
-error_reporting(-1);
-ini_set('log_errors', 1);
+error_reporting( E_ALL );
+ini_set( 'log_errors', 1 );
 
-// Funktionen einbinden
-include('lib/dbconnect.php');
-include('lib/gb-functions.php');
-include('lib/debug-functions.php');
+// Dateien einbinden
+require_once __DIR__ . '/adminpanel/vendor/autoload.php';
+include_once __DIR__ . '/lib/debug-functions.php';
+include_once __DIR__ . '/lib/dbconnect.php';
+include_once __DIR__ . '/lib/dbconfig.php';
+$gbFunctions = include_once __DIR__ . '/lib/gb-functions.php';
+
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+
+$app = new Silex\Application();
+$app->register( new Silex\Provider\UrlGeneratorServiceProvider() );
+$app->register( new Silex\Provider\SessionServiceProvider() );
 
 $data = array(
-		"firstname" => "",
-		"lastname" => "",
-		"email" => "",
-		"textinput" => ""
-	);
+    'firstname' => '',
+    'lastname' => '',
+    'email' => '',
+    'textinput' => ''
+);
 
-include_once "lib/dbconfig.php";
-
-if ( isset($_POST["submit"]) )
-{	
-	// Prüfen ob Formulardaten vorhanden wenn nicht dann raus, sonst weiter
-	if ( ! ( isset($_POST["firstname"]) && isset($_POST["lastname"]) && isset($_POST["email"]) && isset($_POST["textinput"]) ) )
-	{
-		return;
-	}
-
-	// Ermittelt die Schnittmenge von Arrays
-	$data = array_intersect_key($_POST, $data);
-
-	// array mit Variablen wird !!immer!! erst bei Aufruf übergeben
-	$data = sanitizeData( $data );
-	
-	// Debugging Funktion, als erstes Zähler
-	debug("1.", $data);
-	// Formular Validierungsfunktion aufrufen
-	$invalidInput = validateForm( $data );
-
-	debug("2.", $invalidInput);
-
-	// Prüfen ob ungültige Eingaben nicht empty sind, wenn nicht empty dann iteriere invalidInput
-	if( ! empty($invalidInput) )
-	{
-		$errorMessages = getErrorMessages( $invalidInput );
-	}
-	else
-	{
-		if( savePosts( $data, $db ) != 0 )
-		{
-			// hinweis, dass gespeichert wurde
-			$message = "<p>Ihr Beitrag wurde erfolgreich gespeichert.</p>";
-		}
-		else
-		{
-			// fehlermeldung, keine weiterleitung
-			$message = "<p>Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.</p>";                             
-		}
-	}
-}
-
-include('lib/pagination.php');
-
-$totalentries = totalEntries($db);
-
-$rowsperpage = 5;
-
-$totalpages = totalPages($totalentries, $rowsperpage);
-
-// aktuelle Seite oder Default
-if ( isset($_GET['currentpage']) && is_numeric($_GET['currentpage']) )
+$app->get( '/', function () use ( $app, $db )
 {
-	$currentpage = (int) $_GET['currentpage'];
-}
-else
+    include_once __DIR__ . '/lib/pagination.php';
+    include_once __DIR__ . '/inc/processing_pagination.php';
+
+    include_once __DIR__ . '/inc/header.php';
+    include_once __DIR__ . '/inc/main.php';
+    include_once __DIR__ . '/inc/footer.php';
+
+    // Header, Content (Posts) und Footer ausgeben
+    return new Response( '', 201 );
+} );
+
+$app->post( '/', function ( Request $firstname, Request $lastname, Request $email, Request $textinput ) use ( $db, $data, $gbFunctions )
 {
-	// Nummer von Default-Seite
-	$currentpage = 1;
-}
+    $postdata = array(
+        'firstname' => $firstname->get( 'firstname' ),
+        'lastname' => $lastname->get( 'lastname' ),
+        'email' => $email->get( 'email' ),
+        'textinput' => $textinput->get( 'textinput' )
+    );
 
-if ($currentpage > $totalpages)
-{
-	// Aktuelle Seite = letzter Seite
-	$currentpage = $totalpages;
-}
-if ($currentpage < 1)
-{
-	$currentpage = 1;
-}
+    // Prüfen ob Formulardaten vorhanden wenn nicht dann raus, sonst weiter
+    if ( !( isset( $postdata["firstname"] ) && isset( $postdata["lastname"] ) && isset( $postdata["email"] ) && isset( $postdata["textinput"] ) ) )
+    {
+        return;
+    }
 
-// Header, Content (Posts) und Footer ausgeben
-include('inc/header.php');
-include('inc/main.php');
-include('inc/footer.php');
+    include_once __DIR__ . '/inc/processing_add.php';
+    include_once __DIR__ . '/lib/pagination.php';
+    include_once __DIR__ . '/inc/processing_pagination.php';
 
+    include_once __DIR__ . '/inc/header.php';
+    include_once __DIR__ . '/inc/main.php';
+    include_once __DIR__ . '/inc/footer.php';
+    
+    return new Response('', 201);
+} );
 
+$app->run();

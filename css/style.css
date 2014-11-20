@@ -1,185 +1,185 @@
 body{
-	/*background: url(../img/doubexp-three.jpg) no-repeat center center fixed;
-	-webkit-background-size: cover;
-	-moz-background-size: cover;
-	-o-background-size: cover;
-	background-size: cover;*/
+    /*background: url(../img/doubexp-three.jpg) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;*/
 }
 
 #wrapper {
-	width: 100%;
+    width: 100%;
 }
 main {
-	/*background: url(../img/doubexp-one.jpg) no-repeat center center fixed;
-	-webkit-background-size: cover;
-	-moz-background-size: cover;
-	-o-background-size: cover;
-	background-size: cover;*/
-	text-align: center;
-	margin-bottom: 20px;
-	border-radius: 5px;
+    /*background: url(../img/doubexp-one.jpg) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;*/
+    text-align: center;
+    margin-bottom: 20px;
+    border-radius: 5px;
     box-shadow: 0 10px 50px rgb(0, 0, 0);
 }
 h1 {
-	font-size: 42px;
+    font-size: 42px;
 }
 h2 {
-	font-size: 30px;
+    font-size: 30px;
 }
 p {
-	border-radius: 5px;
-	background-color: rgba(232, 65, 12, 0.75);
-	border: 2px solid rgb(0, 0, 0);
+    border-radius: 5px;
+    background-color: rgba(232, 65, 12, 0.75);
+    border: 2px solid rgb(0, 0, 0);
 }
 .entries {
-	width: 80%;
-	display: inline-block;
-	padding: 15px;
-	font-family: inherit;
+    width: 80%;
+    display: inline-block;
+    padding: 15px;
+    font-family: inherit;
 }
 #posts {
-	border-bottom: 10px double rgb(90, 87, 81);
+    border-bottom: 10px double rgb(90, 87, 81);
 }
 #form {
-	display: block;
-	margin: 0 auto;
-	width: 275px;
-	padding: 15px;
+    display: block;
+    margin: 0 auto;
+    width: 275px;
+    padding: 15px;
 }
 #login {
-	margin: 0 auto;
-	width: 275px;
-	padding: 15px;
+    margin: 0 auto;
+    width: 275px;
+    padding: 15px;
 }
 .heading {
     font-family: nova-oval;
-	color: rgba(232, 65, 12, 0.75);
-	display: inline;
-	text-shadow: 0px 2px 3px rgb(0, 0, 0);
+    color: rgba(232, 65, 12, 0.75);
+    display: inline;
+    text-shadow: 0px 2px 3px rgb(0, 0, 0);
     border-radius: 10px;
 }
 .articleHeading {
-	font-family: nova-oval;
-	color: rgb(255, 255, 255);
-	display: inline;
+    font-family: nova-oval;
+    color: rgb(255, 255, 255);
+    display: inline;
     text-shadow: 0px 2px 3px rgb(0, 0, 0);
     border-radius: 10px;
 }
 p, form {
-	font-size: 20px;
+    font-size: 20px;
     font-family: nova-mono;
-	color: rgb(0, 0, 0);
-	font-weight: bold;
+    color: rgb(0, 0, 0);
+    font-weight: bold;
 }
 input, textarea {
-	font-family: inherit;
-	font-size: inherit;
-	color: inherit;
-	margin-bottom: 25px;
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    margin-bottom: 25px;
 }
 label, textarea, input {
-	margin-top: 10px;
-	display: block;
-	width: 275px;
-	border-radius: 5px;
-	background-color: rgba(232, 65, 12, 0.75);
+    margin-top: 10px;
+    display: block;
+    width: 275px;
+    border-radius: 5px;
+    background-color: rgba(232, 65, 12, 0.75);
 }
 textarea {
-	height: 150px;
+    height: 150px;
 }
 .wrongInput {
-	color: rgb(204, 0, 0);
-	text-shadow: 0px 2px 3px rgb(0, 0, 0);
+    color: rgb(204, 0, 0);
+    text-shadow: 0px 2px 3px rgb(0, 0, 0);
 }
 .errorMessage, .button {
-	-moz-box-shadow: inset 0px 1px 0px 0px rgb(245, 151, 142);
-	-webkit-box-shadow: inset 0px 1px 0px 0px rgb(245, 151, 142);
-	box-shadow: inset 0px 1px 0px 0px rgb(245, 151, 142);
+    -moz-box-shadow: inset 0px 1px 0px 0px rgb(245, 151, 142);
+    -webkit-box-shadow: inset 0px 1px 0px 0px rgb(245, 151, 142);
+    box-shadow: inset 0px 1px 0px 0px rgb(245, 151, 142);
 
-	background: -webkit-gradient( linear, left top, left bottom, color-stop(0.05, rgb(242, 69, 55)), color-stop(1, rgb(198, 45, 31)) );
-	background: -moz-linear-gradient( center top, rgb(242, 69, 55) 5%, rgb(242, 69, 55) 100% );
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='rgb(242, 69, 55)', endColorstr='rgb(198, 45, 31)');
-	
-	background-color: rgb(0,0,0);
-	border: 1px solid rgb(232, 65, 12);
-	display: inline-block;
-	color: rgb(0, 0, 0);
-	text-align: center;
-	text-shadow: 1px 1px 0px rgb(129, 14, 5);
-	margin: -20px 0 20px 0;
+    background: -webkit-gradient( linear, left top, left bottom, color-stop(0.05, rgb(242, 69, 55)), color-stop(1, rgb(198, 45, 31)) );
+    background: -moz-linear-gradient( center top, rgb(242, 69, 55) 5%, rgb(242, 69, 55) 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='rgb(242, 69, 55)', endColorstr='rgb(198, 45, 31)');
+
+    background-color: rgb(0,0,0);
+    border: 1px solid rgb(232, 65, 12);
+    display: inline-block;
+    color: rgb(0, 0, 0);
+    text-align: center;
+    text-shadow: 1px 1px 0px rgb(129, 14, 5);
+    margin: -20px 0 20px 0;
 }
 .errorMessage:hover, .button:hover{
-	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, rgb(198, 45, 31)), color-stop(1, rgb(242, 69, 55)) );
-	background:-moz-linear-gradient( center top, rgb(198, 45, 31) 5%, rgb(242, 69, 55) 100% );
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='rgb(198, 45, 31)', endColorstr='rgb(242, 69, 55)');
-	background-color: rgb(198, 45, 31);
-	color: rgb(0,0,0);
+    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, rgb(198, 45, 31)), color-stop(1, rgb(242, 69, 55)) );
+    background:-moz-linear-gradient( center top, rgb(198, 45, 31) 5%, rgb(242, 69, 55) 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='rgb(198, 45, 31)', endColorstr='rgb(242, 69, 55)');
+    background-color: rgb(198, 45, 31);
+    color: rgb(0,0,0);
 }
 .errorMessage:active, .button:active {
-	position: relative;
-	top: 1px;
+    position: relative;
+    top: 1px;
 }
 .button {
-	-moz-box-shadow: inset 0px 1px 0px 0px rgb(232, 65, 12);
-	-webkit-box-shadow: inset 0px 1px 0px 0px rgb(232, 65, 12);
-	box-shadow: inset 0px 1px 0px 0px rgb(232, 65, 12);
-	border: none;
+    -moz-box-shadow: inset 0px 1px 0px 0px rgb(232, 65, 12);
+    -webkit-box-shadow: inset 0px 1px 0px 0px rgb(232, 65, 12);
+    box-shadow: inset 0px 1px 0px 0px rgb(232, 65, 12);
+    border: none;
 
-	background: -webkit-gradient( linear, left top, left bottom, color-stop(0.05, rgba(232, 65, 12, 0.75)), color-stop(1, rgba(232, 65, 12, 0.75)) );
-	background: -moz-linear-gradient( center top, rgba(232, 65, 12, 0.75) 5%, rgba(232, 65, 12, 0.75) 100% );
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='rgba(232, 65, 12, 0.75)', endColorstr='rgba(232, 65, 12, 0.75)');	
-	margin: -10px 0 30px 0;
+    background: -webkit-gradient( linear, left top, left bottom, color-stop(0.05, rgba(232, 65, 12, 0.75)), color-stop(1, rgba(232, 65, 12, 0.75)) );
+    background: -moz-linear-gradient( center top, rgba(232, 65, 12, 0.75) 5%, rgba(232, 65, 12, 0.75) 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='rgba(232, 65, 12, 0.75)', endColorstr='rgba(232, 65, 12, 0.75)');	
+    margin: -10px 0 30px 0;
 }
 .button:hover {
-	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, rgb(232, 65, 12)), color-stop(1, rgb(232, 65, 12)) );
-	background:-moz-linear-gradient( center top, rgb(232, 65, 12) 5%, rgb(232, 65, 12) 100% );
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='rgb(198, 45, 31)', endColorstr='rgb(242, 69, 55)');
-	background-color: rgb(232, 65, 12);
-	color: rgb(0,0,0);
+    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, rgb(232, 65, 12)), color-stop(1, rgb(232, 65, 12)) );
+    background:-moz-linear-gradient( center top, rgb(232, 65, 12) 5%, rgb(232, 65, 12) 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='rgb(198, 45, 31)', endColorstr='rgb(242, 69, 55)');
+    background-color: rgb(232, 65, 12);
+    color: rgb(0,0,0);
 }
 .button:active {
-	position: relative;
-	top: 1px;
+    position: relative;
+    top: 1px;
 }
 .list {
-	font-size: 30px;
+    font-size: 30px;
 }
 ul {
-	width: 150px;
-	margin: 0 auto;
+    width: 150px;
+    margin: 0 auto;
 }
 li {
     font-family: nova-oval;
-	display: inline-block;
-	margin-right: 30px;
+    display: inline-block;
+    margin-right: 30px;
     background: rgba(255, 255, 255, 0.5);
     border-radius: 10px;    
 }
 a:link {
-	color: rgb(0, 0, 0);
-	text-decoration: none;
-	text-shadow: 0px 2px 3px rgb(0, 0, 0);
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+    text-shadow: 0px 2px 3px rgb(0, 0, 0);
 }
 a:visited {
-	color: rgb(0, 0, 0); 
-	text-decoration: none;
-	text-shadow: 0px 2px 3px rgb(0, 0, 0);
+    color: rgb(0, 0, 0); 
+    text-decoration: none;
+    text-shadow: 0px 2px 3px rgb(0, 0, 0);
 }
 a:hover {
-	color: rgb(0, 0, 0);
-	text-shadow: 0px 1px 1px;
+    color: rgb(0, 0, 0);
+    text-shadow: 0px 1px 1px;
 }
 header, footer {
     box-shadow: 0 10px 50px rgb(0, 0, 0);	
     text-shadow: 0px 2px 3px rgb(0, 0, 0);
-   	border-radius: 5px;
-  /* 	background: url(../img/doubexp-two.jpg) no-repeat center center fixed;
-	-webkit-background-size: cover;
-	-moz-background-size: cover;
-	-o-background-size: cover;
-	background-size: cover;*/
-	font-size: 20px;
-	text-align: center;
-	width: 100%;
-	margin-bottom: 20px;
+    border-radius: 5px;
+    /* 	background: url(../img/doubexp-two.jpg) no-repeat center center fixed;
+          -webkit-background-size: cover;
+          -moz-background-size: cover;
+          -o-background-size: cover;
+          background-size: cover;*/
+    font-size: 20px;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 20px;
 }

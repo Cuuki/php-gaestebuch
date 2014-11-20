@@ -1,6 +1,6 @@
 <?php
 
-error_reporting( E_ALL | E_STRICT );
+error_reporting( E_ALL );
 ini_set( 'log_errors', 1 );
 
 // Dateien einbinden
@@ -160,7 +160,7 @@ $app->get( '/user/dashboard/', function () use ( $app, $twig, $userHeader )
 
     $render = $twig->render( 'dashboard_form.html' );
 
-    return new Response( $userHeader . 'Sie sind eingeloggt seid: ' . date( 'h:i:sa, d.m.Y', $loggedInSince ) . '<br>' . $render, 201 );
+    return new Response( $userHeader . '<p>Sie sind eingeloggt seid: ' . date( 'h:i:sa, d.m.Y', $loggedInSince ) . '</p>' . $render, 201 );
 } )->bind( 'dashboard' );
 
 $app->get( '/user/dashboard/settings/username', function () use ( $app, $twig )

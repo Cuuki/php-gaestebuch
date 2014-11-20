@@ -1,7 +1,5 @@
 <?php
 
-include_once POST_DIR . '/../../lib/pagination.php';
-
 $totalentries = totalEntries( $db );
 
 $rowsperpage = 5;
@@ -28,6 +26,3 @@ if ( $currentpage < 1 )
 {
     $currentpage = 1;
 }
-
-$posts = getPosts( $db, $rowsperpage, $currentpage );
-
