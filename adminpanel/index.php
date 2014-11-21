@@ -433,4 +433,6 @@ if ( ( $app['session']->get( 'cookie_lifetime' ) !== 0 ) && ( time() - $sessionL
     session_destroy();
 }
 
+var_dump( $app['session']->get( 'cookie_lifetime' ) );
+
 $app->run();
