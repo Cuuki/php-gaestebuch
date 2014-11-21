@@ -7,7 +7,7 @@ function displayDeleteUsers ( $data )
 {
     $output = '';
 
-    foreach($data as $row)
+    foreach ( $data as $row )
     {
         $username = $row['username'];
         $useremail = $row['useremail'];
@@ -32,7 +32,7 @@ EOD;
  */
 function deleteUser ( mysqli $db, $id )
 {
-    $delete = 'DELETE FROM user WHERE id = "'. $id .'"';
+    $delete = 'DELETE FROM user WHERE id = "' . $id . '"';
 
     return $db->query( $delete );
 }

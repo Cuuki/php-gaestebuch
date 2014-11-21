@@ -17,6 +17,9 @@ $app = new Silex\Application();
 $app->register( new Silex\Provider\UrlGeneratorServiceProvider() );
 $app->register( new Silex\Provider\SessionServiceProvider() );
 
+$loader = new Twig_Loader_Filesystem( 'inc' );
+$twig = new Twig_Environment( $loader, array( 'debug' => true ) );
+
 $data = array(
     'firstname' => '',
     'lastname' => '',
@@ -24,20 +27,20 @@ $data = array(
     'textinput' => ''
 );
 
-$app->get( '/', function () use ( $app, $db )
+$app->get( '/', function () use ( $app, $twig, $db )
 {
     include_once __DIR__ . '/lib/pagination.php';
     include_once __DIR__ . '/inc/processing_pagination.php';
 
-    include_once __DIR__ . '/inc/header.php';
+    $header = file_get_contents( __DIR__ . '/inc/header.html' );
     include_once __DIR__ . '/inc/main.php';
-    include_once __DIR__ . '/inc/footer.php';
+    $footer = file_get_contents( __DIR__ . '/inc/footer.html' );
 
     // Header, Content (Posts) und Footer ausgeben
-    return new Response( '', 201 );
+    return new Response( $header . $footer, 201 );
 } );
 
-$app->post( '/', function ( Request $firstname, Request $lastname, Request $email, Request $textinput ) use ( $db, $data, $gbFunctions )
+$app->post( '/', function ( Request $firstname, Request $lastname, Request $email, Request $textinput ) use ( $twig, $db, $data, $gbFunctions )
 {
     $postdata = array(
         'firstname' => $firstname->get( 'firstname' ),
@@ -56,11 +59,11 @@ $app->post( '/', function ( Request $firstname, Request $lastname, Request $emai
     include_once __DIR__ . '/lib/pagination.php';
     include_once __DIR__ . '/inc/processing_pagination.php';
 
-    include_once __DIR__ . '/inc/header.php';
+    $header = file_get_contents( __DIR__ . '/inc/header.html' );
     include_once __DIR__ . '/inc/main.php';
-    include_once __DIR__ . '/inc/footer.php';
-    
-    return new Response('', 201);
+    $footer = file_get_contents( __DIR__ . '/inc/footer.html' );
+
+    return new Response( $header . $footer, 201 );
 } );
 
 $app->run();

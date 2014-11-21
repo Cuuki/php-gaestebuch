@@ -259,10 +259,9 @@ $app->post( '/user/dashboard/add', function ( Request $username, Request $userem
 // Benutzerdaten bearbeiten
 $app->get( '/user/dashboard/update/', function () use ( $app, $db, $apFunctions, $userHeader )
 {
-    include_once USER_DIR . '/dashboard/display_update.php';
-
-    return new Response( $userHeader . displayPagination( $currentpage, $totalpages ) . $displayUpdateUsers .
-            '<a href="' . $app['url_generator']->generate( 'dashboard' ) . '">Zurück zur Übersicht</a>', 201 );
+    $processing = include_once USER_DIR . '/dashboard/display_update.php';
+    
+    return $processing;
 } )->bind( 'update' );
 
 $app->get( '/user/dashboard/update/{id}', function ( $id ) use ( $app, $twig, $db, $apFunctions, $gbFunctions, $userHeader )
@@ -348,10 +347,9 @@ $app->post( '/user/dashboard/update/{id}/password', function ( $id, Request $pas
 // Benutzer löschen
 $app->get( '/user/dashboard/delete/', function () use ( $app, $db, $apFunctions, $userHeader )
 {
-    include_once USER_DIR . '/dashboard/display_delete.php';
-
-    return new Response( $userHeader . displayPagination( $currentpage, $totalpages ) . $displayDeleteUsers .
-            '<a href="' . $app['url_generator']->generate( 'dashboard' ) . '">Zurück zur Übersicht</a>', 201 );
+    $processing = include_once USER_DIR . '/dashboard/display_delete.php';
+    
+    return $processing;
 } )->bind( 'delete' );
 
 $app->get( '/user/dashboard/delete/{id}', function( $id ) use ( $app, $db, $apFunctions )
