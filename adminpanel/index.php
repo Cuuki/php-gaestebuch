@@ -89,12 +89,12 @@ $app->get( '/auth/login', function () use ( $app, $twig )
 
 $app->post( '/auth/login', function ( Request $username, Request $password, Request $staylogged ) use ( $app, $db, $apFunctions )
 {
-    $processing = include_once ROUTES_DIR . '/auth/processing_login.php';
+    $processing = include_once ROUTES_DIR . '/auth/processing/processing_login.php';
 
     return $processing;
 } );
 
-$app->get( '/auth/reset', function () use ( $app, $twig, $db, $apFunctions )
+$app->get( '/auth/reset', function () use ( $app, $twig )
 {
     // Wenn bereits eingeloggt weiterleiten auf Dashboard
     if ( ($app['session']->get( 'user' )) != NULL )
@@ -109,9 +109,9 @@ $app->get( '/auth/reset', function () use ( $app, $twig, $db, $apFunctions )
     return $render;
 } );
 
-$app->post( '/auth/reset', function ( Request $email ) use ( $db, $app )
+$app->post( '/auth/reset', function ( Request $email ) use ( $db )
 {
-    $processing = include_once ROUTES_DIR . '/auth/processing_reset.php';
+    $processing = include_once ROUTES_DIR . '/auth/processing/processing_reset.php';
 
     return $processing;
 } );
@@ -133,13 +133,13 @@ $app->get( 'auth/reset/code', function () use ( $app, $twig )
 
 $app->post( 'auth/reset/code', function ( Request $code, Request $password ) use ( $db, $app )
 {
-    $processing = include_once ROUTES_DIR . '/auth/processing_code.php';
+    $processing = include_once ROUTES_DIR . '/auth/processing/processing_code.php';
 
     return $processing;
 } );
 
 // User Einstellungen
-$app->get( '/user/dashboard/settings', function () use ( $app, $twig )
+$app->get( '/user/dashboard/settings', function () use ( $twig )
 {
     include_once USER_DIR . '/settings.php';
 
@@ -175,14 +175,14 @@ $app->get( '/user/dashboard/settings/username', function () use ( $app, $twig )
         'newinput_for' => 'username',
         'newinput_text' => 'Neuer Benutzername:',
         'newinput_name' => 'username'
-            ) );
+    ) );
 
     return new Response( $render . '<a href="' . $app['url_generator']->generate( 'settings' ) . '">Zurück zum Profil</a>', 201 );
 } )->bind( 'changeUsername' );
 
 $app->post( '/user/dashboard/settings/username', function ( Request $username ) use ( $db, $app, $apFunctions )
 {
-    $processing = include_once USER_DIR . '/dashboard/processing_settings_username.php';
+    $processing = include_once USER_DIR . '/dashboard/processing/processing_settings_username.php';
 
     return $processing;
 } );
@@ -206,7 +206,7 @@ $app->get( '/user/dashboard/settings/password', function () use ( $app, $twig )
 
 $app->post( '/user/dashboard/settings/password', function ( Request $password ) use ( $db, $app, $apFunctions )
 {
-    $processing = include_once USER_DIR . '/dashboard/processing_settings_password.php';
+    $processing = include_once USER_DIR . '/dashboard/processing/processing_settings_password.php';
 
     return $processing;
 } );
@@ -230,13 +230,13 @@ $app->get( '/user/dashboard/settings/email', function () use ( $app, $twig )
 
 $app->post( '/user/dashboard/settings/email', function ( Request $email ) use ( $db, $app, $apFunctions )
 {
-    $processing = include_once USER_DIR . '/dashboard/processing_settings_email.php';
+    $processing = include_once USER_DIR . '/dashboard/processing/processing_settings_email.php';
 
     return $processing;
 } );
 
 // Benutzer hinzufügen
-$app->get( '/user/dashboard/add', function () use ( $app, $twig, $userHeader )
+$app->get( '/user/dashboard/add', function () use ( $twig, $userHeader )
 {
     include_once USER_DIR . '/dashboard/add.php';
 
@@ -244,14 +244,14 @@ $app->get( '/user/dashboard/add', function () use ( $app, $twig, $userHeader )
         'headline' => 'Benutzer hinzufügen:',
         'submitvalue' => 'Anlegen',
         'link_back' => '../'
-            ) );
+    ) );
 
     return new Response( $userHeader . $render, 201 );
 } )->bind( 'add' );
 
 $app->post( '/user/dashboard/add', function ( Request $username, Request $useremail, Request $password ) use ( $app, $db, $apFunctions, $gbFunctions )
 {
-    $processing = include_once USER_DIR . '/dashboard/processing_add.php';
+    $processing = include_once USER_DIR . '/dashboard/processing/processing_add.php';
 
     return $processing;
 } );
@@ -259,32 +259,32 @@ $app->post( '/user/dashboard/add', function ( Request $username, Request $userem
 // Benutzerdaten bearbeiten
 $app->get( '/user/dashboard/update/', function () use ( $app, $db, $apFunctions, $userHeader )
 {
-    $processing = include_once USER_DIR . '/dashboard/display_update.php';
+    $processing = include_once USER_DIR . '/dashboard/display/display_update.php';
 
     return $processing;
 } )->bind( 'update' );
 
 $app->get( '/user/dashboard/update/{id}', function ( $id ) use ( $app, $twig, $db, $apFunctions, $gbFunctions, $userHeader )
 {
-    include_once USER_DIR . '/dashboard/display_update_id.php';
+    include_once USER_DIR . '/dashboard/display/display_update_id.php';
 
     $render = $twig->render( 'user_form.html', array(
         'headline' => 'Alle Benutzerdaten ändern:',
         'submitvalue' => 'Ändern',
         'link_back' => '../update'
-            ) );
+    ) );
 
     return new Response( $userHeader . $displayUser . $render, 201 );
 } );
 
 $app->post( '/user/dashboard/update/{id}', function ( $id, Request $username, Request $useremail, Request $password ) use ( $db, $app, $apFunctions, $gbFunctions )
 {
-    $processing = include_once USER_DIR . '/dashboard/processing_update_id.php';
+    $processing = include_once USER_DIR . '/dashboard/processing/processing_update_id.php';
 
     return $processing;
 } );
 
-$app->get( '/user/dashboard/update/{id}/username', function ( $id ) use ( $app, $twig, $db, $userHeader )
+$app->get( '/user/dashboard/update/{id}/username', function ( $id ) use ( $app, $twig, $userHeader )
 {
     include_once USER_DIR . '/dashboard/update_username.php';
 
@@ -292,19 +292,19 @@ $app->get( '/user/dashboard/update/{id}/username', function ( $id ) use ( $app, 
         'label_for' => 'username',
         'label_text' => 'Neuer Benutzername:',
         'input_name' => 'username'
-            ) );
+    ) );
 
     return new Response( $userHeader . $render . '<a href="' . $app['url_generator']->generate( 'update' ) . $id . '">Zurück</a>', 201 );
 } );
 
 $app->post( '/user/dashboard/update/{id}/username', function ( $id, Request $username ) use ( $app, $db, $apFunctions, $gbFunctions )
 {
-    $processing = include_once USER_DIR . '/dashboard/processing_update_username.php';
+    $processing = include_once USER_DIR . '/dashboard/processing/processing_update_username.php';
 
     return $processing;
 } );
 
-$app->get( '/user/dashboard/update/{id}/email', function ( $id ) use ( $app, $twig, $db, $userHeader )
+$app->get( '/user/dashboard/update/{id}/email', function ( $id ) use ( $app, $twig, $userHeader )
 {
     include_once USER_DIR . '/dashboard/update_email.php';
 
@@ -312,19 +312,19 @@ $app->get( '/user/dashboard/update/{id}/email', function ( $id ) use ( $app, $tw
         'label_for' => 'useremail',
         'label_text' => 'Neue E-Mail Adresse:',
         'input_name' => 'useremail'
-            ) );
+    ) );
 
     return new Response( $userHeader . $render . '<a href="' . $app['url_generator']->generate( 'update' ) . $id . '">Zurück</a>', 201 );
 } );
 
 $app->post( '/user/dashboard/update/{id}/email', function ( $id, Request $useremail ) use ( $app, $db, $apFunctions, $gbFunctions )
 {
-    $processing = include_once USER_DIR . '/dashboard/processing_update_email.php';
+    $processing = include_once USER_DIR . '/dashboard/processing/processing_update_email.php';
 
     return $processing;
 } );
 
-$app->get( '/user/dashboard/update/{id}/password', function ( $id ) use ( $app, $twig, $db, $userHeader )
+$app->get( '/user/dashboard/update/{id}/password', function ( $id ) use ( $app, $twig, $userHeader )
 {
     include_once USER_DIR . '/dashboard/update_password.php';
 
@@ -332,14 +332,14 @@ $app->get( '/user/dashboard/update/{id}/password', function ( $id ) use ( $app, 
         'label_for' => 'password',
         'label_text' => 'Neues Passwort:',
         'input_name' => 'password'
-            ) );
+    ) );
 
     return new Response( $userHeader . $render . '<a href="' . $app['url_generator']->generate( 'update' ) . $id . '">Zurück</a>', 201 );
 } );
 
 $app->post( '/user/dashboard/update/{id}/password', function ( $id, Request $password ) use ( $app, $db, $apFunctions, $gbFunctions )
 {
-    $processing = include_once USER_DIR . '/dashboard/processing_update_password.php';
+    $processing = include_once USER_DIR . '/dashboard/processing/processing_update_password.php';
 
     return $processing;
 } );
@@ -347,14 +347,14 @@ $app->post( '/user/dashboard/update/{id}/password', function ( $id, Request $pas
 // Benutzer löschen
 $app->get( '/user/dashboard/delete/', function () use ( $app, $db, $apFunctions, $userHeader )
 {
-    $processing = include_once USER_DIR . '/dashboard/display_delete.php';
+    $processing = include_once USER_DIR . '/dashboard/display/display_delete.php';
 
     return $processing;
 } )->bind( 'delete' );
 
 $app->get( '/user/dashboard/delete/{id}', function( $id ) use ( $app, $db, $apFunctions )
 {
-    $processing = include_once USER_DIR . '/dashboard/processing_delete.php';
+    $processing = include_once USER_DIR . '/dashboard/processing/processing_delete.php';
 
     return $processing;
 } );
@@ -367,7 +367,7 @@ $app->get( '/post/add', function () use ( $app )
 
 $app->get( '/post/update', function () use ( $db, $app, $userHeader )
 {
-    include_once POST_DIR . '/display_update.php';
+    include_once POST_DIR . '/display/display_update.php';
 
     include_once POST_DIR . '/update.php';
 
@@ -375,7 +375,7 @@ $app->get( '/post/update', function () use ( $db, $app, $userHeader )
             '<br>' . '<a href="../">Zurück zur Übersicht</a>', 201 );
 } )->bind( 'postUpdate' );
 
-$app->get( '/post/update/{id}', function ( $id ) use ( $db, $app, $twig, $gbFunctions, $userHeader )
+$app->get( '/post/update/{id}', function ( $id ) use ( $db, $twig, $gbFunctions, $userHeader )
 {
     include_once POST_DIR . '/update.php';
 
@@ -388,14 +388,14 @@ $app->get( '/post/update/{id}', function ( $id ) use ( $db, $app, $twig, $gbFunc
 
 $app->post( '/post/update/{id}', function ( $id, Request $firstname, Request $lastname, Request $email, Request $textinput ) use ( $db, $app, $gbFunctions, $userHeader )
 {
-    $processing = include_once POST_DIR . '/processing_update.php';
+    $processing = include_once POST_DIR . '/processing/processing_update.php';
 
     return $processing;
 } );
 
-$app->get( '/post/delete', function () use ( $db, $app, $userHeader )
+$app->get( '/post/delete', function () use ( $db, $userHeader )
 {
-    include_once POST_DIR . '/display_delete.php';
+    include_once POST_DIR . '/display/display_delete.php';
 
     include_once POST_DIR . '/delete.php';
 
@@ -405,7 +405,7 @@ $app->get( '/post/delete', function () use ( $db, $app, $userHeader )
 
 $app->get( '/post/delete/{id}', function ( $id ) use ( $db, $app )
 {
-    $processing = include_once POST_DIR . '/processing_delete.php';
+    $processing = include_once POST_DIR . '/processing/processing_delete.php';
 
     return $processing;
 } );
