@@ -17,6 +17,11 @@ function sanitizeData ( array $params )
         "date" => date( 'm/d/Y, H:i:s' )
     );
 
+    if( strlen( $data['textinput'] ) >= 1000 )
+    {
+        $data['textinput'] = false;
+    }
+
     return $data;
 }
 
@@ -162,7 +167,7 @@ function getErrorMessages ( $invalidInput )
                 break;
 
             case "textinput":
-                $errorMessages[$value] = "Bitte geben Sie einen Text ein. Lassen Sie das Feld nicht frei und verwenden Sie keine Sonderzeichen.";
+                $errorMessages[$value] = "Bitte geben Sie einen Text ein, welcher 1000 Zeichen nicht überschreitet. Lassen Sie das Feld nicht frei und verwenden Sie keine Sonderzeichen.";
                 break;
 
             case "username":

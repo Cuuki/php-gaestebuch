@@ -44,7 +44,7 @@
     }
     ?>
     <label for="userTextinput">
-        Geben Sie Ihren Beitrag ein:
+        Geben Sie Ihren Beitrag ein:<br>(maximal 1000 Zeichen)
     </label>
 
     <textarea id="userTextinput" name="textinput" rows="10" cols="20"><?php

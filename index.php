@@ -23,8 +23,10 @@ $data = array(
     'email' => '',
     'textinput' => ''
 );
+// define controllers for guestbook
+$guestbook = $app['controllers_factory'];
 
-$app->get( '/', function () use ( $app, $twig, $db )
+$guestbook->get( '/', function () use ( $db )
 {
     include_once __DIR__ . '/lib/pagination.php';
     include_once __DIR__ . '/inc/processing_pagination.php';
@@ -33,7 +35,7 @@ $app->get( '/', function () use ( $app, $twig, $db )
     return new Response( include_once __DIR__ . '/inc/main.php', 201 );
 } );
 
-$app->post( '/', function ( Request $firstname, Request $lastname, Request $email, Request $textinput ) use ( $twig, $db, $data, $gbFunctions )
+$guestbook->post( '/', function ( Request $firstname, Request $lastname, Request $email, Request $textinput ) use ( $db, $data, $gbFunctions )
 {
     $postdata = array(
         'firstname' => $firstname->get( 'firstname' ),
@@ -54,5 +56,7 @@ $app->post( '/', function ( Request $firstname, Request $lastname, Request $emai
 
     return new Response( include_once __DIR__ . '/inc/main.php', 201 );
 } );
+
+$app->mount( '/', $guestbook );
 
 $app->run();

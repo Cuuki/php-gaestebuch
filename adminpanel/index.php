@@ -260,7 +260,7 @@ $app->post( '/user/dashboard/add', function ( Request $username, Request $userem
 $app->get( '/user/dashboard/update/', function () use ( $app, $db, $apFunctions, $userHeader )
 {
     $processing = include_once USER_DIR . '/dashboard/display_update.php';
-    
+
     return $processing;
 } )->bind( 'update' );
 
@@ -348,7 +348,7 @@ $app->post( '/user/dashboard/update/{id}/password', function ( $id, Request $pas
 $app->get( '/user/dashboard/delete/', function () use ( $app, $db, $apFunctions, $userHeader )
 {
     $processing = include_once USER_DIR . '/dashboard/display_delete.php';
-    
+
     return $processing;
 } )->bind( 'delete' );
 

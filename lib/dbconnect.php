@@ -1,36 +1,36 @@
 <?php
 
-error_reporting(-1);
-ini_set('log_errors', 1);
+error_reporting( -1 );
+ini_set( 'log_errors', 1 );
 
 /**
-* @return ressource
-*/
+ * @return ressource
+ */
 function dbConnect ( array $options )
 {
-	static $db = null;
+    static $db = null;
 
-	if( $db instanceof mysqli )
-	{
-		return $db;
-	}
-	
-	// MySql Objekt erzeugen
-	$db = new mysqli( $options["Hostname"], $options["Username"], $options["Password"], $options["Databasename"] );
+    if ( $db instanceof mysqli )
+    {
+        return $db;
+    }
 
-	// Nur bei kritischen Fehlern wie Datenbankverbindung fehlgeschlagen weiterleiten
-	// Wenn mysqli_connect_errno() nicht null zurückgibt ist ein Fehler aufgetreten
-	if ( mysqli_connect_errno() )
-	{
-		debug("Datenbankverbindung:", $db);
+    // MySql Objekt erzeugen
+    $db = new mysqli( $options["Hostname"], $options["Username"], $options["Password"], $options["Databasename"] );
 
-		if( $db->connect_error )
-		{
-	    	header("Location: inc/error.php");
-		}
+    // Nur bei kritischen Fehlern wie Datenbankverbindung fehlgeschlagen weiterleiten
+    // Wenn mysqli_connect_errno() nicht null zurückgibt ist ein Fehler aufgetreten
+    if ( mysqli_connect_errno() )
+    {
+        debug( "Datenbankverbindung:", $db );
 
-	    header("Location: inc/error.php");
-	}
+        if ( $db->connect_error )
+        {
+            header( "Location: inc/error.php" );
+        }
 
-	return $db;
+        header( "Location: inc/error.php" );
+    }
+
+    return $db;
 }

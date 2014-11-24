@@ -6,7 +6,7 @@ ini_set('log_errors', 1);
 $dboptions = array(
 	"Hostname" => "localhost",
 	"Username" => "root",
-	"Password" => "",
+	"Password" => "XDrAgonStOrM129",
 	"Databasename" => "gaestebuch"
 );
 
