@@ -3,14 +3,6 @@
 /**
  * @return string
  */
-function getUpdateForm ()
-{
-    return file_get_contents(__DIR__ . '/../inc/templates/post_form.html');
-};
-
-/**
- * @return string
- */
 function displayUpdateEntries ( $data )
 {
     $output = '';

@@ -12,9 +12,9 @@ $app = new Silex\Application();
 
 $app->register( new Silex\Provider\UrlGeneratorServiceProvider() );
 $app->register( new Silex\Provider\SessionServiceProvider() );
-
-$loader = new Twig_Loader_Filesystem( 'templates' );
-$twig = new Twig_Environment( $loader, array( 'debug' => true ) );
+$app->register( new Silex\Provider\TwigServiceProvider(), array(
+    'twig.path' => __DIR__ . '/templates/ap',
+) );
 
 $app['debug'] = TRUE;
 
@@ -39,5 +39,7 @@ if ( ( $app['session']->get( 'cookie_lifetime' ) !== 0 ) && ( time() - $sessionL
 {
     session_destroy();
 }
+
+var_dump( $app['session']->get( 'cookie_lifetime' ) );
 
 $app->run();

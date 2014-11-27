@@ -21,4 +21,3 @@ include_once USER_DIR . '/dashboard/update.php';
 // Ausgewählten Benutzer aus Datenbank holen mit $id aus URL
 $userData = getUser( $db, $id );
 $displayUser = displayUser( $userData );
-$userForm = getUpdateForm();

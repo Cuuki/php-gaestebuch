@@ -3,14 +3,6 @@
 /**
  * @return string
  */
-function getUpdateForm ()
-{
-    return file_get_contents(__DIR__ . '/../../inc/templates/user_form.html');
-}
-
-/**
- * @return string
- */
 function displayUser ( $data )
 {
     $output = '';

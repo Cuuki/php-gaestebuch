@@ -16,8 +16,18 @@ class GuestbookControllerProvider implements ControllerProviderInterface
         // Dateien einbinden
         include_once __DIR__ . '/../lib/debug-functions.php';
         include_once __DIR__ . '/../lib/dbconnect.php';
-        include_once __DIR__ . '/../lib/dbconfig.php';
         $gbFunctions = include_once __DIR__ . '/../lib/gb-functions.php';
+        
+        $dboptions = array(
+            "Hostname" => "localhost",
+            "Username" => "root",
+            "Password" => "XDrAgonStOrM129",
+            "Databasename" => "gaestebuch"
+        );
+        
+        $db = dbConnect( $dboptions );
+
+        $db->query("SET NAMES utf8");
         
         // creates a new controller based on the default route
         $controllers = $app['controllers_factory'];
