@@ -2,7 +2,7 @@
 
 use Symfony\Component\HttpFoundation\Response;
 
-$render = $app['twig']->render( 'user_update_form.html', array(
+$render = $app['twig']->render( 'user_update_form.twig', array(
     'label_for' => 'password',
     'label_text' => 'Neues Passwort:',
     'input_name' => 'password'

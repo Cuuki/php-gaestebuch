@@ -1,6 +1,7 @@
 <?php
 
 /**
+ * TODO: Template
  * @return string
  */
 function displayDeleteUsers ( $data )
@@ -28,6 +29,7 @@ EOD;
 }
 
 /**
+ * TODO: Doctrine
  * @return boolean
  */
 function deleteUser ( mysqli $db, $id )

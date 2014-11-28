@@ -5,7 +5,6 @@ namespace Adminpanel;
 use Silex\Application;
 use Silex\ControllerProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 define( 'ROUTES_DIR', realpath( __DIR__ . '/../adminpanel/routes' ) );
 define( 'USER_DIR', realpath( __DIR__ . '/../adminpanel/user' ) );
@@ -68,7 +67,7 @@ class AdminpanelControllerProvider implements ControllerProviderInterface
         $this->bindSettings( $app, $controllers, $db, $apFunctions );
         $this->bindUser( $app, $controllers, $db, $apFunctions, $gbFunctions );
         $this->bindPosts( $app, $controllers, $db, $gbFunctions );
-
+        
         return $controllers;
     }
 

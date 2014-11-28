@@ -16,7 +16,7 @@ $app->register( new Silex\Provider\TwigServiceProvider(), array(
     'twig.path' => __DIR__ . '/templates/ap',
 ) );
 $app->register( new Silex\Provider\DoctrineServiceProvider(), array(
-    'dbs.options' => array(
+    'db.options' => array(
         'mysql_read' => array(
             'driver' => 'pdo_mysql',
             'host' => 'localhost',
@@ -56,7 +56,6 @@ $app->before( function () use ( $app )
 // Userzeile als Rückmeldung das er eingeloggt ist
 //$userHeader = '<header><h3>Sie sind als  eingeloggt.</h3></header>';
 //<a href="/php-gaestebuch/adminpanel' . $app['url_generator']->generate( 'settings' ) . '">' . $app['session']->get( 'user' ) . '</a>
-
 // Mail Encoding auf UTF-8 setzen
 mb_internal_encoding( "UTF-8" );
 
@@ -74,6 +73,5 @@ if ( ( $app['session']->get( 'cookie_lifetime' ) !== 0 ) && ( time() - $sessionL
 
 //debug( 'Session Cookie: ', $app['session']->get( 'cookie_lifetime' ), ' Gesetzt bei:', $app['session']->get( 'user' ), PHP_EOL );
 var_dump( $app['session']->get( 'cookie_lifetime' ) );
-//var_dump( $app['db'] );
 
 $app->run();

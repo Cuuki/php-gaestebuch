@@ -1,6 +1,7 @@
 <?php
 
 /**
+ * TODO: Template
  * @return string
  */
 function displayUpdateEntries ( $data )
@@ -33,6 +34,7 @@ EOD;
 }
 
 /**
+ * TODO: Doctrine
  * @return boolean
  */
 function updatePost ( mysqli $db, array $params, $id )

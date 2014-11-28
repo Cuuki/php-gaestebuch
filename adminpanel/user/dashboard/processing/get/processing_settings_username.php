@@ -2,7 +2,7 @@
 
 use Symfony\Component\HttpFoundation\Response;
 
-$render = $app['twig']->render( 'settings_update_form.html', array(
+$render = $app['twig']->render( 'settings_update_form.twig', array(
     'oldinput_for' => 'oldusername',
     'oldinput_text' => 'Alter Benutzername:',
     'oldinput_name' => 'oldusername',

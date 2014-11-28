@@ -2,7 +2,7 @@
 
 use Symfony\Component\HttpFoundation\Response;
 
-$render = $app['twig']->render( 'user_form.html', array(
+$render = $app['twig']->render( 'user_form.twig', array(
     'headline' => 'Benutzer hinzufügen:',
     'submitvalue' => 'Anlegen',
     'link_back' => '../'

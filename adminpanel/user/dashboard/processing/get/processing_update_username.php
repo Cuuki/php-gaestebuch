@@ -2,7 +2,7 @@
 
 use Symfony\Component\HttpFoundation\Response;
 
-$render = $app['twig']->render( 'user_update_form.html', array(
+$render = $app['twig']->render( 'user_update_form.twig', array(
     'label_for' => 'username',
     'label_text' => 'Neuer Benutzername:',
     'input_name' => 'username'

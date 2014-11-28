@@ -22,7 +22,7 @@ include_once USER_DIR . '/dashboard/update.php';
 $userData = getUser( $db, $id );
 $displayUser = displayUser( $userData );
 
-$render = $app['twig']->render( 'user_form.html', array(
+$render = $app['twig']->render( 'user_form.twig', array(
     'headline' => 'Alle Benutzerdaten ändern:',
     'submitvalue' => 'Ändern',
     'link_back' => '../update'

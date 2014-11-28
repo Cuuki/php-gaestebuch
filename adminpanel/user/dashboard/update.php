@@ -1,6 +1,7 @@
 <?php
 
 /**
+ * TODO: Template
  * @return string
  */
 function displayUser ( $data )
@@ -32,6 +33,7 @@ EOD;
 }
 
 /**
+ * TODO: Template
  * @return string
  */
 function displayUpdateUsers ( $data )
@@ -59,6 +61,7 @@ EOD;
 }
 
 /**
+ * TODO: Doctrine
  * @return boolean
  */
 function updateUser ( mysqli $db, array $params, $id )
@@ -77,6 +80,7 @@ function updateUser ( mysqli $db, array $params, $id )
 }
 
 /**
+ * TODO: Doctrine
  * @return boolean
  */
 function updateUsername ( mysqli $db, $username, $id )
@@ -93,6 +97,7 @@ function updateUsername ( mysqli $db, $username, $id )
 }
 
 /**
+ * TODO: Doctrine
  * @return boolean
  */
 function updateEmail ( mysqli $db, $email, $id )
@@ -109,6 +114,7 @@ function updateEmail ( mysqli $db, $email, $id )
 }
 
 /**
+ * TODO: Doctrine
  * @return boolean
  */
 function updatePassword ( mysqli $db, $password, $id )
