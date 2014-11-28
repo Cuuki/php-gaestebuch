@@ -64,6 +64,7 @@ function savePosts ( array $params, mysqli $db )
 }
 
 /**
+ * TODO: Doctrine
  * @return array
  */
 function getEntry ( mysqli $db, $id )
@@ -86,6 +87,7 @@ function getEntry ( mysqli $db, $id )
 }
 
 /**
+ * TODO: Doctrine
  * @return array
  */
 function getPosts ( mysqli $db, $rowsperpage, $currentpage )

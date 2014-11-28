@@ -13,7 +13,7 @@ foreach($userData as $user)
         $id = $user['id'];
 }
 
-$postdata = sanitizeIndividualFields( $postdata );
+$postdata = $this->sanitizeIndividualFields( $postdata );
 
 $invalidInput = validateForm( $postdata );
 

@@ -23,7 +23,7 @@ function dbConnect ( array $options )
 
         if ( $db->connect_error )
         {
-            header( "Location: error.php" );
+            header( "Location: ../guestbook/error.php" );
         }
 
         header( "Location: error.php" );

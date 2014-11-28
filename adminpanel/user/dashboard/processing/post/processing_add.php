@@ -8,7 +8,7 @@ $postdata = array(
     'password' => $password->get( 'password' )
 );
 
-$postdata = sanitizeLogindata( $postdata );
+$postdata = $this->sanitizeLogindata( $postdata );
 
 $invalidInput = validateForm( $postdata );
 

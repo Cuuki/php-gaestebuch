@@ -15,6 +15,18 @@ $app->register( new Silex\Provider\SessionServiceProvider() );
 $app->register( new Silex\Provider\TwigServiceProvider(), array(
     'twig.path' => __DIR__ . '/templates/ap',
 ) );
+$app->register( new Silex\Provider\DoctrineServiceProvider(), array(
+    'dbs.options' => array(
+        'mysql_read' => array(
+            'driver' => 'pdo_mysql',
+            'host' => 'localhost',
+            'dbname' => 'gaestebuch',
+            'user' => 'root',
+            'password' => 'XDrAgonStOrM129',
+            'charset' => 'utf8'
+        )
+    )
+) );
 
 $app['debug'] = TRUE;
 
@@ -55,11 +67,13 @@ $app['session']->start();
 $sessionLastUsed = $app['session']->getMetadataBag()->getLastUsed();
 
 // Wenn nach 15 Minuten (900sek) keine Aktivität in der Session war und das Cookie Lifetime nicht 0 ist zerstöre diese
-if ( ( $app['session']->get( 'cookie_lifetime' ) !== 0 ) && ( time() - $sessionLastUsed > 900 ) )
+if ( ( $app['session']->get( 'cookie_lifetime' ) !== 0 ) && ( time() - $sessionLastUsed > 60 ) )
 {
     session_destroy();
 }
 
 //debug( 'Session Cookie: ', $app['session']->get( 'cookie_lifetime' ), ' Gesetzt bei:', $app['session']->get( 'user' ), PHP_EOL );
+var_dump( $app['session']->get( 'cookie_lifetime' ) );
+//var_dump( $app['db'] );
 
 $app->run();

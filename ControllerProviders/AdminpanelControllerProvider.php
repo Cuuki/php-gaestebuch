@@ -246,12 +246,11 @@ class AdminpanelControllerProvider implements ControllerProviderInterface
         $controllers->get( 'post/update', function () use ( $db, $app )
         {
             return include_once POST_DIR . '/display/display_update.php';
-            
         } )->bind( 'postUpdate' );
 
         $controllers->get( 'post/update/{id}', function ( $id ) use ( $app, $db, $gbFunctions )
         {
-            return include_once POST_DIR . '/processing/get/processing_update_id.php';            
+            return include_once POST_DIR . '/processing/get/processing_update_id.php';
         } );
 
         $controllers->post( 'post/update/{id}', function ( $id, Request $firstname, Request $lastname, Request $email, Request $textinput ) use ( $db, $app, $gbFunctions )
@@ -271,6 +270,45 @@ class AdminpanelControllerProvider implements ControllerProviderInterface
         } );
 
         return $controllers;
+    }
+
+    /**
+     * @return array
+     */
+    private function sanitizeLogindata ( array $params )
+    {
+        $data = array(
+            "username" => filter_var( trim( $params["username"] ), FILTER_SANITIZE_STRING ),
+            "useremail" => filter_var( trim( $params["useremail"] ), FILTER_VALIDATE_EMAIL ),
+            "password" => filter_var( trim( $params["password"] ), FILTER_SANITIZE_STRING )
+        );
+
+        return $data;
+    }
+
+    /**
+     * @return array
+     */
+    private function sanitizeIndividualFields ( array $params )
+    {
+        $data = array();
+
+        switch ( $params )
+        {
+            case isset( $params['username'] ):
+                $data['username'] = filter_var( trim( $params['username'] ), FILTER_SANITIZE_STRING );
+                break;
+
+            case isset( $params['useremail'] ):
+                $data['useremail'] = filter_var( trim( $params['useremail'] ), FILTER_VALIDATE_EMAIL );
+                break;
+
+            case isset( $params['password'] ):
+                $data['password'] = filter_var( trim( $params['password'] ), FILTER_SANITIZE_STRING );
+                break;
+        }
+
+        return $data;
     }
 
 }

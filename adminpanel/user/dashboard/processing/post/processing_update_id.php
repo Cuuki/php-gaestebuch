@@ -17,7 +17,7 @@ foreach($userData as $user)
         $id = $user['id'];
 }
 
-$postdata = sanitizeLogindata( $postdata );
+$postdata = $this->sanitizeLogindata( $postdata );
 
 $invalidInput = validateForm( $postdata );
 
