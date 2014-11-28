@@ -1,5 +1,7 @@
 <?php
 
+use Symfony\Component\HttpFoundation\Response;
+
 include_once POST_DIR . '/../../lib/pagination.php';
 
 $totalentries = totalEntries( $db );
@@ -31,3 +33,7 @@ if ( $currentpage < 1 )
 
 $posts = getPosts( $db, $rowsperpage, $currentpage );
 
+include_once POST_DIR . '/delete.php';
+
+return new Response( displayPagination( $currentpage, $totalpages ) . displayDeleteEntries( $posts ) .
+        '<br>' . '<a href="../">Zurück zur Übersicht</a>', 201 );

@@ -37,7 +37,6 @@ $postdata = array(
         'password' => $password->get('password')
 );
 
-include_once ROUTES_DIR . '/auth/code.php';
 $result = getCode( $db, $postdata['code'] );
 
 // Abfrage ob Code mit einem aus DB übereinstimmt

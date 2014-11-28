@@ -1,3 +1,4 @@
 log/*.log
 adminpanel/vendor/
 /nbproject
+.DS_Store

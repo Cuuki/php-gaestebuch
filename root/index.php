@@ -25,6 +25,26 @@ $app['session.storage.options'] = array(
     'lifetime' => 900
 );
 
+$app->before( function () use ( $app )
+{
+    $getPath = $app['request_context']->getPathInfo();
+
+    //Wenn Session null dann true und führe aus, wenn Session nicht null dann false und führe nicht aus
+    if ( !$app['session']->get( 'user' ) )
+    {
+        // Wenn Pfad = auth/login dann nicht redirecten
+        if ( $getPath == '/ap/auth/login' || $getPath == '/ap/auth/reset' || $getPath == '/ap/auth/reset/code' )
+        {
+            return;
+        }
+        return $app->redirect( $app['url_generator']->generate( 'login' ) );
+    }
+} );
+
+// Userzeile als Rückmeldung das er eingeloggt ist
+//$userHeader = '<header><h3>Sie sind als  eingeloggt.</h3></header>';
+//<a href="/php-gaestebuch/adminpanel' . $app['url_generator']->generate( 'settings' ) . '">' . $app['session']->get( 'user' ) . '</a>
+
 // Mail Encoding auf UTF-8 setzen
 mb_internal_encoding( "UTF-8" );
 
@@ -40,6 +60,6 @@ if ( ( $app['session']->get( 'cookie_lifetime' ) !== 0 ) && ( time() - $sessionL
     session_destroy();
 }
 
-var_dump( $app['session']->get( 'cookie_lifetime' ) );
+//debug( 'Session Cookie: ', $app['session']->get( 'cookie_lifetime' ), ' Gesetzt bei:', $app['session']->get( 'user' ), PHP_EOL );
 
 $app->run();

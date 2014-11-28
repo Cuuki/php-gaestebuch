@@ -1,6 +1,7 @@
 <?php
 
 /**
+ * 
  * @return array
  */
 function sanitizeData ( array $params )
@@ -14,7 +15,7 @@ function sanitizeData ( array $params )
         "date" => date( 'm/d/Y, H:i:s' )
     );
 
-    if( strlen( $data['textinput'] ) >= 1000 )
+    if ( mb_strlen( $data['textinput'] ) >= 1000 )
     {
         $data['textinput'] = false;
     }
@@ -42,6 +43,7 @@ function validateForm ( array $params )
 }
 
 /**
+ * TODO: Doctrine
  * @return int
  */
 function savePosts ( array $params, mysqli $db )
@@ -112,6 +114,7 @@ function getPosts ( mysqli $db, $rowsperpage, $currentpage )
 }
 
 /**
+ * TODO: Template partial
  * @return string
  */
 function displayPosts ( $post )
@@ -140,6 +143,7 @@ EOD;
 }
 
 /**
+ * TODO: Template
  * @return array
  */
 function getErrorMessages ( $invalidInput )

@@ -52,5 +52,5 @@ $getAllUsers = getAllUsers( $db );
 include_once USER_DIR . '/dashboard/delete.php';
 $displayDeleteUsers = displayDeleteUsers( $getAllUsers );
 
-return new Response( $userHeader . displayPagination( $currentpage, $totalpages ) . $displayDeleteUsers .
+return new Response( displayPagination( $currentpage, $totalpages ) . $displayDeleteUsers .
             '<a href="' . $app['url_generator']->generate( 'dashboard' ) . '">Zurück zur Übersicht</a>', 201 );

@@ -52,5 +52,5 @@ $getAllUsers = getAllUsers( $db );
 include_once USER_DIR . '/dashboard/update.php';
 $displayUpdateUsers = displayUpdateUsers( $getAllUsers );
 
-return new Response( $userHeader . displayPagination( $currentpage, $totalpages ) . $displayUpdateUsers .
+return new Response( displayPagination( $currentpage, $totalpages ) . $displayUpdateUsers .
         '<a href="' . $app['url_generator']->generate( 'dashboard' ) . '">Zurück zur Übersicht</a>', 201 );

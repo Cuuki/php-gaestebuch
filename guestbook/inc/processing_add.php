@@ -1,5 +1,19 @@
 <?php
 
+$postdata = array(
+    'firstname' => $firstname->get( 'firstname' ),
+    'lastname' => $lastname->get( 'lastname' ),
+    'email' => $email->get( 'email' ),
+    'textinput' => $textinput->get( 'textinput' )
+);
+
+$data = $this->data = array(
+    'firstname' => '',
+    'lastname' => '',
+    'email' => '',
+    'textinput' => ''
+);
+
 // Prüfen ob Formulardaten vorhanden wenn nicht dann raus, sonst weiter
 if ( !( isset( $postdata["firstname"] ) && isset( $postdata["lastname"] ) && isset( $postdata["email"] ) && isset( $postdata["textinput"] ) ) )
 {

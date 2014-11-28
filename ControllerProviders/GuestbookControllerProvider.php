@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class GuestbookControllerProvider implements ControllerProviderInterface
 {
-    public $data;
+    private $data;
 
     public function connect ( Application $app )
     {
@@ -43,20 +43,6 @@ class GuestbookControllerProvider implements ControllerProviderInterface
 
         $controllers->post( '/', function ( Request $firstname, Request $lastname, Request $email, Request $textinput ) use ( $db, $gbFunctions )
         {
-            $postdata = array(
-                'firstname' => $firstname->get( 'firstname' ),
-                'lastname' => $lastname->get( 'lastname' ),
-                'email' => $email->get( 'email' ),
-                'textinput' => $textinput->get( 'textinput' )
-            );
-
-            $data = $this->data = array(
-                'firstname' => '',
-                'lastname' => '',
-                'email' => '',
-                'textinput' => ''
-            );
-
             include_once __DIR__ . '/../guestbook/inc/processing_add.php';
             include_once __DIR__ . '/../lib/pagination.php';
             include_once __DIR__ . '/../guestbook/inc/processing_pagination.php';
@@ -66,5 +52,5 @@ class GuestbookControllerProvider implements ControllerProviderInterface
 
         return $controllers;
     }
-
+    
 }
