@@ -35,17 +35,17 @@ class GuestbookControllerProvider implements ControllerProviderInterface
         $controllers->get( '/', function () use ( $app, $db )
         {
             include_once __DIR__ . '/../lib/pagination.php';
-            include_once __DIR__ . '/../guestbook/inc/processing_pagination.php';
-            return include_once __DIR__ . '/../guestbook/inc/processing_display.php';
+            include_once __DIR__ . '/../guestbook/processing/get/processing_pagination.php';
+            return include_once __DIR__ . '/../guestbook/processing/get/processing_display.php';
         } )->bind( 'guestbook' );
 
-        $controllers->post( '/', function ( Request $firstname, Request $lastname, Request $email, Request $textinput ) use ( $db, $gbFunctions )
+        $controllers->post( '/', function ( Request $firstname, Request $lastname, Request $email, Request $textinput ) use ( $app, $db, $gbFunctions )
         {
-            include_once __DIR__ . '/../guestbook/inc/processing_add.php';
+            include_once __DIR__ . '/../guestbook/processing/post/processing_add.php';
             include_once __DIR__ . '/../lib/pagination.php';
-            include_once __DIR__ . '/../guestbook/inc/processing_pagination.php';
+            include_once __DIR__ . '/../guestbook/processing/get/processing_pagination.php';
 
-            return new Response( include_once __DIR__ . '/../guestbook/inc/main.php', 201 );
+            return include_once __DIR__ . '/../guestbook/processing/post/processing_display.php';
         } );
 
         return $controllers;

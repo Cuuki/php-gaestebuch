@@ -10,7 +10,7 @@ $render = $app['twig']->render( 'guestbook.twig', array(
     'currentpage' => $currentpage,
     'pagenumber' => $pageNumber,
     'nextpage' => $nextPage,
-    'lastpage' => $lastPage
+    'lastpage' => $lastPage,
         ) );
 
 // Header, Content (Posts) und Footer ausgeben
