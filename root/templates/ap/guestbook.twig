@@ -1,0 +1,62 @@
+{% extends "base.twig" %}
+
+{% block head %}
+    {% block title %}
+        <title>Gästebuch</title>
+    {% endblock %}
+    {% block css %}
+        <link rel="stylesheet" type="text/css" href="../../root/css/style.css">
+    {% endblock %}
+    {% block script %}
+        <script>var __adobewebfontsappname__ = "code"</script>
+        <script src="http://use.edgefonts.net/nova-mono:n4:all;nova-oval:n4:all.js"></script>
+    {% endblock %}
+{% endblock %}
+{% block header %}
+    <h1 class="heading">Willkommen in diesem Gästebuch</h1>
+{% endblock %}
+{% block content %}
+    <section id='posts'>
+        <article>
+            <h2 class='articleHeading'><a name='posts'>Letzte Beiträge:</a></h2>
+        </article>
+        {% if message is defined %}
+            <p>{{message}}</p>
+        {% endif %}
+        {% if posts == false %}
+            <p>Keine Beiträge vorhanden!</p>
+        {% elseif errormessages is not defined %}
+            {% for post in posts %}
+                <p>{{ post.firstname }}</p>
+                <p>{{ post.lastname }}</p>
+                <p>{{ post.email }}</p>
+                <p>{{ post.content }}</p>
+                <p>{{ post.created }}</p>
+                <br>
+            {% endfor %}
+            <p><a href='{{ firstpage }}'>Erste Seite</a></p>
+            <p>Aktuelle Seite: {{ currentpage }}</p>
+            {% for number in pagenumber %}
+                <p><a href='?currentpage={{ number }}'>Seite {{number}}</a></p>
+            {% endfor %}
+            <p><a href='{{ nextpage }}'>Nächste Seite</a></p>
+            <p><a href='{{ lastpage }}'>Letzte Seite</a></p>
+        {% endif %}
+    </section>
+{% endblock %}
+{% block footer %}
+    <h2 class="heading">Mehr Informationen:</h2>
+    <div class="list">
+        <ul>
+            <li>
+                <a href="#">Lorem</a>
+            </li>					
+            <li>
+                <a href="#">Ipsum</a>
+            </li>
+            <li>
+                <a href="#">Dolor</a>
+            </li>
+        </ul>
+    </div>
+{% endblock %}

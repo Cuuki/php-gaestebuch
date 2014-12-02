@@ -13,7 +13,7 @@ $app = new Silex\Application();
 $app->register( new Silex\Provider\UrlGeneratorServiceProvider() );
 $app->register( new Silex\Provider\SessionServiceProvider() );
 $app->register( new Silex\Provider\TwigServiceProvider(), array(
-    'twig.path' => __DIR__ . '/templates/ap',
+    'twig.path' => __DIR__ . '/templates/ap'
 ) );
 $app->register( new Silex\Provider\DoctrineServiceProvider(), array(
     'db.options' => array(
@@ -45,8 +45,8 @@ $app->before( function () use ( $app )
     if ( !$app['session']->get( 'user' ) )
     {
         // Wenn Pfad = auth/login dann nicht redirecten
-        if ( $getPath == '/ap/auth/login' || $getPath == '/ap/auth/reset' || $getPath == '/ap/auth/reset/code' )
-        {
+        if ( $getPath == '/ap/auth/login' || $getPath == '/ap/auth/reset' || $getPath == '/ap/auth/reset/code' || $getPath == '/gb' )
+        {        
             return;
         }
         return $app->redirect( $app['url_generator']->generate( 'login' ) );
@@ -72,6 +72,6 @@ if ( ( $app['session']->get( 'cookie_lifetime' ) !== 0 ) && ( time() - $sessionL
 }
 
 //debug( 'Session Cookie: ', $app['session']->get( 'cookie_lifetime' ), ' Gesetzt bei:', $app['session']->get( 'user' ), PHP_EOL );
-var_dump( $app['session']->get( 'cookie_lifetime' ) );
+//var_dump( $app['session']->get( 'cookie_lifetime' ) );
 
 $app->run();
