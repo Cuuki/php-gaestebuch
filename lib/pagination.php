@@ -23,6 +23,7 @@ function totalPages ( $count, $rowsperpage )
     return ceil( $count / $rowsperpage );
 }
 
+//TODO: raus damit und überall wo verwendet das Template benutzen
 /**
  * @return string
  */

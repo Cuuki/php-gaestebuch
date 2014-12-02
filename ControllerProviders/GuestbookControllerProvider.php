@@ -36,20 +36,7 @@ class GuestbookControllerProvider implements ControllerProviderInterface
         {
             include_once __DIR__ . '/../lib/pagination.php';
             include_once __DIR__ . '/../guestbook/inc/processing_pagination.php';
-
-            $posts = getPosts( $db, $rowsperpage, $currentpage );
-
-            $render = $app['twig']->render( 'guestbook.twig', array(
-                'posts' => $posts,
-                'firstpage' => $firstPage,
-                'currentpage' => $currentpage,
-                'pagenumber' => $pageNumber,
-                'nextpage' => $nextPage,
-                'lastpage' => $lastPage
-                    ) );
-
-            // Header, Content (Posts) und Footer ausgeben
-            return new Response( $render, 201 );
+            return include_once __DIR__ . '/../guestbook/inc/processing_display.php';
         } )->bind( 'guestbook' );
 
         $controllers->post( '/', function ( Request $firstname, Request $lastname, Request $email, Request $textinput ) use ( $db, $gbFunctions )

@@ -1,0 +1,7 @@
+<p><a href='{{ firstpage }}'>Erste Seite</a></p>
+<p>Aktuelle Seite: {{ currentpage }}</p>
+{% for number in pagenumber %}
+    <p><a href='?currentpage={{ number }}'>Seite {{number}}</a></p>
+{% endfor %}
+<p><a href='{{ nextpage }}'>Nächste Seite</a></p>
+<p><a href='{{ lastpage }}'>Letzte Seite</a></p>
