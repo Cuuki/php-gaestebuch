@@ -15,25 +15,44 @@ $invalidInput = validateForm( $postdata );
 if ( !empty( $invalidInput ) )
 {
     $errorMessages = getErrorMessages( $invalidInput );
-    return new Response( implode( '<br>', $errorMessages ) .
-            '<br>' . '<a href="' . $app['url_generator']->generate( 'add' ) . '">Zurück</a>', 404 );
+
+    $render = $app['twig']->render( 'user_add.twig', array(
+        'errormessages' => $errorMessages,
+        'postdata' => $postdata,
+        'headline' => 'Benutzer hinzufügen:',
+        'submitvalue' => 'Anlegen'
+            ) );
+
+    return new Response( $render, 404 );
 }
 else
 {
     $subject = 'Neu angelegter Benutzer';
-    $emailmessage = 'Hallo ' . $postdata['username'] . ',' . PHP_EOL . 'Sie wurden von ' . $app['session']->get( 'user' ) . ' als neuer Benutzer für das Adminpanel hinzugefügt. Sie können sich nun mit folgendem Passwort anmelden: ' . $postdata['password'] . ' (Sie können das Passwort jederzeit auf Ihrem Profil ändern).' . PHP_EOL . 'Mit freundlichen Grüßen' . PHP_EOL . 'Ihr Service Team';
+    $emailmessage = 'Hallo ' . $postdata['username'] . ',' . PHP_EOL . 'Sie wurden von ' . $app['session']->get( 'user' ) .
+            ' als neuer Benutzer für das Adminpanel hinzugefügt. Sie können sich nun mit folgendem Passwort anmelden: ' . $postdata['password'] .
+            ' (Sie können das Passwort jederzeit auf Ihrem Profil ändern).' . PHP_EOL . 'Mit freundlichen Grüßen' . PHP_EOL . 'Ihr Service Team';
 
     if ( saveLogindata( $postdata, $db ) != 0 )
     {
         // Mail an angegebene E-Mail Adresse mit Logindaten
         mb_send_mail( $postdata['useremail'], $subject, $emailmessage );
 
-        return new Response( 'Der Benutzer wurde hinzugefügt. 
-                        <a href="' . $app['url_generator']->generate( 'dashboard' ) . '">Zurück zur Übersicht</a>', 201 );
+        $render = $app['twig']->render( 'user_add.twig', array(
+            'message' => 'Der Benutzer wurde hinzugefügt.',
+            'headline' => 'Benutzer hinzufügen:',
+            'submitvalue' => 'Anlegen'
+                ) );
+
+        return new Response( $render, 201 );
     }
     else
     {
-        return new Response( 'Der Benutzer konnte nicht gepseichert werden! 
-                        <a href="' . $app['url_generator']->generate( 'add' ) . '">Zurück</a>', 404 );
+        $render = $app['twig']->render( 'user_add.twig', array(
+            'message' => 'Der Benutzer konnte nicht gepseichert werden!',
+            'headline' => 'Benutzer hinzufügen:',
+            'submitvalue' => 'Anlegen'
+                ) );
+        
+        return new Response(  $render, 404 );
     }
 }

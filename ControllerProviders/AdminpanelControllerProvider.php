@@ -67,7 +67,7 @@ class AdminpanelControllerProvider implements ControllerProviderInterface
         $this->bindSettings( $app, $controllers, $db, $apFunctions );
         $this->bindUser( $app, $controllers, $db, $apFunctions, $gbFunctions );
         $this->bindPosts( $app, $controllers, $db, $gbFunctions );
-        
+
         return $controllers;
     }
 

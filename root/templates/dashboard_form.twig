@@ -12,6 +12,7 @@
 {% block header %}
     <h1>Willkommen im Adminbereich</h1>
     <p>Sie sind eingeloggt seid: {{loggedinsince}}</p>
+    {% include "userheader.twig" %}
 {% endblock %}
 
 {% block content %}

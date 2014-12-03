@@ -1,25 +1,47 @@
-{% extends "base.twig" %}
+<section>
+    {% set value = {
+        'username' : '', 
+        'useremail' : '', 
+        'password' : '',
+    } %}
 
-{% block content %}
-    <section>
-        <article>
-            <h2>{{headline}}</h2>
-        </article>
+    {% if errormessages is defined and errormessages is not null %}
+        {% set value = {
+            'username' : postdata.username,
+            'useremail' : postdata.useremail,
+            'password' : postdata.password
+        } %}
+    {% endif %}        
+    <article>
+        {% if message is defined %}
+            <p>{{message}}</p>
+        {% endif %}    
         <form  action="" method="post">
             <label for="username">
                 Benutzername:
             </label>
-            <input type="text" name="username" value="">					
+            <input type="text" name="username" value="{{value.username}}">
+            {% if errormessages is defined and errormessages is not null and errormessages.username is defined %}
+                <p class="errorMessage">{{errormessages.username}}</p>
+            {% endif %}                
             <label for="useremail">
                 E-Mail:
             </label>
-            <input type="text" name="useremail" value="">					
+            <input type="text" name="useremail" value="{{value.useremail}}">
+            {% if errormessages is defined and errormessages is not null and errormessages.useremail is defined %}
+                <p class="errorMessage">{{errormessages.useremail}}</p>
+            {% endif %}
             <label for="password">
                 Passwort:
             </label>
-            <input type="password" name="password" value="">										
+            <input type="password" name="password" value="{{value.password}}">
+            {% if errormessages is defined and errormessages is not null and errormessages.password is defined %}
+                <p class="errorMessage">{{errormessages.password}}</p>
+            {% endif %}
             <input type="submit" value="{{submitvalue}}">
         </form>
-        <a href="{{link_back}}">Zurück</a>
-    </section>	
-{% endblock %}
+        <p>
+            <a href="{{ app.url_generator.generate('dashboard') }}">Zurück zur Übersicht</a>
+        </p>
+    </article>
+</section>	

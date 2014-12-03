@@ -2,10 +2,12 @@
 
 use Symfony\Component\HttpFoundation\Response;
 
-$render = $app['twig']->render( 'user_form.twig', array(
+$loggeduser = $app['session']->get( 'user' );
+
+$render = $app['twig']->render( 'user_add.twig', array(
     'headline' => 'Benutzer hinzufügen:',
-    'submitvalue' => 'Anlegen',
-    'link_back' => '../'
+    'loggeduser' => $loggeduser,
+    'submitvalue' => 'Anlegen'
         ) );
 
 return new Response( $render, 201 );
