@@ -239,7 +239,7 @@ class AdminpanelControllerProvider implements ControllerProviderInterface
         $controllers->get( 'post/add', function () use ( $app )
         {
             return $app->redirect( '../../gb/#add' );
-        } );
+        } )->bind( 'postAdd' );
 
         //Beitrag bearbeiten
         $controllers->get( 'post/update', function () use ( $db, $app )
@@ -261,7 +261,7 @@ class AdminpanelControllerProvider implements ControllerProviderInterface
         $controllers->get( 'post/delete', function () use ( $db )
         {
             return include_once POST_DIR . '/display/display_delete.php';
-        } )->bind( 'deletePost' );
+        } )->bind( 'postDelete' );
 
         $controllers->get( 'post/delete/{id}', function ( $id ) use ( $db, $app )
         {
