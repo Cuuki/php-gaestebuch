@@ -28,6 +28,9 @@ $data = sanitizeData( $data );
 // Formular Validierungsfunktion aufrufen
 $invalidInput = validateForm( $data );
 
+$errorMessages = NULL;
+$message = NULL;
+
 // Prüfen ob ungültige Eingaben nicht empty sind, wenn nicht empty dann iteriere invalidInput
 if ( !empty( $invalidInput ) )
 {
@@ -38,11 +41,12 @@ else
     if ( savePosts( $data, $db ) != 0 )
     {
         // hinweis, dass gespeichert wurde
-        $message = "<p>Ihr Beitrag wurde erfolgreich gespeichert.</p>";
+        $message = "Ihr Beitrag wurde erfolgreich gespeichert.";
+        unset($value);
     }
     else
     {
         // fehlermeldung, keine weiterleitung
-        $message = "<p>Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.</p>";
+        $message = "Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.";
     }
 }

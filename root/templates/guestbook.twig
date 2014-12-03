@@ -22,10 +22,11 @@
         </article>
         {% if message is defined %}
             <p>{{message}}</p>
+            <br>
         {% endif %}
         {% if posts == false %}
             <p>Keine Beiträge vorhanden!</p>
-        {% elseif errormessages is not defined %}
+        {% elseif errormessages is not defined or errormessages is null %}
             {% for post in posts %}
                 <p>{{ post.firstname }}</p>
                 <p>{{ post.lastname }}</p>

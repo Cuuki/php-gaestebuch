@@ -6,7 +6,7 @@
         'textinput' : ''
     } %}
     <article>
-        {% if errormessages is defined %}
+        {% if errormessages is defined and errormessages is not null %}
             {% set value = {
                 'firstname' : postdata.firstname,
                 'lastname' : postdata.lastname,
@@ -14,34 +14,35 @@
                 'textinput' : postdata.textinput
             } %}
         {% endif %}
+
         <h2 class='articleHeading'><a name='add'>Tragen Sie sich ein:</a></h2>
         <form action="" method="post">      
             <label for="firstName">
                 Vorname:
             </label>		
             <input type="text" id="firstName" name="firstname" value="{{value.firstname}}">
-            {% if errormessages is defined and errormessages.firstname is defined %}
+            {% if errormessages is defined and errormessages is not null and errormessages.firstname is defined %}
                 <p class="errorMessage">{{errormessages.firstname}}</p>
             {% endif %}
             <label for="lastName">
                 Nachname:
             </label>
             <input type="text" id="lastName" name="lastname" value="{{value.lastname}}">
-            {% if errormessages is defined and errormessages.lastname is defined %}
+            {% if errormessages is defined and errormessages is not null and errormessages.lastname is defined %}
                 <p class="errorMessage">{{errormessages.lastname}}</p>
             {% endif %}
             <label for="userEmail">
                 E-Mail Adresse:
             </label>
             <input type="text" id="userEmail" name="email" value="{{value.email}}">
-            {% if errormessages is defined and errormessages.email is defined %}
+            {% if errormessages is defined and errormessages is not null and errormessages.email is defined %}
                 <p class="errorMessage">{{errormessages.email}}</p>
             {% endif %}            
             <label for="userTextinput">
                 Geben Sie Ihren Beitrag ein:<br>(maximal 1000 Zeichen)
             </label>
             <textarea id="userTextinput" name="textinput" rows="10" cols="20">{{value.textinput}}</textarea>
-            {% if errormessages is defined and errormessages.textinput is defined %}
+            {% if errormessages is defined and errormessages is not null and errormessages.textinput is defined %}
                 <p class="errorMessage">{{errormessages.textinput}}</p>
             {% endif %}            
             <input class="button" name="submit" type="submit" value="Hinzufügen">

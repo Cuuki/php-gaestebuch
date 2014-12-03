@@ -12,6 +12,7 @@ $render = $app['twig']->render( 'guestbook.twig', array(
     'nextpage' => $nextPage,
     'lastpage' => $lastPage,
     'errormessages' => $errorMessages,
+    'message' => $message,
     'postdata' => $postdata
         ) );
 
