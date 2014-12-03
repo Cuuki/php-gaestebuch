@@ -2,10 +2,14 @@
 
 use Symfony\Component\HttpFoundation\Response;
 
+$loggeduser = $app['session']->get( 'user' );
+
 $render = $app['twig']->render( 'user_update_form.twig', array(
     'label_for' => 'username',
     'label_text' => 'Neuer Benutzername:',
+    'loggeduser' => $loggeduser,
+    'id' => $id,
     'input_name' => 'username'
         ) );
 
-return new Response( $render . '<a href="' . $app['url_generator']->generate( 'update' ) . $id . '">Zurück</a>', 201 );
+return new Response( $render, 201 );

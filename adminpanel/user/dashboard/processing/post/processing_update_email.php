@@ -20,20 +20,44 @@ $invalidInput = validateForm( $postdata );
 if ( !empty( $invalidInput ) )
 {
     $errorMessages = getErrorMessages( $invalidInput );
-    return new Response( implode( '<br>', $errorMessages ), 201 );
+
+    $render = $app['twig']->render( 'user_update_form.twig', array(
+        'label_for' => 'useremail',
+        'label_text' => 'Neue E-Mail Adresse:',
+        'id' => $id,
+        'input_name' => 'useremail',
+        'errormessages' => $errorMessages
+            ) );
+
+    return new Response( $render, 404 );
 }
 else
 {
     include_once USER_DIR . '/dashboard/update.php';
     if ( updateEmail( $db, $postdata['useremail'], $id ) )
     {
-        return new Response( 'Die Daten wurden geändert! ' .
-                '<a href="' . $app['url_generator']->generate( 'update' ) . $id . '">Zurück</a>', 201 );
+        $render = $app['twig']->render( 'user_update_form.twig', array(
+            'message' => 'Die E-Mail Adresse wurde geändert.',
+            'label_for' => 'useremail',
+            'label_text' => 'Neue E-Mail Adresse:',
+            'id' => $id,
+            'input_name' => 'useremail'
+                ) );
+
+        return new Response( $render, 201 );
     }
     // Wenn User in Datenbank schon so existiert wie das geänderte Meldung ausgeben weil dieser nicht mehrfach vorkommen darf
     else
     {
-        return new Response( 'Die Daten konnten nicht geändert werden! ', 404 );
+        $render = $app['twig']->render( 'user_update_form.twig', array(
+            'message' => 'Die Daten konnten nicht geändert werden!',
+            'label_for' => 'useremail',
+            'label_text' => 'Neue E-Mail Adresse:',
+            'id' => $id,
+            'input_name' => 'useremail'
+                ) );
+
+        return new Response( $render, 404 );
     }
 }
 
