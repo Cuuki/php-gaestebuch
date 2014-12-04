@@ -42,7 +42,6 @@ else
     {
         // hinweis, dass gespeichert wurde
         $message = "Ihr Beitrag wurde erfolgreich gespeichert.";
-        unset($value);
     }
     else
     {

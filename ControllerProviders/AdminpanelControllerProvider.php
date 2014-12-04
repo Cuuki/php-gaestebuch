@@ -99,9 +99,9 @@ class AdminpanelControllerProvider implements ControllerProviderInterface
         $controllers->get( 'auth/reset', function () use ( $app )
         {
             return include_once ROUTES_DIR . '/auth/processing/get/processing_reset.php';
-        } );
+        } )->bind('reset');
 
-        $controllers->post( 'auth/reset', function ( Request $email ) use ( $db )
+        $controllers->post( 'auth/reset', function ( Request $email ) use ( $app, $db )
         {
             return include_once ROUTES_DIR . '/auth/processing/post/processing_reset.php';
         } );
@@ -109,7 +109,7 @@ class AdminpanelControllerProvider implements ControllerProviderInterface
         $controllers->get( 'auth/reset/code', function () use ( $app )
         {
             return include_once ROUTES_DIR . '/auth/processing/get/processing_code.php';
-        } );
+        } )->bind('resetCode');
 
         $controllers->post( 'auth/reset/code', function ( Request $code, Request $password ) use ( $db, $app )
         {
@@ -258,7 +258,7 @@ class AdminpanelControllerProvider implements ControllerProviderInterface
         } );
 
         //Beitrag löschen        
-        $controllers->get( 'post/delete', function () use ( $db )
+        $controllers->get( 'post/delete', function () use ( $app, $db )
         {
             return include_once POST_DIR . '/display/display_delete.php';
         } )->bind( 'postDelete' );

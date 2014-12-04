@@ -6,6 +6,11 @@ include_once POST_DIR . '/update.php';
 
 $entryData = getEntry( $db, $id );
 
-$render = $app['twig']->render( 'post_form.twig' );
+$loggeduser = $app['session']->get( 'user' );
 
-return new Response( displayPosts( $entryData ) . $render, 201 );
+$render = $app['twig']->render( 'post_update_id.twig', array(
+    'post' => $entryData,
+    'loggeduser' => $loggeduser
+) );
+
+return new Response( $render, 201 );

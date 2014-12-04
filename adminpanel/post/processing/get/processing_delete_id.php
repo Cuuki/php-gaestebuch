@@ -6,11 +6,19 @@ include_once POST_DIR . '/delete.php';
 
 if ( deletePost( $db, $id ) )
 {
-    return new Response( 'Beitrag erfolgreich gelöscht!
-                <a href="' . $app['url_generator']->generate( 'postDelete' ) . '">Zurück</a>', 201 );
+    $render = $app['twig']->render( 'post_delete.twig', array(
+        'message' => 'Beitrag erfolgreich gelöscht!',
+        'csspath' => '../../../css/style.css'
+            ) );
+
+    return new Response( $render, 201 );
 }
 else
 {
-    return new Response( 'Der Beitrag konnte nicht gelöscht werden, versuchen sie es erneut!
-                                <a href="' . $app['url_generator']->generate( 'postDelete' ) . '">Zurück</a>', 404 );
+    $render = $app['twig']->render( 'post_delete.twig', array(
+        'message' => 'Der Beitrag konnte nicht gelöscht werden, versuchen sie es erneut!',
+        'csspath' => '../../../css/style.css'
+            ) );
+
+    return new Response( $render, 404 );
 }

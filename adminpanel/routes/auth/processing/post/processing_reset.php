@@ -48,8 +48,10 @@ $result = getMail( $db, $postdata['email'] );
 // Abfrage ob E-Mail mit einer aus DB übereinstimmt
 if ( $result['useremail'] == NULL )
 {
-    return new Response( 'Es existiert kein Benutzer mit der angegebenen E-Mail Adresse.
-                <br><a href="../auth/reset">Zurück zur Eingabe</a>', 404 );
+    $render = $app['twig']->render( 'reset_form.twig', array(
+        'message' => 'Es existiert kein Benutzer mit der angegebenen E-Mail Adresse.'
+            ) );
+    return new Response( $render, 404 );
 }
 
 $code = mt_rand( 1000, 9999 );
@@ -64,5 +66,8 @@ mb_send_mail( $postdata['email'], $subject, $message );
 // Code und ID von User der diesen angefordert hat in Datenbank speichern
 saveCode( $db, $code, $result['id'] );
 
-return new Response( 'Sie erhalten in Kürze eine E-Mail mit dem Authentifizierungscode. 
-        <br><a href="reset/code">Weiter zur Codeeingabe</a>', 201 );
+$render = $app['twig']->render( 'reset_form.twig', array(
+    'message' => 'Sie erhalten in Kürze eine E-Mail mit dem Authentifizierungscode.'
+        ) );
+
+return new Response( $render, 201 );

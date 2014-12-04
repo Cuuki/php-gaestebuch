@@ -22,25 +22,34 @@ $postdata = sanitizeData( $postdata );
 
 $invalidInput = validateForm( $postdata );
 
-if ( !empty( $invalidInput ) )
+if ( !empty( $invalidInput ) || $postdata['textinput'] == $oldcontent )
 {
     $errorMessages = getErrorMessages( $invalidInput );
-    return new Response( implode( '<br>', $errorMessages ), 201 );
-}
-elseif ( $postdata['textinput'] == $oldcontent )
-{
-    return new Response( 'Bitte geben Sie mindestenes einen neuen Beitrag ein!', 404 );
+
+    $render = $app['twig']->render( 'post_update_id.twig', array(
+        'errormessages' => $errorMessages,
+        'postdata' => $postdata
+            ) );
+
+    return new Response( $render, 404 );
 }
 else
 {
     if ( updatePost( $db, $postdata, $id ) )
     {
-        return new Response( 'Die Daten wurden geändert!  ' .
-                '<a href="' . $app['url_generator']->generate( 'postUpdate' ) . '">Zurück</a>', 201 );
+        $render = $app['twig']->render( 'post_update_id.twig', array(
+            'message' => 'Die Daten wurden geändert!'
+                ) );
+        
+        return new Response( $render, 201 );
     }
     // Wenn User in Datenbank schon so existiert wie das geänderte Meldung ausgeben weil dieser nicht mehrfach vorkommen darf
     else
     {
-        return new Response( 'Die Daten konnten nicht geändert werden! ', 404 );
+        $render = $app['twig']->render( 'post_update_id.twig', array(
+            'message' => 'Die Daten konnten nicht geändert werden!'
+                ) );
+        
+        return new Response( $render, 404 );
     }
 }
