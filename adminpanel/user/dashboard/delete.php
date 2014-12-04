@@ -1,34 +1,6 @@
 <?php
 
 /**
- * TODO: Template
- * @return string
- */
-function displayDeleteUsers ( $data )
-{
-    $output = '';
-
-    foreach ( $data as $row )
-    {
-        $username = $row['username'];
-        $useremail = $row['useremail'];
-        $password = $row['password'];
-        $id = $row["id"];
-
-        $output .= <<<EOD
-            <article style='margin-top: 50px; margin-bottom: 50px;'>
-                <p>Username: $username</p>
-                <p>E-Mail: $useremail</p>
-                <p>Passwort: $password</p>
-                <a href='$id'>Löschen</a>
-            </article>
-EOD;
-    }
-
-    return $output;
-}
-
-/**
  * TODO: Doctrine
  * @return boolean
  */

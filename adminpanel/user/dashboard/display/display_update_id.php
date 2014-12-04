@@ -15,7 +15,7 @@ if ( $role == 'adm' )
 {
     $render = $app['twig']->render( 'user_update_id.twig', array(
         'headline' => 'Benutzer bearbeiten:',
-        'message' => 'Sie haben nicht die nötigen Rechte um einen Benutzer zu bearbeiten, wenden Sie sich an einen Administrator.'
+        'message' => 'Sie haben nicht die nötigen Rechte um einen Benutzer zu bearbeiten, wenden Sie sich an einen Administrator.',
             ) );
 
     return new Response( $render, 404 );
@@ -29,7 +29,7 @@ $loggeduser = $app['session']->get( 'user' );
 
 $render = $app['twig']->render( 'user_update_id.twig', array(
     'user' => $userData,
-    'headline' => 'Alle Benutzerdaten ändern:',
+    'headline' => 'Benutzer bearbeiten:',
     'loggeduser' => $loggeduser,
     'submitvalue' => 'Ändern'
         ) );

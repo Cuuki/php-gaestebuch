@@ -3,6 +3,7 @@
 use Symfony\Component\HttpFoundation\Response;
 
 $render = $app['twig']->render( 'settings_update_form.twig', array(
+    'headline' => 'E-Mail ändern:',
     'oldinput_for' => 'oldemail',
     'oldinput_text' => 'Alte E-Mail Adresse:',
     'oldinput_name' => 'oldemail',
@@ -11,4 +12,4 @@ $render = $app['twig']->render( 'settings_update_form.twig', array(
     'newinput_name' => 'email'
         ) );
 
-return new Response( $render . '<a href="' . $app['url_generator']->generate( 'settings' ) . '">Zurück zum Profil</a>', 201 );
+return new Response( $render, 201 );

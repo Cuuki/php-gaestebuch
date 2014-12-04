@@ -3,6 +3,7 @@
 use Symfony\Component\HttpFoundation\Response;
 
 $render = $app['twig']->render( 'settings_update_form.twig', array(
+    'headline' => 'Passwort ändern:',
     'oldinput_for' => 'oldpassword',
     'oldinput_text' => 'Altes Passwort:',
     'oldinput_name' => 'oldpassword',
@@ -11,4 +12,4 @@ $render = $app['twig']->render( 'settings_update_form.twig', array(
     'newinput_name' => 'password'
         ) );
 
-return new Response( $render . '<a href="' . $app['url_generator']->generate( 'settings' ) . '">Zurück zum Profil</a>', 201 );
+return new Response( $render, 201 );

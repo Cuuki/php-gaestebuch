@@ -2,7 +2,7 @@
 
 {% block head %}
     {% block title %}
-        <title>Benutzer bearbeiten - Adminpanel</title>
+        <title>Benutzer löschen - Adminpanel</title>
     {% endblock %}
     {% block css %}
         <link rel="stylesheet" type="text/css" href="../../../../css/style.css">
@@ -15,34 +15,32 @@
 {% endblock %}
 
 {% block content %}
-<section>
     <article>
-    {% if message is not defined %} 
-    {% if errormessages is not defined or errormessages is null %}
-        <h2>Daten einzeln ändern:</h2>
-        {% for user in user %}
+    {% if message is defined %}
+        <p>{{message}}</p>
+    {% endif %}
+    {% if message is not defined %}
+        {% for user in users %}
             <p>Benutzername: {{ user.username }}</p>
-            <p>
-                <a href="{{ user.id }}/username">Benutzername bearbeiten</a>
-            </p>
-            <br>
             <p>E-Mail: {{ user.useremail }}</p>
-            <p>
-                <a href="{{ user.id }}/email">E-Mail bearbeiten</a>
-            </p>
-            <br>
             <p>Passwort: {{ user.password }}</p>
             <p>
-                <a href="{{ user.id }}/password">Passwort bearbeiten</a>
+                <a href="{{ app.url_generator.generate('delete') }}{{ user.id }}">Löschen</a>
             </p>
             <br>
         {% endfor %}
-        {%endif%}
     {% endif %}
     </article>
-</section>
-    <h2>Alle Benutzerdaten ändern:</h2>
-    {% include "user_form.twig" %}
+    
+    <article>
+        {% if message is not defined %}
+            {% include "pagination.twig" %}
+            <br>
+        {% endif %}
+        <p>
+            <a href="{{ app.url_generator.generate('dashboard') }}">Zurück zur Übersicht</a>
+        </p>
+    </article>
 {% endblock %}
 
 {% block footer %}

@@ -15,7 +15,8 @@
     <article>
         {% if message is defined %}
             <p>{{message}}</p>
-        {% endif %}    
+        {% endif %}
+        {% if message is not defined %}
         <form  action="" method="post">
             <label for="username">
                 Benutzername:
@@ -40,6 +41,7 @@
             {% endif %}
             <input type="submit" value="{{submitvalue}}">
         </form>
+        {% endif %}
         <p>
             <a href="{{ app.url_generator.generate('dashboard') }}">Zurück zur Übersicht</a>
         </p>

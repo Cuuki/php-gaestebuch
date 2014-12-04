@@ -13,44 +13,30 @@ foreach ( $users as $user )
 // Wenn die Benutzerrolle 'adm' ist, darf der Benutzer keinen anderen Benutzer löschen
 if ( $role == 'adm' )
 {
-    return new Response( 'Sie haben nicht die nötigen Rechte um einen Benutzer zu löschen, wenden Sie sich an einen Administrator.
-                <br><a href="' . $app['url_generator']->generate( 'dashboard' ) . '">Zurück zur Übersicht</a>', 404 );
+    $render = $app['twig']->render( 'user_delete.twig', array(
+        'headline' => 'Benutzer löschen:',
+        'message' => 'Sie haben nicht die nötigen Rechte um einen Benutzer zu löschen, wenden Sie sich an einen Administrator.'
+    ) );
+    
+    return new Response( $render, 404 );
 }
 
 include_once USER_DIR . '/../../lib/pagination.php';
-
-$totalentries = totalEntries( $db );
-
-// Anzahl an angezeigen Einträgen pro Seite
-$rowsperpage = 5;
-
-$totalpages = totalPages( $totalentries, $rowsperpage );
-
-// aktuelle Seite oder Default
-if ( isset( $_GET['currentpage'] ) && is_numeric( $_GET['currentpage'] ) )
-{
-    $currentpage = (int) $_GET['currentpage'];
-}
-else
-{
-    // Nummer von Default-Seite
-    $currentpage = 1;
-}
-
-if ( $currentpage > $totalpages )
-{
-    // Aktuelle Seite = letzte Seite
-    $currentpage = $totalpages;
-}
-if ( $currentpage < 1 )
-{
-    $currentpage = 1;
-}
+include_once USER_DIR . '/../../guestbook/processing/get/processing_pagination.php';
 
 $getAllUsers = getAllUsers( $db );
 
-include_once USER_DIR . '/dashboard/delete.php';
-$displayDeleteUsers = displayDeleteUsers( $getAllUsers );
+$loggeduser = $app['session']->get( 'user' );
 
-return new Response( displayPagination( $currentpage, $totalpages ) . $displayDeleteUsers .
-            '<a href="' . $app['url_generator']->generate( 'dashboard' ) . '">Zurück zur Übersicht</a>', 201 );
+$render = $app['twig']->render( 'user_delete.twig', array(
+    'headline' => 'Benutzer löschen:',
+    'users' => $getAllUsers,
+    'firstpage' => $firstPage,
+    'currentpage' => $currentpage,
+    'pagenumber' => $pageNumber,
+    'nextpage' => $nextPage,
+    'lastpage' => $lastPage,
+    'loggeduser' => $loggeduser
+        ) );
+
+return new Response( $render, 201 );

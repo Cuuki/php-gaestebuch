@@ -1,66 +1,6 @@
 <?php
 
 /**
- * TODO: Template
- * @return string
- */
-function displayUser ( $data )
-{
-    $output = '';
-
-    foreach($data as $row)
-    {
-        $username = $row['username'];
-        $useremail = $row['useremail'];
-        $password = $row['password'];
-        $id = $row['id'];
-
-        $output .= <<<EOD
-            <article style='margin-bottom: 50px;'>
-                <p>Benutzername: $username</p>
-                <p><a href='$id/username'>Nur Benutzername bearbeiten</a></p>
-                <br>
-                <p>E-Mail: $useremail</p>
-                <p><a href='$id/email'>Nur E-Mail bearbeiten</a></p>
-                <br>
-                <p>Passwort: $password</p>
-                <p><a href='$id/password'>Nur Passwort bearbeiten</a></p>
-            </article>
-EOD;
-    }
-
-    return $output;
-}
-
-/**
- * TODO: Template
- * @return string
- */
-function displayUpdateUsers ( $data )
-{
-    $output = '';
-
-    foreach($data as $row)
-    {
-        $username = $row['username'];
-        $useremail = $row['useremail'];
-        $password = $row['password'];
-        $id = $row['id'];
-
-        $output .= <<<EOD
-            <article style='margin-top: 50px; margin-bottom: 50px;'>
-                <p>Benutzername: $username</p>
-                <p>E-Mail: $useremail</p>
-                <p>Passwort: $password</p>
-                <a href='$id'>Bearbeiten</a>
-            </article>
-EOD;
-    }
-
-    return $output;
-}
-
-/**
  * TODO: Doctrine
  * @return boolean
  */
