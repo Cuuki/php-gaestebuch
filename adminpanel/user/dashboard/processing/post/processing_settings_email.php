@@ -18,24 +18,65 @@ foreach ( $users as $user )
 // Wenn alter Benutzername nicht mit dem aus der Session übereinstimmt
 if ( $postdata['oldemail'] != $email )
 {
-    return new Response( 'Die alte E-Mail Adresse stimmt nicht mit Ihrer überein. 
-                <a href="' . $app['url_generator']->generate( 'changeEmail' ) . '">Zurück</a>', 404 );
+    $render = $app['twig']->render( 'settings_update_form.twig', array(
+        'headline' => 'E-Mail ändern:',
+        'oldinput_for' => 'oldemail',
+        'oldinput_text' => 'Alte E-Mail Adresse:',
+        'oldinput_name' => 'oldemail',
+        'newinput_for' => 'email',
+        'newinput_text' => 'Neue E-Mail Adresse:',
+        'newinput_name' => 'email',
+        'message' => 'Die alte E-Mail Adresse stimmt nicht mit Ihrer überein.'
+            ) );
+
+    return new Response( $render, 404 );
 }
 elseif ( $postdata['oldemail'] == $postdata['email'] )
 {
-    return new Response( 'Die alte darf nicht mit der neuen Adresse übereinstimmen! 
-                <a href="' . $app['url_generator']->generate( 'changeEmail' ) . '">Zurück</a>', 404 );
+    $render = $app['twig']->render( 'settings_update_form.twig', array(
+        'headline' => 'E-Mail ändern:',
+        'oldinput_for' => 'oldemail',
+        'oldinput_text' => 'Alte E-Mail Adresse:',
+        'oldinput_name' => 'oldemail',
+        'newinput_for' => 'email',
+        'newinput_text' => 'Neue E-Mail Adresse:',
+        'newinput_name' => 'email',
+        'message' => 'Die alte darf nicht mit der neuen Adresse übereinstimmen!'
+            ) );
+
+    return new Response( $render, 404 );
 }
 else
 {
     include_once USER_DIR . '/dashboard/update.php';
     if ( updateEmail( $db, $postdata['email'], $id ) )
     {
-        return new Response( 'Die E-Mail Adresse wurde geändert! ' .
-                '<a href="' . $app['url_generator']->generate( 'logout' ) . '">Mit neuen Daten erneut einloggen</a>', 201 );
+        $render = $app['twig']->render( 'settings_update_form.twig', array(
+            'headline' => 'E-Mail ändern:',
+            'oldinput_for' => 'oldemail',
+            'oldinput_text' => 'Alte E-Mail Adresse:',
+            'oldinput_name' => 'oldemail',
+            'newinput_for' => 'email',
+            'newinput_text' => 'Neue E-Mail Adresse:',
+            'newinput_name' => 'email',
+            'message' => 'Die E-Mail Adresse wurde geändert!'
+                ) );
+
+        return new Response( $render, 201 );
     }
     else
     {
-        return new Response( 'Die Daten konnten nicht geändert werden! ', 404 );
+        $render = $app['twig']->render( 'settings_update_form.twig', array(
+            'headline' => 'E-Mail ändern:',
+            'oldinput_for' => 'oldemail',
+            'oldinput_text' => 'Alte E-Mail Adresse:',
+            'oldinput_name' => 'oldemail',
+            'newinput_for' => 'email',
+            'newinput_text' => 'Neue E-Mail Adresse:',
+            'newinput_name' => 'email',
+            'message' => 'Die Daten konnten nicht geändert werden!'
+                ) );
+
+        return new Response( $render, 404 );
     }
 }

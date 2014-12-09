@@ -14,7 +14,10 @@
 {% endblock %}
 
 {% block content %}
-    <section>
+    <section id="form">
+        {% if message is defined %}
+            <p>{{ message }}</p>
+        {% endif %}
         <form  action="" method="post">
             <label for="{{oldinput_for}}">
                 {{oldinput_text}}
