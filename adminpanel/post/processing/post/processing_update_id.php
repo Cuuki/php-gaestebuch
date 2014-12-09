@@ -35,7 +35,7 @@ if ( !empty( $invalidInput ) || $postdata['textinput'] == $oldcontent )
 }
 else
 {
-    if ( updatePost( $db, $postdata, $id ) )
+    if ( updatePost( $app['db'], $postdata, $id ) )
     {
         $render = $app['twig']->render( 'post_update_id.twig', array(
             'message' => 'Die Daten wurden geändert!'

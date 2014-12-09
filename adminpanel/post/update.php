@@ -1,22 +1,25 @@
 <?php
 
 /**
- * TODO: Doctrine
  * @return boolean
  */
 function updatePost ( $db, array $params, $id )
 {
-	$update =	'UPDATE guestbook
-				SET
-                    firstname = "'. $db->real_escape_string( $params["firstname"] ) .'",
-                    lastname = "'. $db->real_escape_string( $params["lastname"] ). '",
-                    email = "'. $db->real_escape_string( $params["email"] ). '",                    
-                    content = "'. $db->real_escape_string( $params["textinput"] ) .'"
-				WHERE
-					id_entry = "'. $id .'"';
+    $update = 'UPDATE
+                    guestbook
+               SET
+                    firstname = :firstname,
+                    lastname = :lastname,
+                    email = :email,
+                    content = :content
+               WHERE
+                    id_entry = :id_entry';
 
-	$dbRead = $db->query( $update );
-
-    return $dbRead;
+    return $db->executeQuery( $update, array(
+                'firstname' => $params["firstname"],
+                'lastname' => $params["lastname"],
+                'email' => $params["email"],
+                'content' => $params["textinput"],
+                'id_entry' => $id
+            ) );
 }
-

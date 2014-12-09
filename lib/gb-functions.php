@@ -116,35 +116,6 @@ function getPosts ( mysqli $db, $rowsperpage, $currentpage )
 }
 
 /**
- * TODO: Template partial
- * @return string
- */
-function displayPosts ( $post )
-{
-    $output = "";
-
-    foreach ( $post as $entrie )
-    {
-        $firstname = $entrie["firstname"];
-        $lastname = $entrie["lastname"];
-        $content = $entrie["content"];
-        $email = $entrie["email"];
-        $created = $entrie["created"];
-
-        $output .= <<<EOD
-			<article class="entries">
-				<p>Autor:<br>$firstname $lastname</p>
-				<p>Beitrag: <br>$content</p>
-				<p>E-Mail:<br>$email</p>
-				<p>Veröffentlicht am:<br>$created</p>
-			</article>
-EOD;
-    }
-
-    return $output;
-}
-
-/**
  * TODO: Template
  * @return array
  */

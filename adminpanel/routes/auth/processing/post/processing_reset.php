@@ -69,4 +69,4 @@ $render = $app['twig']->render( 'reset_form.twig', array(
     'message' => 'Sie erhalten in Kürze eine E-Mail mit dem Authentifizierungscode.'
         ) );
 
-return new Response( $render, 201 );
+return new Response( $render . $app->redirect( $app['url_generator']->generate( 'resetCode' ) ), 201 );

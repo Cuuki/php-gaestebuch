@@ -35,7 +35,7 @@ elseif ( $usernameSession == $usernameSelected )
     return new Response( $render, 404 );
 }
 // Wenn deleteUser 'true' zurück gibt wurde User erfolgreich gelöscht
-elseif ( deleteUser( $db, $id ) )
+elseif ( deleteUser( $app['db'], $id ) )
 {
     $render = $app['twig']->render( 'user_delete.twig', array(
         'message' => 'User erfolgreich gelöscht!',

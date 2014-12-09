@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 function getCode ( $db, $code )
 {
     // Code und ID von User der den Code angefordert hat aus DB auslesen
-    $select = 'SELECT * FROM auth_codes WHERE code = :code';
+    $select = 'SELECT * FROM auth_codes WHERE code = ?';
 
     return $db->fetchAssoc( $select, array( $code ) );
 }
