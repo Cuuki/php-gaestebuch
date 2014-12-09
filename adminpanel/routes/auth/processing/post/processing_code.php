@@ -8,18 +8,9 @@ use Symfony\Component\HttpFoundation\Response;
 function getCode ( $db, $code )
 {
     // Code und ID von User der den Code angefordert hat aus DB auslesen
-    $sql = 'SELECT
-                code, id_user
-            FROM
-                auth_codes
-            WHERE
-            	code = "' . $code . '"';
+    $select = 'SELECT * FROM auth_codes WHERE code = :code';
 
-    $dbRead = $db->query( $sql );
-
-    $row = $dbRead->fetch_assoc();
-
-    return $row;
+    return $db->fetchAssoc( $select, array( $code ) );
 }
 
 /**
@@ -27,9 +18,7 @@ function getCode ( $db, $code )
  */
 function deleteCode ( $db, $code )
 {
-    $delete = 'DELETE FROM auth_codes WHERE code = "' . $code . '"';
-
-    return $db->query( $delete );
+    return $db->delete( 'auth_codes', array( 'code' => $code ) );
 }
 
 $postdata = array(
@@ -37,7 +26,7 @@ $postdata = array(
     'password' => $password->get( 'password' )
 );
 
-$result = getCode( $db, $postdata['code'] );
+$result = getCode( $app['db'], $postdata['code'] );
 
 // Abfrage ob Code mit einem aus DB übereinstimmt
 if ( $result['code'] == NULL )
@@ -55,7 +44,7 @@ else
     updatePassword( $app['db'], $postdata['password'], $result['id_user'] );
 
     // Wenn Code eingegeben wurde lösche ihn aus DB
-    deleteCode( $db, $result['code'] );
+    deleteCode( $app['db'], $result['code'] );
 
     $render = $app['twig']->render( 'code_form.twig', array(
         'message' => 'Ihr Passwort wurde geändert!'

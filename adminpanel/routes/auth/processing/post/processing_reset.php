@@ -8,18 +8,14 @@ use Symfony\Component\HttpFoundation\Response;
 function getMail ( $db, $postdata )
 {
     // E-Mail von Eingabe aus DB auslesen
-    $sql = 'SELECT
+    $select = 'SELECT
                 id, useremail
             FROM
                 user
             WHERE
-            	useremail = "' . $postdata . '"';
+            	useremail = ?';
 
-    $dbRead = $db->query( $sql );
-
-    $row = $dbRead->fetch_assoc();
-
-    return $row;
+    return $db->fetchAssoc( $select, array( $postdata ) );
 }
 
 /**
@@ -29,21 +25,24 @@ function saveCode ( $db, $code, $id )
 {
     // Code und ID von User der den Code angefordert hat in DB speichern
     $insert = 'INSERT INTO
-					auth_codes(code, id_user)
-				VALUES 
-				(
-					"' . $code . '",
-					"' . $id . '"
-				)';
+                    auth_codes(code, id_user)
+               VALUES 
+               (
+                    :code,
+                    :id
+               )';
 
-    return $db->query( $insert );
+    return $db->executeQuery( $insert, array(
+                'code' => $code,
+                'id' => $id
+            ) );
 }
 
 $postdata = array(
     'email' => $email->get( 'email' )
 );
 
-$result = getMail( $db, $postdata['email'] );
+$result = getMail( $app['db'], $postdata['email'] );
 
 // Abfrage ob E-Mail mit einer aus DB übereinstimmt
 if ( $result['useremail'] == NULL )
@@ -64,7 +63,7 @@ $message = 'Bitte geben Sie folgenden Code: ' . $code . ' im Eingabefeld der Web
 mb_send_mail( $postdata['email'], $subject, $message );
 
 // Code und ID von User der diesen angefordert hat in Datenbank speichern
-saveCode( $db, $code, $result['id'] );
+saveCode( $app['db'], $code, $result['id'] );
 
 $render = $app['twig']->render( 'reset_form.twig', array(
     'message' => 'Sie erhalten in Kürze eine E-Mail mit dem Authentifizierungscode.'
