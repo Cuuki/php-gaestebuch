@@ -20,6 +20,7 @@ class AdminpanelControllerProvider implements ControllerProviderInterface
         include_once __DIR__ . '/../lib/dbconnect.php';
         $gbFunctions = include_once __DIR__ . '/../lib/gb-functions.php';
         $apFunctions = include_once __DIR__ . '/../lib/ap-functions.php';
+        include_once __DIR__ . '/../adminpanel/sudo-config.php';
 
         $dboptions = array(
             "Hostname" => "localhost",
@@ -31,8 +32,6 @@ class AdminpanelControllerProvider implements ControllerProviderInterface
         $db = dbConnect( $dboptions );
 
         $db->query( "SET NAMES utf8" );
-
-        include_once __DIR__ . '/../adminpanel/sudo-config.php';
 
         $controllers = $app['controllers_factory'];
 

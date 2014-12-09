@@ -46,7 +46,7 @@ else
 {
     include_once USER_DIR . '/dashboard/update.php';
     // Ändere alten Benutzernamen wenn Funktion updateUsername() 'true' zurückgibt
-    if ( updateUsername( $db, $postdata['username'], $id ) )
+    if ( updateUsername( $app['db'], $postdata['username'], $id ) )
     {
         $render = $app['twig']->render( 'settings_update_form.twig', array(
             'headline' => 'Benutzername ändern:',

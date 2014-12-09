@@ -46,7 +46,7 @@ elseif ( $postdata['oldemail'] == $postdata['email'] )
 else
 {
     include_once USER_DIR . '/dashboard/update.php';
-    if ( updateEmail( $db, $postdata['email'], $id ) )
+    if ( updateEmail( $app['db'], $postdata['email'], $id ) )
     {
         $render = $app['twig']->render( 'settings_update_form.twig', array(
             'headline' => 'E-Mail ändern:',

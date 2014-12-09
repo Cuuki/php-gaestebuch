@@ -52,7 +52,7 @@ else
 {
     // Altes Passwort mit dem neuen überschreiben wenn Code stimmt
     include_once USER_DIR . '/dashboard/update.php';
-    updatePassword( $db, $postdata['password'], $result['id_user'] );
+    updatePassword( $app['db'], $postdata['password'], $result['id_user'] );
 
     // Wenn Code eingegeben wurde lösche ihn aus DB
     deleteCode( $db, $result['code'] );

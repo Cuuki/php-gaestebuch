@@ -4,7 +4,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 include_once POST_DIR . '/delete.php';
 
-if ( deletePost( $db, $id ) )
+if ( deletePost( $app['db'], $id ) )
 {
     $render = $app['twig']->render( 'post_delete.twig', array(
         'message' => 'Beitrag erfolgreich gelöscht!',

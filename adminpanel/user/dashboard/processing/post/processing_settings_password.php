@@ -46,7 +46,7 @@ elseif ( $postdata['oldpassword'] == $postdata['password'] )
 else
 {
     include_once USER_DIR . '/dashboard/update.php';
-    if ( updatePassword( $db, $postdata['password'], $id ) )
+    if ( updatePassword( $app['db'], $postdata['password'], $id ) )
     {
         $render = $app['twig']->render( 'settings_update_form.twig', array(
             'headline' => 'Passwort ändern:',

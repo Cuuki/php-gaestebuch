@@ -1,72 +1,77 @@
 <?php
 
 /**
- * TODO: Doctrine
  * @return boolean
  */
 function updateUser ( $db, array $params, $id )
 {
-	$update =	'UPDATE user
-				SET
-                    username = "'. $db->real_escape_string( $params["username"] ) .'",
-                    useremail = "'. $db->real_escape_string( $params["useremail"] ). '",
-                    password = "'. $db->real_escape_string( password_hash( $params["password"], PASSWORD_BCRYPT ) ) .'"
-				WHERE
-					id = "'. $id .'"';
+    $update = 'UPDATE
+                    user
+               SET
+                    username = :username,
+                    useremail = :useremail,
+                    password = :password
+               WHERE
+                    id = :id';
 
-	$dbRead = $db->query( $update );
-
-    return $dbRead;
+    return $db->executeQuery( $update, array(
+                'username' => $params['username'],
+                'useremail' => $params['useremail'],
+                'password' => password_hash( $params['password'], PASSWORD_BCRYPT ),
+                'id' => $id
+            ) );
 }
 
 /**
- * TODO: Doctrine
  * @return boolean
  */
 function updateUsername ( $db, $username, $id )
 {
-    $update =   'UPDATE user
-                SET
-                    username = "'. $db->real_escape_string( $username ) .'"
-                WHERE
-                    id = "'. $id .'"';
+    $update = 'UPDATE
+                    user
+               SET
+                    username = :username
+               WHERE
+                    id = :id';
 
-    $dbRead = $db->query( $update );
-
-    return $dbRead;
+    return $db->executeQuery( $update, array(
+                'username' => $username,
+                'id' => $id
+            ) );
 }
 
 /**
- * TODO: Doctrine
  * @return boolean
  */
 function updateEmail ( $db, $email, $id )
 {
-    $update =   'UPDATE user
-                SET
-                    useremail = "'. $db->real_escape_string( $email ). '"
-                WHERE
-                    id = "'. $id .'"';
+    $update = 'UPDATE
+                    user
+               SET
+                    useremail = :useremail
+               WHERE
+                    id = :id';
 
-    $dbRead = $db->query( $update );
-
-    return $dbRead;
+    return $db->executeQuery( $update, array(
+                'useremail' => $email,
+                'id' => $id
+            ) );
 }
 
 /**
- * TODO: Doctrine
  * @return boolean
  */
 function updatePassword ( $db, $password, $id )
 {
-    $update =   'UPDATE user
-                SET
-                    password = "'. $db->real_escape_string( password_hash( $password, PASSWORD_BCRYPT ) ) .'"
-                WHERE
-                    id = "'. $id .'"';
+    $update = 'UPDATE
+                    user
+               SET
+                    password = :password
+               WHERE
+                    id = :id';
 
-    $dbRead = $db->query( $update );
-
-    return $dbRead;
+    return $db->executeQuery( $update, array(
+                'password' => password_hash( $password, PASSWORD_BCRYPT ),
+                'id' => $id
+            ) );
 }
-

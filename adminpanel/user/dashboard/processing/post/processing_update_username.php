@@ -31,7 +31,26 @@ if ( !empty( $invalidInput ) )
 else
 {
     include_once USER_DIR . '/dashboard/update.php';
-    if ( updateUsername( $db, $postdata['username'], $id ) )
+    $userData = getAllUsers( $app['db'] );
+
+    foreach ( $userData as $user )
+    {
+        $username = $user['username'];
+    }
+
+    if ( $postdata['username'] == $username )
+    {
+        $render = $app['twig']->render( 'user_update_form.twig', array(
+            'message' => 'Der Benutzer existiert bereits.',
+            'label_for' => 'username',
+            'label_text' => 'Neuer Benutzername:',
+            'id' => $id,
+            'input_name' => 'username'
+                ) );
+
+        return new Response( $render, 404 );
+    }
+    elseif ( updateUsername( $app['db'], $postdata['username'], $id ) )
     {
         $render = $app['twig']->render( 'user_update_form.twig', array(
             'message' => 'Der Benutzername wurde geändert.',

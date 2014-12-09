@@ -33,7 +33,25 @@ if ( !empty( $invalidInput ) )
 }
 else
 {
-    if ( updateUser( $db, $postdata, $id ) )
+    $userData = getAllUsers( $app['db'] );
+
+    foreach ( $userData as $user )
+    {
+        $username = $user['username'];
+        $useremail = $user['useremail'];
+    }
+
+    if ( $postdata['username'] == $username || $postdata['useremail'] == $useremail )
+    {
+        $render = $app['twig']->render( 'user_update_id.twig', array(
+            'message' => 'Der Benutzer existiert bereits.',
+            'headline' => 'Benutzer hinzufügen:',
+            'submitvalue' => 'Anlegen'
+                ) );
+
+        return new Response( $render, 404 );
+    }
+    elseif ( updateUser( $app['db'], $postdata, $id ) )
     {
         $render = $app['twig']->render( 'user_update_id.twig', array(
             'message' => 'Die Daten wurden geändert!',

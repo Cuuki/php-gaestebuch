@@ -31,7 +31,26 @@ if ( !empty( $invalidInput ) )
 else
 {
     include_once USER_DIR . '/dashboard/update.php';
-    if ( updateEmail( $db, $postdata['useremail'], $id ) )
+    $userData = getAllUsers( $app['db'] );
+
+    foreach ( $userData as $user )
+    {
+        $useremail = $user['useremail'];
+    }
+
+    if ( $postdata['useremail'] == $useremail )
+    {
+        $render = $app['twig']->render( 'user_update_form.twig', array(
+            'message' => 'Der Benutzer existiert bereits.',
+            'label_for' => 'useremail',
+            'label_text' => 'Neue E-Mail Adresse:',
+            'id' => $id,
+            'input_name' => 'useremail'
+                ) );
+
+        return new Response( $render, 404 );
+    }
+    elseif ( updateEmail( $app['db'], $postdata['useremail'], $id ) )
     {
         $render = $app['twig']->render( 'user_update_form.twig', array(
             'message' => 'Die E-Mail Adresse wurde geändert.',

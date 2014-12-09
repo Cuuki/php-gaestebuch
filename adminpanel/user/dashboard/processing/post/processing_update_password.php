@@ -31,7 +31,7 @@ if ( !empty( $invalidInput ) )
 else
 {
     include_once USER_DIR . '/dashboard/update.php';
-    if ( updatePassword( $db, $postdata['password'], $id ) )
+    if ( updatePassword( $app['db'], $postdata['password'], $id ) )
     {
         $render = $app['twig']->render( 'user_update_form.twig', array(
             'message' => 'Das Passwort wurde geändert.',
