@@ -2,41 +2,43 @@
 
 /**
  * TODO: Doctrine
- * @return int
+ * @return stmt
  */
-function saveLogindata ( array $params, mysqli $db )
+function saveLogindata ( array $params, $db )
 {
     $insert = 'INSERT INTO
                     user(username, useremail, password)
                 VALUES
                 (
-                    "'. $db->real_escape_string( $params["username"] ) .'",
-                    "'. $db->real_escape_string( $params["useremail"] ). '",
-                    "'. $db->real_escape_string( password_hash( $params["password"], PASSWORD_BCRYPT ) ) .'"
+                    :username,
+                    :useremail,
+                    :password
                 )';
     
-    $db->query( $insert );
-
-    return $db->insert_id;
+    return $db->executeQuery( $insert, array(
+                'username' => $params["username"],
+                'useremail' => $params["useremail"],
+                'password' => password_hash( $params["password"], PASSWORD_BCRYPT )
+            ) );
 }
 
 /**
  * TODO: Doctrine
  * @return array
  */
-function getLogindata ( mysqli $db, $username )
+function getLogindata ( $db, $username )
 {
     $sql = 'SELECT
                 id, username, useremail, password, role
             FROM
                 user
             WHERE
-                username = "'. $username .'"';
+                username = "' . $username . '"';
 
     $dbRead = $db->query( $sql );
     $logindata = array();
     $row = $dbRead->fetch_assoc();
-    array_push($logindata, $row);
+    array_push( $logindata, $row );
 
     return $logindata;
 }
@@ -45,21 +47,21 @@ function getLogindata ( mysqli $db, $username )
  * TODO: Doctrine
  * @return array
  */
-function getUser ( mysqli $db, $id )
+function getUser ( $db, $id )
 {
     $sql = 'SELECT
                 id, username, useremail, password
             FROM
                 user
             WHERE
-                id = "'. $id .'"';
+                id = "' . $id . '"';
 
     $dbRead = $db->query( $sql );
     $userdata = array();
 
     $row = $dbRead->fetch_assoc();
 
-    array_push($userdata, $row);
+    array_push( $userdata, $row );
 
     return $userdata;
 }
@@ -68,7 +70,7 @@ function getUser ( mysqli $db, $id )
  * TODO: Doctrine
  * @return array
  */
-function getAllUsers ( mysqli $db )
+function getAllUsers ( $db )
 {
     $sql = 'SELECT
                 id, username, useremail, password
@@ -78,11 +80,10 @@ function getAllUsers ( mysqli $db )
     $dbRead = $db->query( $sql );
     $userdata = array();
 
-    while( $row = $dbRead->fetch_assoc() )
+    while ( $row = $dbRead->fetch_assoc() )
     {
-        array_push($userdata, $row);
+        array_push( $userdata, $row );
     }
 
     return $userdata;
 }
-

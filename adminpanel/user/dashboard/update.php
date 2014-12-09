@@ -4,7 +4,7 @@
  * TODO: Doctrine
  * @return boolean
  */
-function updateUser ( mysqli $db, array $params, $id )
+function updateUser ( $db, array $params, $id )
 {
 	$update =	'UPDATE user
 				SET
@@ -23,7 +23,7 @@ function updateUser ( mysqli $db, array $params, $id )
  * TODO: Doctrine
  * @return boolean
  */
-function updateUsername ( mysqli $db, $username, $id )
+function updateUsername ( $db, $username, $id )
 {
     $update =   'UPDATE user
                 SET
@@ -40,7 +40,7 @@ function updateUsername ( mysqli $db, $username, $id )
  * TODO: Doctrine
  * @return boolean
  */
-function updateEmail ( mysqli $db, $email, $id )
+function updateEmail ( $db, $email, $id )
 {
     $update =   'UPDATE user
                 SET
@@ -57,7 +57,7 @@ function updateEmail ( mysqli $db, $email, $id )
  * TODO: Doctrine
  * @return boolean
  */
-function updatePassword ( mysqli $db, $password, $id )
+function updatePassword ( $db, $password, $id )
 {
     $update =   'UPDATE user
                 SET

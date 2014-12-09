@@ -4,7 +4,7 @@
  * TODO: Doctrine
  * @return boolean
  */
-function deleteUser ( mysqli $db, $id )
+function deleteUser ( $db, $id )
 {
     $delete = 'DELETE FROM user WHERE id = "' . $id . '"';
 

@@ -27,15 +27,32 @@ if ( !empty( $invalidInput ) )
 }
 else
 {
-    $subject = 'Neu angelegter Benutzer';
-    $emailmessage = 'Hallo ' . $postdata['username'] . ',' . PHP_EOL . 'Sie wurden von ' . $app['session']->get( 'user' ) .
-            ' als neuer Benutzer für das Adminpanel hinzugefügt. Sie können sich nun mit folgendem Passwort anmelden: ' . $postdata['password'] .
-            ' (Sie können das Passwort jederzeit auf Ihrem Profil ändern).' . PHP_EOL . 'Mit freundlichen Grüßen' . PHP_EOL . 'Ihr Service Team';
+//    $subject = 'Neu angelegter Benutzer';
+//    $emailmessage = 'Hallo ' . $postdata['username'] . ',' . PHP_EOL . 'Sie wurden von ' . $app['session']->get( 'user' ) .
+//            ' als neuer Benutzer für das Adminpanel hinzugefügt. Sie können sich nun mit folgendem Passwort anmelden: ' . $postdata['password'] .
+//            ' (Sie können das Passwort jederzeit auf Ihrem Profil ändern).' . PHP_EOL . 'Mit freundlichen Grüßen' . PHP_EOL . 'Ihr Service Team';
+    $userData = getAllUsers( $db );
+    
+    foreach ( $userData as $user )
+    {
+        $username = $user['username'];
+        $useremail = $user['useremail'];
+    }
+    
+    if ( $postdata['username'] == $username || $postdata['useremail'] == $useremail )
+    {
+        $render = $app['twig']->render( 'user_add.twig', array(
+            'message' => 'Der Benutzer existiert bereits.',
+            'headline' => 'Benutzer hinzufügen:',
+            'submitvalue' => 'Anlegen'
+                ) );
 
-    if ( saveLogindata( $postdata, $db ) != 0 )
+        return new Response( $render, 404 );
+    }
+    elseif ( saveLogindata( $postdata, $app['db'] ) )
     {
         // Mail an angegebene E-Mail Adresse mit Logindaten
-        mb_send_mail( $postdata['useremail'], $subject, $emailmessage );
+//        mb_send_mail( $postdata['useremail'], $subject, $emailmessage );
 
         $render = $app['twig']->render( 'user_add.twig', array(
             'message' => 'Der Benutzer wurde hinzugefügt.',
@@ -52,7 +69,7 @@ else
             'headline' => 'Benutzer hinzufügen:',
             'submitvalue' => 'Anlegen'
                 ) );
-        
-        return new Response(  $render, 404 );
+
+        return new Response( $render, 404 );
     }
 }

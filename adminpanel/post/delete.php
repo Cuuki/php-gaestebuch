@@ -4,7 +4,7 @@
  * TODO: Doctrine
  * @return boolean
  */
-function deletePost ( mysqli $db, $id )
+function deletePost ( $db, $id )
 {
     $delete = 'DELETE FROM guestbook WHERE id_entry = "'. $id .'"';
 

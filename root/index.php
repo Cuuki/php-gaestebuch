@@ -17,14 +17,12 @@ $app->register( new Silex\Provider\TwigServiceProvider(), array(
 ) );
 $app->register( new Silex\Provider\DoctrineServiceProvider(), array(
     'db.options' => array(
-        'mysql_read' => array(
-            'driver' => 'pdo_mysql',
-            'host' => 'localhost',
-            'dbname' => 'gaestebuch',
-            'user' => 'root',
-            'password' => 'XDrAgonStOrM129',
-            'charset' => 'utf8'
-        )
+        'driver' => 'pdo_mysql',
+        'dbname' => 'gaestebuch',
+        'user' => 'root',
+        'password' => 'XDrAgonStOrM129',
+        'host' => 'localhost',
+        'charset' => 'utf8',
     )
 ) );
 
@@ -46,16 +44,13 @@ $app->before( function () use ( $app )
     {
         // Wenn Pfad = auth/login dann nicht redirecten
         if ( $getPath == '/ap/auth/login' || $getPath == '/ap/auth/reset' || $getPath == '/ap/auth/reset/code' || $getPath == '/gb' )
-        {        
+        {
             return;
         }
         return $app->redirect( $app['url_generator']->generate( 'login' ) );
     }
 } );
 
-// Userzeile als Rückmeldung das er eingeloggt ist
-//$userHeader = '<header><h3>Sie sind als  eingeloggt.</h3></header>';
-//<a href="/php-gaestebuch/adminpanel' . $app['url_generator']->generate( 'settings' ) . '">' . $app['session']->get( 'user' ) . '</a>
 // Mail Encoding auf UTF-8 setzen
 mb_internal_encoding( "UTF-8" );
 
@@ -70,8 +65,5 @@ if ( ( $app['session']->get( 'cookie_lifetime' ) !== 0 ) && ( time() - $sessionL
 {
     session_destroy();
 }
-
-//debug( 'Session Cookie: ', $app['session']->get( 'cookie_lifetime' ), ' Gesetzt bei:', $app['session']->get( 'user' ), PHP_EOL );
-//var_dump( $app['session']->get( 'cookie_lifetime' ) );
 
 $app->run();

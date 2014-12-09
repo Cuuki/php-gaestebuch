@@ -25,7 +25,7 @@ function getMail ( $db, $postdata )
 /**
  * @return boolean
  */
-function saveCode ( mysqli $db, $code, $id )
+function saveCode ( $db, $code, $id )
 {
     // Code und ID von User der den Code angefordert hat in DB speichern
     $insert = 'INSERT INTO

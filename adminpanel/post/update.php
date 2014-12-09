@@ -4,7 +4,7 @@
  * TODO: Doctrine
  * @return boolean
  */
-function updatePost ( mysqli $db, array $params, $id )
+function updatePost ( $db, array $params, $id )
 {
 	$update =	'UPDATE guestbook
 				SET

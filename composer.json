@@ -2,7 +2,8 @@
     "require": {
         "silex/silex": "1.2.1",
         "twig/twig": "~1.0",
-        "doctrine/dbal": "2.2.*"
+        "doctrine/orm": "2.3.6",
+        "palma/DoctrineORMServiceProvider": "1.0.*@dev"
     }
 
 }
