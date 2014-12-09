@@ -7,13 +7,10 @@ $postdata = array(
     'password' => $password->get( 'password' )
 );
 
-$users = getLogindata( $db, $app['session']->get( 'user' ) );
+$users = getLogindata( $app['db'], $app['session']->get( 'user' ) );
 
-foreach ( $users as $user )
-{
-    $id = $user['id'];
-    $password = $user['password'];
-}
+$id = $users['id'];
+$password = $users['password'];
 
 // Wenn altes Passwort nicht mit dem aus der Session übereinstimmt
 if ( password_verify( $postdata['oldpassword'], $password ) == FALSE )

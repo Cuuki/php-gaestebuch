@@ -6,12 +6,9 @@ $postdata = array(
     'useremail' => $useremail->get( 'useremail' )
 );
 
-$userData = getUser( $db, $id );
+$userData = getUser( $app['db'], $id );
 
-foreach ( $userData as $user )
-{
-    $id = $user['id'];
-}
+$id = $userData['id'];
 
 $postdata = $this->sanitizeIndividualFields( $postdata );
 

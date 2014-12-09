@@ -3,12 +3,9 @@
 use Symfony\Component\HttpFoundation\Response;
 
 // Daten für gerade eingeloggten User aus Datenbank holen
-$users = getLogindata( $db, $app['session']->get( 'user' ) );
+$users = getLogindata( $app['db'], $app['session']->get( 'user' ) );
 
-foreach ( $users as $user )
-{
-    $role = $user['role'];
-}
+$role = $users['role'];
 
 // Wenn die Benutzerrolle 'adm' ist, darf der Benutzer keinen anderen Benutzer löschen
 if ( $role == 'adm' )
@@ -23,7 +20,7 @@ if ( $role == 'adm' )
 
 include_once USER_DIR . '/dashboard/update.php';
 // Ausgewählten Benutzer aus Datenbank holen mit $id aus URL
-$userData = getUser( $db, $id );
+$userData = getUser( $app['db'], $id );
 
 $loggeduser = $app['session']->get( 'user' );
 

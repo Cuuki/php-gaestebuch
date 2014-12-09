@@ -20,7 +20,6 @@
     {% if message is not defined %} 
     {% if errormessages is not defined or errormessages is null %}
         <h2>Daten einzeln ändern:</h2>
-        {% for user in user %}
             <p>Benutzername: {{ user.username }}</p>
             <p>
                 <a href="{{ user.id }}/username">Benutzername bearbeiten</a>
@@ -36,7 +35,6 @@
                 <a href="{{ user.id }}/password">Passwort bearbeiten</a>
             </p>
             <br>
-        {% endfor %}
         {%endif%}
     {% endif %}
     </article>

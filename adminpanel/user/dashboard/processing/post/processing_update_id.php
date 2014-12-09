@@ -10,12 +10,9 @@ $postdata = array(
 
 include_once USER_DIR . '/dashboard/update.php';
 
-$userData = getUser( $db, $id );
+$userData = getUser( $app['db'], $id );
 
-foreach ( $userData as $user )
-{
-    $id = $user['id'];
-}
+$id = $userData['id'];
 
 $postdata = $this->sanitizeLogindata( $postdata );
 

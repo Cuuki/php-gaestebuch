@@ -1,22 +1,22 @@
 <?php
 
-$insert = 'INSERT INTO `user`
-(
-	`username`,
-	`useremail`,
-	`password`,
-	`role`
-)
-VALUES
-(
-    "' . $db->real_escape_string( "sudo" ) . '",
-    "' . $db->real_escape_string( "sudo@master.com" ) . '",
-	"' . $db->real_escape_string( password_hash( "sudo", PASSWORD_BCRYPT ) ) . '",
-	"suadm"
-)';
+$insert = 'INSERT INTO
+                user(username, useremail, password, role)
+           VALUES
+           (
+                :username,
+                :useremail,
+                :password,
+                :role
+           )';
 
 // lege superuser an, wenn nicht schon vorhanden
-if ( getLogindata( $db, 'sudo' )[0] == NULL )
+if ( getLogindata( $app['db'], 'sudo' ) == NULL )
 {
-    $db->query( $insert );
+    $app['db']->executeQuery( $insert, array(
+        'username' => 'sudo',
+        'useremail' => 'sudo@master.com',
+        'password' => password_hash( "sudo", PASSWORD_BCRYPT ),
+        'role' => 'suadm'
+    ) );
 }

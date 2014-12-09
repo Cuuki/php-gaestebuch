@@ -1,7 +1,6 @@
 <?php
 
 /**
- * TODO: Doctrine
  * @return stmt
  */
 function saveLogindata ( array $params, $db )
@@ -14,7 +13,7 @@ function saveLogindata ( array $params, $db )
                     :useremail,
                     :password
                 )';
-    
+
     return $db->executeQuery( $insert, array(
                 'username' => $params["username"],
                 'useremail' => $params["useremail"],
@@ -23,67 +22,31 @@ function saveLogindata ( array $params, $db )
 }
 
 /**
- * TODO: Doctrine
  * @return array
  */
 function getLogindata ( $db, $username )
 {
-    $sql = 'SELECT
-                id, username, useremail, password, role
-            FROM
-                user
-            WHERE
-                username = "' . $username . '"';
+    $select = 'SELECT * FROM user WHERE username = ?';
 
-    $dbRead = $db->query( $sql );
-    $logindata = array();
-    $row = $dbRead->fetch_assoc();
-    array_push( $logindata, $row );
-
-    return $logindata;
+    return $db->fetchAssoc( $select, array( $username ) );
 }
 
 /**
- * TODO: Doctrine
  * @return array
  */
 function getUser ( $db, $id )
 {
-    $sql = 'SELECT
-                id, username, useremail, password
-            FROM
-                user
-            WHERE
-                id = "' . $id . '"';
+    $select = 'SELECT * FROM user WHERE id = ?';
 
-    $dbRead = $db->query( $sql );
-    $userdata = array();
-
-    $row = $dbRead->fetch_assoc();
-
-    array_push( $userdata, $row );
-
-    return $userdata;
+    return $db->fetchAssoc( $select, array( $id ) );
 }
 
 /**
- * TODO: Doctrine
  * @return array
  */
 function getAllUsers ( $db )
 {
-    $sql = 'SELECT
-                id, username, useremail, password
-            FROM
-                user';
+    $select = 'SELECT * FROM user';
 
-    $dbRead = $db->query( $sql );
-    $userdata = array();
-
-    while ( $row = $dbRead->fetch_assoc() )
-    {
-        array_push( $userdata, $row );
-    }
-
-    return $userdata;
+    return $db->fetchAll( $select );
 }

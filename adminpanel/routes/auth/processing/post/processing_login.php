@@ -8,12 +8,9 @@ $postdata = array(
     'staylogged' => $staylogged->get( 'staylogged' )
 );
 // Daten aus Datenbank holen
-$logindata = getLogindata( $db, $postdata['username'] );
+$logindata = getLogindata( $app['db'], $postdata['username'] );
 
-foreach ( $logindata as $data )
-{
-    $hash = $data['password'];
-}
+$hash = $logindata['password'];
 
 // mit Eingabe vergleichen, Authentifizierung
 if ( password_verify( $postdata['password'], $hash ) )
@@ -39,6 +36,6 @@ else
 {
     $render = $app['twig']->render( 'login_form.twig', array(
         'message' => 'Login fehlgeschlagen. Ihre Daten sind nicht korrekt.'
-    ) );
+            ) );
     return new Response( $render, 404 );
 }

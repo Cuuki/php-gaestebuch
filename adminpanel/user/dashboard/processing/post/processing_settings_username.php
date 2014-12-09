@@ -7,12 +7,9 @@ $postdata = array(
     'username' => $username->get( 'username' )
 );
 
-$users = getLogindata( $db, $app['session']->get( 'user' ) );
+$users = getLogindata( $app['db'], $app['session']->get( 'user' ) );
 
-foreach ( $users as $user )
-{
-    $id = $user['id'];
-}
+$id = $users['id'];
 
 // Wenn alter Benutzername nicht mit dem aus der Session übereinstimmt
 if ( $postdata['oldusername'] != $app['session']->get( 'user' ) )

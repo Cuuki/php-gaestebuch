@@ -3,20 +3,14 @@
 use Symfony\Component\HttpFoundation\Response;
 
 // Daten für gerade eingeloggten User aus Datenbank holen
-$users = getLogindata( $db, $app['session']->get( 'user' ) );
+$users = getLogindata( $app['db'], $app['session']->get( 'user' ) );
 
-foreach ( $users as $user )
-{
-    $usernameSession = $user['username'];
-    $role = $user['role'];
-}
+$usernameSession = $users['username'];
+$role = $users['role'];
 
-$selectedUser = getUser( $db, $id );
+$selectedUser = getUser( $app['db'], $id );
 
-foreach ( $selectedUser as $select )
-{
-    $usernameSelected = $select['username'];
-}
+$usernameSelected = $selectedUser['username'];
 
 include_once USER_DIR . '/dashboard/delete.php';
 
