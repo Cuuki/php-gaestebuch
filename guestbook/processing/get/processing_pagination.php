@@ -5,7 +5,7 @@ $pageNumber = array();
 $nextPage = '';
 $lastPage = '';
 
-$totalentries = totalEntries( $db );
+$totalentries = totalEntries( $app['db'] );
 
 $rowsperpage = 5;
 

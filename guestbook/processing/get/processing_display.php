@@ -2,7 +2,7 @@
 
 use Symfony\Component\HttpFoundation\Response;
 
-$posts = getPosts( $db, $rowsperpage, $currentpage );
+$posts = getPosts( $app['db'], $rowsperpage, $currentpage );
 
 $render = $app['twig']->render( 'guestbook.twig', array(
     'posts' => $posts,

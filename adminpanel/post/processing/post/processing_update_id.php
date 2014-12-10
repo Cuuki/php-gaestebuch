@@ -11,7 +11,7 @@ $postdata = array(
 
 include_once POST_DIR . '/update.php';
 
-$entryData = getEntry( $db, $id );
+$entryData = getEntry( $app['db'], $id );
 
 foreach ( $entryData as $post )
 {

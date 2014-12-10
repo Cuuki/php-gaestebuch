@@ -1,7 +1,6 @@
 <?php
 
-/**
- * 
+/** 
  * @return array
  */
 function sanitizeData ( array $params )
@@ -43,80 +42,51 @@ function validateForm ( array $params )
 }
 
 /**
- * TODO: Doctrine
- * @return int
+ * @return stmt
  */
-function savePosts ( array $params, mysqli $db )
+function savePosts ( array $params, $db )
 {
     $insert = 'INSERT INTO
-					guestbook(firstname, lastname, email, content)
-				VALUES 
-				(
-					"' . $db->real_escape_string( $params["firstname"] ) . '",
-					"' . $db->real_escape_string( $params["lastname"] ) . '",
-					"' . $db->real_escape_string( $params["email"] ) . '",
-					"' . $db->real_escape_string( $params["textinput"] ) . '"
-				)';
-
-    $db->query( $insert );
-
-    return $db->insert_id;
+                    guestbook(firstname, lastname, email, content)
+                VALUES
+                ( 
+                    :firstname,
+                    :lastname,
+                    :email,
+                    :content
+                )';
+    
+    return $db->executeQuery( $insert, array(
+                'firstname' => $params["firstname"],
+                'lastname' => $params["lastname"],
+                'email' => $params["email"],
+                'content' => $params["textinput"]
+            ) );
 }
 
 /**
- * TODO: Doctrine
  * @return array
  */
-function getEntry ( mysqli $db, $id )
+function getEntry ( $db, $id )
 {
-    $sql = 'SELECT
-                firstname, lastname, email, content, created
-            FROM
-                guestbook
-            WHERE
-            	id_entry = "' . $id . '"';
+    $select = 'SELECT * FROM guestbook WHERE id_entry = ?';
 
-    $dbRead = $db->query( $sql );
-    $userdata = array();
-
-    $row = $dbRead->fetch_assoc();
-
-    array_push( $userdata, $row );
-
-    return $userdata;
+    return $db->fetchAssoc( $select, array( $id ) );
 }
 
 /**
- * TODO: Doctrine
  * @return array
  */
-function getPosts ( mysqli $db, $rowsperpage, $currentpage )
+function getPosts ( $db, $rowsperpage, $currentpage )
 {
     $offset = ($currentpage - 1) * $rowsperpage;
 
-    // Ausgabe in Variable speichern
-    $sql = "SELECT
-				id_entry, firstname, lastname, email, content, created
-			FROM
-				guestbook
-
-			ORDER BY created DESC
-			LIMIT " . (int) $offset . ", " . (int) $rowsperpage . "";
-
-    $dbRead = $db->query( $sql );
-
-    $postings = array();
-
-    while ( $row = $dbRead->fetch_assoc() )
-    {
-        array_push( $postings, $row );
-    }
-
-    return $postings;
+    $select = 'SELECT * FROM guestbook ORDER BY created DESC LIMIT ' . (int) $offset . ', ' . (int) $rowsperpage . '';
+    
+    return $db->fetchAll( $select );
 }
 
 /**
- * TODO: Template
  * @return array
  */
 function getErrorMessages ( $invalidInput )

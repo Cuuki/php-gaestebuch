@@ -16,14 +16,12 @@
 
 {% block content %}
     {% if message is not defined %} 
-    {% if errormessages is not defined or errormessages is null %}
-        {% for post in post %}
-                <p>Autor:<br> {{ post.firstname }}</p>
-                <p>Beitrag:<br> {{ post.lastname }}</p>
-                <p>E-Mail:<br> {{ post.email }}</p>
-                <p>Inhalt:<br> {{ post.content }}</p>
-                <br>
-        {% endfor %}
+        {% if errormessages is not defined or errormessages is null %}
+            <p>Autor:<br> {{ post.firstname }}</p>
+            <p>Beitrag:<br> {{ post.lastname }}</p>
+            <p>E-Mail:<br> {{ post.email }}</p>
+            <p>Inhalt:<br> {{ post.content }}</p>
+            <br>
         {%endif%}
     {% endif %}
     <section id='form'>

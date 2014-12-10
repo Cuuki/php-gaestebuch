@@ -38,7 +38,7 @@ if ( !empty( $invalidInput ) )
 }
 else
 {
-    if ( savePosts( $data, $db ) != 0 )
+    if ( savePosts( $data, $app['db'] ) )
     {
         // hinweis, dass gespeichert wurde
         $message = "Ihr Beitrag wurde erfolgreich gespeichert.";

@@ -4,7 +4,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 include_once POST_DIR . '/update.php';
 
-$entryData = getEntry( $db, $id );
+$entryData = getEntry( $app['db'], $id );
 
 $loggeduser = $app['session']->get( 'user' );
 

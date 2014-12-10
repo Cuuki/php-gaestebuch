@@ -16,22 +16,10 @@ class AdminpanelControllerProvider implements ControllerProviderInterface
     public function connect ( Application $app )
     {
         // Dateien einbinden
-        include_once __DIR__ . '/../lib/debug-functions.php';
-        include_once __DIR__ . '/../lib/dbconnect.php';
+        include_once __DIR__ . '/../lib/debug.php';
         $gbFunctions = include_once __DIR__ . '/../lib/gb-functions.php';
         $apFunctions = include_once __DIR__ . '/../lib/ap-functions.php';
         include_once __DIR__ . '/../adminpanel/sudo-config.php';
-
-        $dboptions = array(
-            "Hostname" => "localhost",
-            "Username" => "root",
-            "Password" => "XDrAgonStOrM129",
-            "Databasename" => "gaestebuch"
-        );
-
-        $db = dbConnect( $dboptions );
-
-        $db->query( "SET NAMES utf8" );
 
         $controllers = $app['controllers_factory'];
 
@@ -61,16 +49,16 @@ class AdminpanelControllerProvider implements ControllerProviderInterface
             return include_once USER_DIR . '/dashboard/processing/get/processing_dashboard.php';
         } )->bind( 'dashboard' );
 
-        $this->bindAuth( $app, $controllers, $db, $apFunctions );
-        $this->bindReset( $app, $controllers, $db );
-        $this->bindSettings( $app, $controllers, $db, $apFunctions );
-        $this->bindUser( $app, $controllers, $db, $apFunctions, $gbFunctions );
-        $this->bindPosts( $app, $controllers, $db, $gbFunctions );
+        $this->bindAuth( $app, $controllers, $apFunctions );
+        $this->bindReset( $app, $controllers );
+        $this->bindSettings( $app, $controllers, $apFunctions );
+        $this->bindUser( $app, $controllers, $apFunctions, $gbFunctions );
+        $this->bindPosts( $app, $controllers, $gbFunctions );
 
         return $controllers;
     }
 
-    private function bindAuth ( Application $app, $controllers, $db, $apFunctions )
+    private function bindAuth ( Application $app, $controllers, $apFunctions )
     {
         //Login        
         $controllers->get( 'auth/login', function () use ( $app )
@@ -78,7 +66,7 @@ class AdminpanelControllerProvider implements ControllerProviderInterface
             return include_once ROUTES_DIR . '/auth/processing/get/processing_login.php';
         } )->bind( 'login' );
 
-        $controllers->post( 'auth/login', function ( Request $username, Request $password, Request $staylogged ) use ( $app, $db, $apFunctions )
+        $controllers->post( 'auth/login', function ( Request $username, Request $password, Request $staylogged ) use ( $app, $apFunctions )
         {
             return include_once ROUTES_DIR . '/auth/processing/post/processing_login.php';
         } );
@@ -92,7 +80,7 @@ class AdminpanelControllerProvider implements ControllerProviderInterface
         return $controllers;
     }
 
-    private function bindReset ( Application $app, $controllers, $db )
+    private function bindReset ( Application $app, $controllers )
     {
         //Passwort zurücksetzen        
         $controllers->get( 'auth/reset', function () use ( $app )
@@ -100,7 +88,7 @@ class AdminpanelControllerProvider implements ControllerProviderInterface
             return include_once ROUTES_DIR . '/auth/processing/get/processing_reset.php';
         } )->bind('reset');
 
-        $controllers->post( 'auth/reset', function ( Request $email ) use ( $app, $db )
+        $controllers->post( 'auth/reset', function ( Request $email ) use ( $app )
         {
             return include_once ROUTES_DIR . '/auth/processing/post/processing_reset.php';
         } );
@@ -110,7 +98,7 @@ class AdminpanelControllerProvider implements ControllerProviderInterface
             return include_once ROUTES_DIR . '/auth/processing/get/processing_code.php';
         } )->bind('resetCode');
 
-        $controllers->post( 'auth/reset/code', function ( Request $code, Request $password ) use ( $db, $app )
+        $controllers->post( 'auth/reset/code', function ( Request $code, Request $password ) use ( $app )
         {
             return include_once ROUTES_DIR . '/auth/processing/post/processing_code.php';
         } );
@@ -118,7 +106,7 @@ class AdminpanelControllerProvider implements ControllerProviderInterface
         return $controllers;
     }
 
-    private function bindSettings ( Application $app, $controllers, $db, $apFunctions )
+    private function bindSettings ( Application $app, $controllers, $apFunctions )
     {
         // User Einstellungen
         $controllers->get( 'user/dashboard/settings', function () use ( $app )
@@ -131,7 +119,7 @@ class AdminpanelControllerProvider implements ControllerProviderInterface
             return include_once USER_DIR . '/dashboard/processing/get/processing_settings_username.php';
         } )->bind( 'changeUsername' );
 
-        $controllers->post( 'user/dashboard/settings/username', function ( Request $username ) use ( $db, $app, $apFunctions )
+        $controllers->post( 'user/dashboard/settings/username', function ( Request $username ) use ( $app, $apFunctions )
         {
             return include_once USER_DIR . '/dashboard/processing/post/processing_settings_username.php';
         } );
@@ -141,7 +129,7 @@ class AdminpanelControllerProvider implements ControllerProviderInterface
             return include_once USER_DIR . '/dashboard/processing/get/processing_settings_password.php';
         } )->bind( 'changePassword' );
 
-        $controllers->post( 'user/dashboard/settings/password', function ( Request $password ) use ( $db, $app, $apFunctions )
+        $controllers->post( 'user/dashboard/settings/password', function ( Request $password ) use ( $app, $apFunctions )
         {
             return include_once USER_DIR . '/dashboard/processing/post/processing_settings_password.php';
         } );
@@ -151,7 +139,7 @@ class AdminpanelControllerProvider implements ControllerProviderInterface
             return include_once USER_DIR . '/dashboard/processing/get/processing_settings_email.php';
         } )->bind( 'changeEmail' );
 
-        $controllers->post( 'user/dashboard/settings/email', function ( Request $email ) use ( $db, $app, $apFunctions )
+        $controllers->post( 'user/dashboard/settings/email', function ( Request $email ) use ( $app, $apFunctions )
         {
             return include_once USER_DIR . '/dashboard/processing/post/processing_settings_email.php';
         } );
@@ -159,7 +147,7 @@ class AdminpanelControllerProvider implements ControllerProviderInterface
         return $controllers;
     }
 
-    private function bindUser ( Application $app, $controllers, $db, $apFunctions, $gbFunctions )
+    private function bindUser ( Application $app, $controllers, $apFunctions, $gbFunctions )
     {
         // Benutzer hinzufügen
         $controllers->get( 'user/dashboard/add', function () use ( $app )
@@ -167,23 +155,23 @@ class AdminpanelControllerProvider implements ControllerProviderInterface
             return include_once USER_DIR . '/dashboard/processing/get/processing_add.php';
         } )->bind( 'add' );
 
-        $controllers->post( 'user/dashboard/add', function ( Request $username, Request $useremail, Request $password ) use ( $app, $db, $apFunctions, $gbFunctions )
+        $controllers->post( 'user/dashboard/add', function ( Request $username, Request $useremail, Request $password ) use ( $app, $apFunctions, $gbFunctions )
         {
             return include_once USER_DIR . '/dashboard/processing/post/processing_add.php';
         } );
 
         // Benutzerdaten bearbeiten
-        $controllers->get( 'user/dashboard/update/', function () use ( $app, $db, $apFunctions )
+        $controllers->get( 'user/dashboard/update/', function () use ( $app, $apFunctions )
         {
             return include_once USER_DIR . '/dashboard/display/display_update.php';
         } )->bind( 'update' );
 
-        $controllers->get( 'user/dashboard/update/{id}', function ( $id ) use ( $app, $db, $apFunctions, $gbFunctions )
+        $controllers->get( 'user/dashboard/update/{id}', function ( $id ) use ( $app, $apFunctions, $gbFunctions )
         {
             return include_once USER_DIR . '/dashboard/display/display_update_id.php';
         } );
 
-        $controllers->post( 'user/dashboard/update/{id}', function ( $id, Request $username, Request $useremail, Request $password ) use ( $db, $app, $apFunctions, $gbFunctions )
+        $controllers->post( 'user/dashboard/update/{id}', function ( $id, Request $username, Request $useremail, Request $password ) use ( $app, $apFunctions, $gbFunctions )
         {
             return include_once USER_DIR . '/dashboard/processing/post/processing_update_id.php';
         } );
@@ -193,7 +181,7 @@ class AdminpanelControllerProvider implements ControllerProviderInterface
             return include_once USER_DIR . '/dashboard/processing/get/processing_update_username.php';
         } );
 
-        $controllers->post( 'user/dashboard/update/{id}/username', function ( $id, Request $username ) use ( $app, $db, $apFunctions, $gbFunctions )
+        $controllers->post( 'user/dashboard/update/{id}/username', function ( $id, Request $username ) use ( $app, $apFunctions, $gbFunctions )
         {
             return include_once USER_DIR . '/dashboard/processing/post/processing_update_username.php';
         } );
@@ -203,7 +191,7 @@ class AdminpanelControllerProvider implements ControllerProviderInterface
             return include_once USER_DIR . '/dashboard/processing/get/processing_update_email.php';
         } );
 
-        $controllers->post( 'user/dashboard/update/{id}/email', function ( $id, Request $useremail ) use ( $app, $db, $apFunctions, $gbFunctions )
+        $controllers->post( 'user/dashboard/update/{id}/email', function ( $id, Request $useremail ) use ( $app, $apFunctions, $gbFunctions )
         {
             return include_once USER_DIR . '/dashboard/processing/post/processing_update_email.php';
         } );
@@ -213,18 +201,18 @@ class AdminpanelControllerProvider implements ControllerProviderInterface
             return include_once USER_DIR . '/dashboard/processing/get/processing_update_password.php';
         } );
 
-        $controllers->post( 'user/dashboard/update/{id}/password', function ( $id, Request $password ) use ( $app, $db, $apFunctions, $gbFunctions )
+        $controllers->post( 'user/dashboard/update/{id}/password', function ( $id, Request $password ) use ( $app, $apFunctions, $gbFunctions )
         {
             return include_once USER_DIR . '/dashboard/processing/post/processing_update_password.php';
         } );
 
         // Benutzer löschen
-        $controllers->get( 'user/dashboard/delete/', function () use ( $app, $db, $apFunctions )
+        $controllers->get( 'user/dashboard/delete/', function () use ( $app, $apFunctions )
         {
             return include_once USER_DIR . '/dashboard/display/display_delete.php';
         } )->bind( 'delete' );
 
-        $controllers->get( 'user/dashboard/delete/{id}', function( $id ) use ( $app, $db, $apFunctions )
+        $controllers->get( 'user/dashboard/delete/{id}', function( $id ) use ( $app, $apFunctions )
         {
             return include_once USER_DIR . '/dashboard/processing/get/processing_delete.php';
         } );
@@ -232,7 +220,7 @@ class AdminpanelControllerProvider implements ControllerProviderInterface
         return $controllers;
     }
 
-    private function bindPosts ( Application $app, $controllers, $db, $gbFunctions )
+    private function bindPosts ( Application $app, $controllers, $gbFunctions )
     {
         // Auf Home des Gästebuchs weiterleiten zur Sprungmarke 'add'
         $controllers->get( 'post/add', function () use ( $app )
@@ -241,28 +229,28 @@ class AdminpanelControllerProvider implements ControllerProviderInterface
         } )->bind( 'postAdd' );
 
         //Beitrag bearbeiten
-        $controllers->get( 'post/update', function () use ( $db, $app )
+        $controllers->get( 'post/update', function () use ( $app )
         {
             return include_once POST_DIR . '/display/display_update.php';
         } )->bind( 'postUpdate' );
 
-        $controllers->get( 'post/update/{id}', function ( $id ) use ( $app, $db, $gbFunctions )
+        $controllers->get( 'post/update/{id}', function ( $id ) use ( $app, $gbFunctions )
         {
             return include_once POST_DIR . '/processing/get/processing_update_id.php';
         } );
 
-        $controllers->post( 'post/update/{id}', function ( $id, Request $firstname, Request $lastname, Request $email, Request $textinput ) use ( $db, $app, $gbFunctions )
+        $controllers->post( 'post/update/{id}', function ( $id, Request $firstname, Request $lastname, Request $email, Request $textinput ) use ( $app, $gbFunctions )
         {
             return include_once POST_DIR . '/processing/post/processing_update_id.php';
         } );
 
         //Beitrag löschen        
-        $controllers->get( 'post/delete', function () use ( $app, $db )
+        $controllers->get( 'post/delete', function () use ( $app )
         {
             return include_once POST_DIR . '/display/display_delete.php';
         } )->bind( 'postDelete' );
 
-        $controllers->get( 'post/delete/{id}', function ( $id ) use ( $db, $app )
+        $controllers->get( 'post/delete/{id}', function ( $id ) use ( $app )
         {
             return include_once POST_DIR . '/processing/get/processing_delete_id.php';
         } );
