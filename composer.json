@@ -4,6 +4,11 @@
         "twig/twig": "~1.0",
         "doctrine/orm": "2.3.6",
         "palma/DoctrineORMServiceProvider": "1.0.*@dev"
+    },
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-0": {
+            "Guestbook": "lib/"
+        }
     }
-
 }

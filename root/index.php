@@ -8,7 +8,12 @@ require_once __DIR__ . '/../vendor/autoload.php';
 include_once __DIR__ . '/../ControllerProviders/GuestbookControllerProvider.php';
 include_once __DIR__ . '/../ControllerProviders/AdminpanelControllerProvider.php';
 
+$userdata = array(
+    'id' => 25
+);
+
 $app = new Silex\Application();
+$user = new Guestbook\User( $userdata );
 
 $app->register( new Silex\Provider\UrlGeneratorServiceProvider() );
 $app->register( new Silex\Provider\SessionServiceProvider() );
@@ -25,6 +30,8 @@ $app->register( new Silex\Provider\DoctrineServiceProvider(), array(
         'charset' => 'utf8',
     )
 ) );
+
+var_dump( $user->getUserById( $app['db'] ) );
 
 $app['debug'] = TRUE;
 

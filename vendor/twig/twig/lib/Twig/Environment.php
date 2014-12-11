@@ -16,7 +16,7 @@
  */
 class Twig_Environment
 {
-    const VERSION = '1.16.2';
+    const VERSION = '1.16.3-DEV';
 
     protected $charset;
     protected $loader;
@@ -353,7 +353,7 @@ class Twig_Environment
      * not changed.
      *
      * @param string    $name The template name
-     * @param timestamp $time The last modification time of the cached template
+     * @param int       $time The last modification time of the cached template
      *
      * @return bool    true if the template is fresh, false otherwise
      */

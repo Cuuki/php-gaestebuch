@@ -117,6 +117,13 @@ class ProgressHelper extends Helper
         array(604800, 'days', 86400),
     );
 
+    public function __construct($triggerDeprecationError = true)
+    {
+        if ($triggerDeprecationError) {
+            trigger_error('"Symfony\Component\Console\Helper\ProgressHelper" is deprecated since version 2.5 and will be removed in 3.0. Use "Symfony\Component\Console\Helper\ProgressBar" instead.', E_USER_DEPRECATED);
+        }
+    }
+
     /**
      * Sets the progress bar width.
      *
