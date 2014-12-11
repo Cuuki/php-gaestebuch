@@ -2,27 +2,27 @@
 
 namespace Guestbook;
 
-interface UserInterface
+interface DatabaseQueriesInterface
 {
 //    TODO Interface als Schablone für alle Datenbankabfragen
     
     /**
      * @return array
      */
-    public function getUsers ( $db );
+    public function select ( $db );
 
     /**
      * @return stmt
      */
-    public function updateUser ( $db );
+    public function update ( $db );
 
     /**
      * @return stmt
      */
-    public function saveUser ( $db );
+    public function insert ( $db );
 
     /**
      * @return stmt
      */
-    public function deleteUser ( $db );
+    public function delete ( $db );
 }

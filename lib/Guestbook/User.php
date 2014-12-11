@@ -2,62 +2,102 @@
 
 namespace Guestbook;
 
-class User extends AbstractUser
+class User implements DatabaseQueriesInterface
 {
-    
+    /**
+     * @var integer
+     */
+    private $id;
+
+    /**
+     * @var string
+     */
+    private $username;
+
+    /**
+     * @var string
+     */
+    private $useremail;
+
+    /**
+     * @var string
+     */
+    private $password;
+
+    /**
+     * @var string
+     */
+    private $role;
+
 //    TODO User raus aus funktionennamen
-
 //    MAGIC METHODS
-    
 //    Setter für Attribute
-    
-    // set attributes to passed data
-    public function __construct ( array $data )
+
+
+    public function __construct ()
     {
-        if ( isset( $data['id'] ) )
-        {
-            $this->id = $data['id'];
-        }
-        elseif ( isset( $data['username'] ) )
-        {
-            $this->username = $data['username'];
-        }
-        elseif ( isset( $data['useremail'] ) )
-        {
-            $this->useremail = $data['useremail'];
-        }
-        elseif ( isset( $data['password'] ) )
-        {
-            $this->password = $data['password'];
-        }
-        elseif ( isset( $data['role'] ) )
-        {
-            $this->role = $data['role'];
-        }
+        
     }
 
-    public function getUserByName ( $db )
-    {
-        $select = 'SELECT * FROM user WHERE username = ?';
+    // Getter
 
-        return $db->fetchAssoc( $select, array( $this->username ) );
+    /**
+     * @return int
+     */
+    public function getId ()
+    {
+        return $this->id;
     }
 
-    public function getUserById ( $db )
+    /**
+     * @return string
+     */
+    public function getName ()
     {
-        $select = 'SELECT * FROM user WHERE id = ?';
-
-        return $db->fetchAssoc( $select, array( $this->id ) );
+        return $this->username;
     }
 
-    public function getUsers ( $db )
+    /**
+     * @return string
+     */
+    public function getEmail ()
+    {
+        return $this->useremail;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPassword ()
+    {
+        return $this->password;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRole ()
+    {
+        return $this->role;
+    }
+
+    // Setter
+    // Queries
+
+    /**
+     * @return array
+     */
+    public function select ( $db )
     {
         $select = 'SELECT * FROM user';
 
         return $db->fetchAll( $select );
     }
 
-    public function updateUser ( $db )
+    /**
+     * @return stmt
+     */
+    public function update ( $db )
     {
         $update = 'UPDATE
                         user
@@ -76,52 +116,10 @@ class User extends AbstractUser
                 ) );
     }
 
-    public function updateUsername ( $db )
-    {
-        $update = 'UPDATE
-                        user
-                   SET
-                        username = :username
-                   WHERE
-                        id = :id';
-
-        return $db->executeQuery( $update, array(
-                    'username' => $this->username,
-                    'id' => $this->id
-                ) );
-    }
-
-    public function updateEmail ( $db )
-    {
-        $update = 'UPDATE
-                        user
-                   SET
-                        useremail = :useremail
-                   WHERE
-                        id = :id';
-
-        return $db->executeQuery( $update, array(
-                    'useremail' => $this->email,
-                    'id' => $this->id
-                ) );
-    }
-
-    public function updatePassword ( $db )
-    {
-        $update = 'UPDATE
-                        user
-                   SET
-                        password = :password
-                   WHERE
-                        id = :id';
-
-        return $db->executeQuery( $update, array(
-                    'password' => password_hash( $this->password, PASSWORD_BCRYPT ),
-                    'id' => $this->id
-                ) );
-    }
-
-    public function saveUser ( $db )
+    /**
+     * @return stmt
+     */
+    public function insert ( $db )
     {
         $insert = 'INSERT INTO
                         user(username, useremail, password)
@@ -139,9 +137,87 @@ class User extends AbstractUser
                 ) );
     }
 
-    public function deleteUser ( $db )
+    /**
+     * @return stmt
+     */
+    public function delete ( $db )
     {
         return $db->delete( 'user', array( 'id' => $this->id ) );
+    }
+
+    /**
+     * @return array
+     */
+    public function selectByName ( $db )
+    {
+        $select = 'SELECT * FROM user WHERE username = ?';
+
+        return $db->fetchAssoc( $select, array( $this->username ) );
+    }
+
+//TODO selectByName und selectById zusammenfassen
+    /**
+     * @return array
+     */
+    public function selectById ( $db )
+    {
+        $select = 'SELECT * FROM user WHERE id = ?';
+
+        return $db->fetchAssoc( $select, array( $this->id ) );
+    }
+
+    /**
+     * @return stmt
+     */
+    public function updateUsername ( $db )
+    {
+        $update = 'UPDATE
+                        user
+                   SET
+                        username = :username
+                   WHERE
+                        id = :id';
+
+        return $db->executeQuery( $update, array(
+                    'username' => $this->username,
+                    'id' => $this->id
+                ) );
+    }
+
+    /**
+     * @return stmt
+     */
+    public function updateEmail ( $db )
+    {
+        $update = 'UPDATE
+                        user
+                   SET
+                        useremail = :useremail
+                   WHERE
+                        id = :id';
+
+        return $db->executeQuery( $update, array(
+                    'useremail' => $this->email,
+                    'id' => $this->id
+                ) );
+    }
+
+    /**
+     * @return stmt
+     */
+    public function updatePassword ( $db )
+    {
+        $update = 'UPDATE
+                        user
+                   SET
+                        password = :password
+                   WHERE
+                        id = :id';
+
+        return $db->executeQuery( $update, array(
+                    'password' => password_hash( $this->password, PASSWORD_BCRYPT ),
+                    'id' => $this->id
+                ) );
     }
 
 }
