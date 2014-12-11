@@ -4,6 +4,8 @@ namespace Guestbook;
 
 interface UserInterface
 {
+//    TODO Interface als Schablone für alle Datenbankabfragen
+    
     /**
      * @return array
      */

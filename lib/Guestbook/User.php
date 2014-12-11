@@ -4,7 +4,13 @@ namespace Guestbook;
 
 class User extends AbstractUser
 {
+    
+//    TODO User raus aus funktionennamen
 
+//    MAGIC METHODS
+    
+//    Setter für Attribute
+    
     // set attributes to passed data
     public function __construct ( array $data )
     {
