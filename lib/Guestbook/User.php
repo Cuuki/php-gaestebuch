@@ -2,8 +2,6 @@
 
 namespace Guestbook;
 
-//use Exception;
-
 class User extends AbstractUser
 {
 
@@ -30,10 +28,6 @@ class User extends AbstractUser
         {
             $this->role = $data['role'];
         }
-//        else
-//        {
-//            throw new Exception( 'No attributes set!', 404 );
-//        }
     }
 
     public function getUserByName ( $db )

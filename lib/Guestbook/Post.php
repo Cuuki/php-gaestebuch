@@ -2,29 +2,48 @@
 
 namespace Guestbook;
 
-class Post
+class Post extends AbstractPost
 {
-    private $id_entry;
-    private $firstname;
-    private $latname;
-    private $email;
-    private $content;
-    private $created;
 
-    /**
-     * @return array
-     */
-    public function getPostById ( $db, $id )
+    // set attributes to passed data
+    public function __construct ( array $data )
     {
-        $select = 'SELECT * FROM guestbook WHERE id_entry = ?';
-
-        return $db->fetchAssoc( $select, array( $id ) );
+        if ( isset( $data['id_entry'] ) )
+        {
+            $this->id_entry = $data['id_entry'];
+        }
+        elseif ( isset( $data['firstname'] ) )
+        {
+            $this->firstname = $data['firstname'];
+        }
+        elseif ( isset( $data['lastname'] ) )
+        {
+            $this->lastname = $data['lastname'];
+        }
+        elseif ( isset( $data['email'] ) )
+        {
+            $this->email = $data['email'];
+        }
+        elseif ( isset( $data['textinput'] ) )
+        {
+            $this->content = $data['textinput'];
+        }
     }
 
     /**
      * @return array
      */
-    public function getAllPosts ( $db, $rowsperpage, $currentpage )
+    public function getPostById ( $db )
+    {
+        $select = 'SELECT * FROM guestbook WHERE id_entry = ?';
+
+        return $db->fetchAssoc( $select, array( $this->id ) );
+    }
+
+    /**
+     * @return array
+     */
+    public function getPosts ( $db, $rowsperpage, $currentpage )
     {
         $offset = ($currentpage - 1) * $rowsperpage;
 
@@ -36,7 +55,7 @@ class Post
     /**
      * @return stmt
      */
-    public function updatePost ( $db, array $params, $id )
+    public function updatePost ( $db )
     {
         $update = 'UPDATE
                         guestbook
@@ -49,18 +68,18 @@ class Post
                         id_entry = :id_entry';
 
         return $db->executeQuery( $update, array(
-                    'firstname' => $params["firstname"],
-                    'lastname' => $params["lastname"],
-                    'email' => $params["email"],
-                    'content' => $params["textinput"],
-                    'id_entry' => $id
+                    'firstname' => $this->firstname,
+                    'lastname' => $this->lastname,
+                    'email' => $this->email,
+                    'content' => $this->content,
+                    'id_entry' => $this->id_entry
                 ) );
     }
 
     /**
      * @return stmt
      */
-    public function savePost ( array $params, $db )
+    public function savePost ( $db )
     {
         $insert = 'INSERT INTO
                         guestbook(firstname, lastname, email, content)
@@ -73,19 +92,19 @@ class Post
                    )';
 
         return $db->executeQuery( $insert, array(
-                    'firstname' => $params["firstname"],
-                    'lastname' => $params["lastname"],
-                    'email' => $params["email"],
-                    'content' => $params["textinput"]
+                    'firstname' => $this->firstname,
+                    'lastname' => $this->lastname,
+                    'email' => $this->email,
+                    'content' => $this->content,
                 ) );
     }
 
     /**
      * @return stmt
      */
-    public function deletePost ( $db, $id )
+    public function deletePost ( $db )
     {
-        return $db->delete( 'guestbook', array( 'id_entry' => $id ) );
+        return $db->delete( 'guestbook', array( 'id_entry' => $this->id ) );
     }
 
 }

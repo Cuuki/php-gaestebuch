@@ -4,10 +4,29 @@ namespace Guestbook;
 
 abstract class AbstractUser implements UserInterface
 {
+    /**
+     * @var integer
+     */
     protected $id;
+
+    /**
+     * @var string
+     */
     protected $username;
+
+    /**
+     * @var string
+     */
     protected $useremail;
+
+    /**
+     * @var string
+     */
     protected $password;
+
+    /**
+     * @var string
+     */
     protected $role;
 
     /**
