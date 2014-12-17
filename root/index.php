@@ -35,12 +35,12 @@ $app['session.storage.options'] = array(
     'lifetime' => 900
 );
 
-$user = new Guestbook\User( $app['db'] );
-$user->set('username', 'Patrickads');
-$user->set('useremail', 'asdsadsa@afdg.com');
-$user->set('password', 'adsfsgdhfj231233e');
-$user->set('role', 'Superman');
-$user->insert( 'user');
+//$user = new Guestbook\User( $app['db'] );
+//$user->set('username', 'Patrickads');
+//$user->set('useremail', 'asdsadsa@afdg.com');
+//$user->set('password', 'adsfsgdhfj231233e');
+//$user->set('role', 'Superman');
+//$user->insert( 'user');
 
 $app->before( function () use ( $app )
 {

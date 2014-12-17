@@ -2,7 +2,7 @@
 
 namespace Guestbook;
 
-class Post extends AbstractDatabaseAction
+class Post extends AbstractDatabaseModel
 {
     /**
      * Automatically generated and increased

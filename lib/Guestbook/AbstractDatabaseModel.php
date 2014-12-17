@@ -4,7 +4,7 @@ namespace Guestbook;
 
 use Doctrine\DBAL\Driver\PDOStatement;
 
-abstract class AbstractDatabaseAction extends AbstractClassAction implements DatabaseActionInterface
+abstract class AbstractDatabaseModel implements DatabaseInterface
 {
     /**
      * Database Connection
@@ -20,6 +20,39 @@ abstract class AbstractDatabaseAction extends AbstractClassAction implements Dat
         $this->db = $connection;
 
         return $this;
+    }
+
+    /**
+     * Get Value of passed property
+     */
+    public function get ( $property )
+    {
+        return $this->$property;
+    }
+
+    /**
+     * Set Value of passed property
+     * @return object
+     */
+    public function set ( $property, $value )
+    {
+        $this->$property = $value;
+
+        return $this;
+    }
+
+    /**
+     * Iterate all Protected/Public properties
+     * @return object
+     */
+    protected function iterateProperties ()
+    {
+        foreach ( $this as $key => $value )
+        {
+            $properties[$key] = $value;
+        }
+
+        return $properties;
     }
 
     /**
@@ -60,7 +93,7 @@ abstract class AbstractDatabaseAction extends AbstractClassAction implements Dat
                    (
                         :' . implode( ', :', array_keys( $properties ) ) . '
                    )';
-        
+
         return $this->db->executeQuery( $insert, $properties );
     }
 

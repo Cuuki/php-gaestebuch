@@ -2,7 +2,7 @@
 
 namespace Guestbook;
 
-class User extends AbstractDatabaseAction
+class User extends AbstractDatabaseModel
 {
 //    TODO: methoden wie updatePassword in konkrete Klasse (Sonderfälle wie zb password),
 //    wenn kein Sonderfall eintrifft parent:: aufrufen mit Standard ausführung
