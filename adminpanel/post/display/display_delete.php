@@ -14,7 +14,8 @@ $render = $app['twig']->render( 'post_delete.twig', array(
     'pagenumber' => $pageNumber,
     'nextpage' => $nextPage,
     'lastpage' => $lastPage,
-    'csspath' => '../../css/bootstrap.min.css'
+    'csspathone' => '../../css/bootstrap.min.css',
+    'csspathtwo' => '../../css/styles.css'
         ) );
 
 return new Response( $render, 201 );

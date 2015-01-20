@@ -6,31 +6,29 @@
     {% endblock %}
     {% block css %}
         <link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css">
+        <link href="../../css/styles.css" rel="stylesheet">
     {% endblock %}
 {% endblock %}
 
 {% block header %}
-    <h1 class="heading">Beitrag bearbeiten:</h1>
 {% endblock %}
 
 {% block content %}
-        {% if posts == false %}
-            <p>Keine Beiträge vorhanden!</p>
-        {% endif %}
-        {% for post in posts %}
-            <p>{{ post.firstname }}</p>
-            <p>{{ post.lastname }}</p>
-            <p>{{ post.email }}</p>
-            <p>{{ post.content }}</p>
-            <p>{{ post.created }}</p>
-            <p>
-                <a href="{{ app.url_generator.generate('postUpdate') }}/{{ post.id_entry }}">Bearbeiten</a>
-            </p>
-            <br>
-        {% endfor %}
-        {% include "pagination.twig" %}
-        <br>
+    <h2>Beitrag bearbeiten:</h2>
+    {% if posts == false %}
+        <p>Keine Beiträge vorhanden!</p>
+    {% endif %}
+    {% for post in posts %}
+        <p>{{ post.firstname }}</p>
+        <p>{{ post.lastname }}</p>
+        <p>{{ post.email }}</p>
+        <p>{{ post.content }}</p>
+        <p>{{ post.created }}</p>
         <p>
-            <a href="{{ app.url_generator.generate('dashboard') }}">Zurück zur Übersicht</a>
-        </p>            	
+            <a href="{{ app.url_generator.generate('postUpdate') }}/{{ post.id_entry }}">Bearbeiten</a>
+        </p>
+        <br>
+    {% endfor %}
+    {% include "pagination.twig" %}
+    <br>     	
 {% endblock %}

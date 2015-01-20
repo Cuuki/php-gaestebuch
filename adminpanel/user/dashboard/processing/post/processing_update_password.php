@@ -20,7 +20,7 @@ if ( !empty( $invalidInput ) )
 
     $render = $app['twig']->render( 'user_update_form.twig', array(
         'label_for' => 'password',
-        'label_text' => 'Neues Passwort:',
+        'label_text' => 'Neues Passwort',
         'id' => $id,
         'input_name' => 'password',
         'errormessages' => $errorMessages
@@ -35,8 +35,9 @@ else
     {
         $render = $app['twig']->render( 'user_update_form.twig', array(
             'message' => 'Das Passwort wurde geändert.',
+            'message_type' => 'successmessage',
             'label_for' => 'password',
-            'label_text' => 'Neues Passwort:',
+            'label_text' => 'Neues Passwort',
             'id' => $id,
             'input_name' => 'password'
                 ) );
@@ -48,8 +49,9 @@ else
     {
         $render = $app['twig']->render( 'user_update_form.twig', array(
             'message' => 'Die Daten konnten nicht geändert werden!',
+            'message_type' => 'failuremessage',
             'label_for' => 'password',
-            'label_text' => 'Neues Passwort:',
+            'label_text' => 'Neues Passwort',
             'id' => $id,
             'input_name' => 'password'
                 ) );

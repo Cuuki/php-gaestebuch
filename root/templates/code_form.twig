@@ -6,31 +6,42 @@
     {% endblock %}
     {% block css %}
         <link rel="stylesheet" type="text/css" href="../../../css/bootstrap.min.css">
+        <link href="../../../css/styles.css" rel="stylesheet">
     {% endblock %}
 {% endblock %}
 
 {% block header %}
-    <h1>Neues Passwort anfordern:</h1>
 {% endblock %}
 
 {% block content %}
-    {% if message is defined %}
-        <p>{{message}}</p>
-    {% endif %}
-    <section>
-        <form action="" method="post">
-            <label for="code">
-                Geben Sie den Code ein:
-            </label>		
-            <input type="text" name="code" value="">
-            <label for="password">
-                Geben Sie das neue Passwort ein:
-            </label>		
-            <input type="password" name="password" value="">
-            <input name="codesubmit" type="submit" value="Weiter">
-        </form>
-        <p>
-            <a href="{{ app.url_generator.generate('login') }}">Zurück</a>           
-        </p>        
-    </section>
+<div class="row">
+    <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
+        <div class="login-panel panel panel-default">
+            <div class="panel-heading">
+                <h2>Neues Passwort anfordern:</h2>
+            </div>
+            <div class="panel-body">
+                {% if message is defined %}
+                <p class="{{message_type}}">{{message}}</p>
+                {% endif %}
+                <form action="" method="post">
+                    <fieldset>
+                        <div class="form-group">
+                            <label for="code" class="sr-only">Code:</label>
+                            <input class="form-control" placeholder="Code" name="code" type="number" autofocus >
+                        </div>
+                        <div class="form-group">
+                            <label for="password" class="sr-only">Passwort:</label>
+                            <input class="form-control" placeholder="Passwort" name="password" type="password" >
+                        </div>
+                        <button class="btn btn-primary" name="codesubmit" type="submit">Weiter</button>
+                    </fieldset>
+                    <p class="text-right">
+                        <a href="{{ app.url_generator.generate('login') }}" >Zurück</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div><!-- /.col-->
+</div><!-- /.row -->
 {% endblock %}

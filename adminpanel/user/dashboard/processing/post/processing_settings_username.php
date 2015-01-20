@@ -15,14 +15,14 @@ $id = $users['id'];
 if ( $postdata['oldusername'] != $app['session']->get( 'user' ) )
 {
     $render = $app['twig']->render( 'settings_update_form.twig', array(
-        'headline' => 'Benutzername ändern:',
         'oldinput_for' => 'oldusername',
-        'oldinput_text' => 'Alter Benutzername:',
+        'oldinput_text' => 'Alter Benutzername',
         'oldinput_name' => 'oldusername',
         'newinput_for' => 'username',
-        'newinput_text' => 'Neuer Benutzername:',
+        'newinput_text' => 'Neuer Benutzername',
         'newinput_name' => 'username',
-        'message' => 'Der alte Benutzername stimmt nicht mit Ihrem überein.'
+        'message' => 'Der alte Benutzername stimmt nicht mit Ihrem überein.',
+        'message_type' => 'failuremessage'
             ) );
 
     return new Response( $render, 404 );
@@ -30,14 +30,14 @@ if ( $postdata['oldusername'] != $app['session']->get( 'user' ) )
 elseif ( $postdata['oldusername'] == $postdata['username'] )
 {
     $render = $app['twig']->render( 'settings_update_form.twig', array(
-        'headline' => 'Benutzername ändern:',
         'oldinput_for' => 'oldusername',
-        'oldinput_text' => 'Alter Benutzername:',
+        'oldinput_text' => 'Alter Benutzername',
         'oldinput_name' => 'oldusername',
         'newinput_for' => 'username',
-        'newinput_text' => 'Neuer Benutzername:',
+        'newinput_text' => 'Neuer Benutzername',
         'newinput_name' => 'username',
-        'message' => 'Der alte darf nicht mit dem neuen Benutzernamen übereinstimmen!'
+        'message' => 'Der alte darf nicht mit dem neuen Benutzernamen übereinstimmen!',
+        'message_type' => 'failuremessage'
             ) );
 
     return new Response( $render, 404 );
@@ -49,14 +49,14 @@ else
     if ( updateUsername( $app['db'], $postdata['username'], $id ) )
     {
         $render = $app['twig']->render( 'settings_update_form.twig', array(
-            'headline' => 'Benutzername ändern:',
             'oldinput_for' => 'oldusername',
-            'oldinput_text' => 'Alter Benutzername:',
+            'oldinput_text' => 'Alter Benutzername',
             'oldinput_name' => 'oldusername',
             'newinput_for' => 'username',
-            'newinput_text' => 'Neuer Benutzername:',
+            'newinput_text' => 'Neuer Benutzername',
             'newinput_name' => 'username',
-            'message' => 'Der Benutzername wurde geändert!'
+            'message' => 'Der Benutzername wurde geändert!',
+            'message_type' => 'successmessage'
                 ) );
 
         return new Response( $render, 201 );
@@ -64,14 +64,14 @@ else
     else
     {
         $render = $app['twig']->render( 'settings_update_form.twig', array(
-            'headline' => 'Benutzername ändern:',
             'oldinput_for' => 'oldusername',
-            'oldinput_text' => 'Alter Benutzername:',
+            'oldinput_text' => 'Alter Benutzername',
             'oldinput_name' => 'oldusername',
             'newinput_for' => 'username',
-            'newinput_text' => 'Neuer Benutzername:',
+            'newinput_text' => 'Neuer Benutzername',
             'newinput_name' => 'username',
-            'message' => 'Die Daten konnten nicht geändert werden!'
+            'message' => 'Die Daten konnten nicht geändert werden!',
+            'message_type' => 'failuremessage'
                 ) );
 
         return new Response( $render, 404 );

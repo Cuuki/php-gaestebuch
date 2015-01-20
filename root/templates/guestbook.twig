@@ -6,18 +6,19 @@
     {% endblock %}
     {% block css %}
         <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+        <link href="../css/styles.css" rel="stylesheet">
     {% endblock %}
 {% endblock %}
 {% block header %}
-    <h1 class="heading">Willkommen in diesem Gästebuch</h1>
 {% endblock %}
 {% block content %}
+    <h1 class="heading">Willkommen in diesem Gästebuch</h1>
     <section id='posts'>
         <article>
             <h2 class='articleHeading'><a name='posts'>Letzte Beiträge:</a></h2>
         </article>
         {% if message is defined %}
-            <p>{{message}}</p>
+            <p class="{{message_type}}">{{message}}</p>
             <br>
         {% endif %}
         {% if posts == false %}

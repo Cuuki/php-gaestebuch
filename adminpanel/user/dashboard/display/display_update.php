@@ -11,7 +11,8 @@ $role = $users['role'];
 if ( $role == 'adm' )
 {
     $render = $app['twig']->render( 'user_update.twig', array(
-        'message' => 'Sie haben nicht die nötigen Rechte um einen Benutzer zu bearbeiten, wenden Sie sich an einen Administrator.'
+        'message' => 'Sie haben nicht die nötigen Rechte um einen Benutzer zu bearbeiten, wenden Sie sich an einen Administrator.',
+        'message_type' => 'failuremessage'
             ) );
 
     return new Response( $render, 404 );

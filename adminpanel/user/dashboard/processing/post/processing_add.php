@@ -43,6 +43,7 @@ else
     {
         $render = $app['twig']->render( 'user_add.twig', array(
             'message' => 'Der Benutzer existiert bereits.',
+            'message_type' => 'failuremessage',
             'headline' => 'Benutzer hinzufügen:',
             'submitvalue' => 'Anlegen'
                 ) );
@@ -56,6 +57,7 @@ else
 
         $render = $app['twig']->render( 'user_add.twig', array(
             'message' => 'Der Benutzer wurde hinzugefügt.',
+            'message_type' => 'successmessage',
             'headline' => 'Benutzer hinzufügen:',
             'submitvalue' => 'Anlegen'
                 ) );
@@ -65,7 +67,8 @@ else
     else
     {
         $render = $app['twig']->render( 'user_add.twig', array(
-            'message' => 'Der Benutzer konnte nicht gepseichert werden!',
+            'message' => 'Der Benutzer konnte nicht gespeichert werden!',
+            'message_type' => 'failuremessage',
             'headline' => 'Benutzer hinzufügen:',
             'submitvalue' => 'Anlegen'
                 ) );

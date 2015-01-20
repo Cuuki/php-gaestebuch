@@ -12,11 +12,7 @@ $postdata = array(
 include_once POST_DIR . '/update.php';
 
 $entryData = getEntry( $app['db'], $id );
-
-foreach ( $entryData as $post )
-{
-    $oldcontent = $post['content'];
-}
+$oldcontent = $entryData['content'];
 
 $postdata = sanitizeData( $postdata );
 
@@ -38,7 +34,8 @@ else
     if ( updatePost( $app['db'], $postdata, $id ) )
     {
         $render = $app['twig']->render( 'post_update_id.twig', array(
-            'message' => 'Die Daten wurden geändert!'
+            'message' => 'Die Daten wurden geändert!',
+            'message_type' => 'successmessage'
                 ) );
         
         return new Response( $render, 201 );
@@ -47,7 +44,8 @@ else
     else
     {
         $render = $app['twig']->render( 'post_update_id.twig', array(
-            'message' => 'Die Daten konnten nicht geändert werden!'
+            'message' => 'Die Daten konnten nicht geändert werden!',
+            'message_type' => 'failuremessage'
                 ) );
         
         return new Response( $render, 404 );

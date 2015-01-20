@@ -35,7 +35,8 @@ if ( password_verify( $postdata['password'], $hash ) )
 else
 {
     $render = $app['twig']->render( 'login_form.twig', array(
-        'message' => 'Login fehlgeschlagen. Ihre Daten sind nicht korrekt.'
+        'message' => 'Login fehlgeschlagen. Ihre Daten sind nicht korrekt.',
+        'message_type' => 'failuremessage'
             ) );
     return new Response( $render, 404 );
 }

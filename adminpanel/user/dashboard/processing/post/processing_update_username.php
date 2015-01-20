@@ -20,7 +20,7 @@ if ( !empty( $invalidInput ) )
 
     $render = $app['twig']->render( 'user_update_form.twig', array(
         'label_for' => 'username',
-        'label_text' => 'Neuer Benutzername:',
+        'label_text' => 'Neuer Benutzername',
         'id' => $id,
         'input_name' => 'username',
         'errormessages' => $errorMessages
@@ -42,8 +42,9 @@ else
     {
         $render = $app['twig']->render( 'user_update_form.twig', array(
             'message' => 'Der Benutzer existiert bereits.',
+            'message_type' => 'failuremessage',
             'label_for' => 'username',
-            'label_text' => 'Neuer Benutzername:',
+            'label_text' => 'Neuer Benutzername',
             'id' => $id,
             'input_name' => 'username'
                 ) );
@@ -54,8 +55,9 @@ else
     {
         $render = $app['twig']->render( 'user_update_form.twig', array(
             'message' => 'Der Benutzername wurde geändert.',
+            'message_type' => 'successmessage',
             'label_for' => 'username',
-            'label_text' => 'Neuer Benutzername:',
+            'label_text' => 'Neuer Benutzername',
             'id' => $id,
             'input_name' => 'username'
                 ) );
@@ -67,8 +69,9 @@ else
     {
         $render = $app['twig']->render( 'user_update_form.twig', array(
             'message' => 'Die Daten konnten nicht geändert werden!',
+            'message_type' => 'failuremessage',
             'label_for' => 'username',
-            'label_text' => 'Neuer Benutzername:',
+            'label_text' => 'Neuer Benutzername',
             'id' => $id,
             'input_name' => 'username'
                 ) );

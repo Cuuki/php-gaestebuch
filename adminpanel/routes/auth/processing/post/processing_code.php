@@ -32,7 +32,8 @@ $result = getCode( $app['db'], $postdata['code'] );
 if ( $result['code'] == NULL )
 {
     $render = $app['twig']->render( 'code_form.twig', array(
-        'message' => 'Sie haben den falschen Code eingegegeben.'
+        'message' => 'Sie haben den falschen Code eingegegeben.',
+        'message_type' => 'failuremessage'
             ) );
 
     return new Response( $render, 404 );
@@ -47,7 +48,8 @@ else
     deleteCode( $app['db'], $result['code'] );
 
     $render = $app['twig']->render( 'code_form.twig', array(
-        'message' => 'Ihr Passwort wurde geändert!'
+        'message' => 'Ihr Passwort wurde geändert!',
+        'message_type' => 'successmessage'
             ) );
 
     return new Response( $render, 201 );

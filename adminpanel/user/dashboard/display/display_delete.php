@@ -12,7 +12,8 @@ if ( $role == 'adm' )
 {
     $render = $app['twig']->render( 'user_delete.twig', array(
         'headline' => 'Benutzer löschen:',
-        'message' => 'Sie haben nicht die nötigen Rechte um einen Benutzer zu löschen, wenden Sie sich an einen Administrator.'
+        'message' => 'Sie haben nicht die nötigen Rechte um einen Benutzer zu löschen, wenden Sie sich an einen Administrator.',
+        'message_type' => 'failuremessage'
             ) );
 
     return new Response( $render, 404 );

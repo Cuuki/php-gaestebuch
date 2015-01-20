@@ -6,39 +6,32 @@
     {% endblock %}
     {% block css %}
         <link rel="stylesheet" type="text/css" href="../../../../css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../../css/styles.css">
     {% endblock %}
 {% endblock %}
 
 {% block header %}
-    <h1>{{ headline }}</h1>
-    {% include "userheader.twig" %}
 {% endblock %}
 
 {% block content %}
-    <article>
+    <h2>{{ headline }}</h2>
     {% if message is defined %}
-        <p>{{message}}</p>
+        <p class="{{message_type}}">{{message}}</p>
     {% endif %}
     {% if message is not defined %}
         {% for user in users %}
-            <p>Benutzername: {{ user.username }}</p>
-            <p>E-Mail: {{ user.useremail }}</p>
-            <p>Passwort: {{ user.password }}</p>
-            <p>
-                <a href="{{ app.url_generator.generate('delete') }}{{ user.id }}">Löschen</a>
-            </p>
-            <br>
+        <p>Benutzername: {{ user.username }}</p>
+        <p>E-Mail: {{ user.useremail }}</p>
+        <p>Passwort: {{ user.password }}</p>
+        <p>
+            <a href="{{ app.url_generator.generate('delete') }}{{ user.id }}">Löschen</a>
+        </p>
+        <br>
         {% endfor %}
     {% endif %}
-    </article>
-    
-    <article>
-        {% if message is not defined %}
-            {% include "pagination.twig" %}
-            <br>
-        {% endif %}
-        <p>
-            <a href="{{ app.url_generator.generate('dashboard') }}">Zurück zur Übersicht</a>
-        </p>
-    </article>
+
+    {% if message is not defined %}
+        {% include "pagination.twig" %}
+        <br>
+    {% endif %}
 {% endblock %}

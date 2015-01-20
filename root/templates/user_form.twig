@@ -13,29 +13,45 @@
 {% endif %}        
 
 {% if message is defined %}
-    <p>{{message}}</p>
+    <p class="{{message_type}}">{{ message }}</p>
 {% endif %}
 
 {% if message is not defined %}
-<div class="container">
-    <form  action="" method="post" class="form-signin">
-        <h2 class="form-signin-heading text-center">{{headline}}</h2>
-        <label for="username" class="sr-only">Benutzername</label>
-        <input type="text" name="username" value="{{value.username}}" class="form-control" placeholder="Benutzername" required autofocus>
-        {% if errormessages is defined and errormessages is not null and errormessages.username is defined %}
-            <p class="errorMessage">{{errormessages.username}}</p>
-        {% endif %}
-        <label for="useremail" class="sr-only">E-Mail</label>
-        <input type="text" name="useremail" value="{{value.useremail}}" class="form-control" placeholder="E-Mail" required>
-        {% if errormessages is defined and errormessages is not null and errormessages.useremail is defined %}
-            <p class="errorMessage">{{errormessages.useremail}}</p>
-        {% endif %}
-        <label for="password" class="sr-only">Passwort</label>
-        <input type="password" name="password" value="{{value.password}}" class="form-control" placeholder="Passwort" required>
-        {% if errormessages is defined and errormessages is not null and errormessages.password is defined %}
-            <p class="errorMessage">{{errormessages.password}}</p>
-        {% endif %}
-        <button class="btn btn-lg btn-primary btn-block" type="submit">{{submitvalue}}</button>
-    </form>
-</div>
+<div class="row">
+    <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
+        <div class="login-panel panel panel-default">
+            <div class="panel-heading">
+                <h2>{{headline}}</h2>
+            </div>
+            <div class="panel-body">
+                <form  action="" method="post">
+                    <fieldset>
+                        <div class="form-group">
+                            <label for="username" class="sr-only">Benutzername</label>
+                            <input type="text" name="username" value="{{value.username}}" class="form-control" placeholder="Benutzername"  autofocus>
+                            {% if errormessages is defined and errormessages is not null and errormessages.username is defined %}
+                                <p class="errorMessage">{{errormessages.username}}</p>
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            <label for="useremail" class="sr-only">E-Mail</label>
+                            <input type="text" name="useremail" value="{{value.useremail}}" class="form-control" placeholder="E-Mail" >
+                            {% if errormessages is defined and errormessages is not null and errormessages.useremail is defined %}
+                                <p class="errorMessage">{{errormessages.useremail}}</p>
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            <label for="password" class="sr-only">Passwort</label>
+                            <input type="password" name="password" value="{{value.password}}" class="form-control" placeholder="Passwort" >
+                            {% if errormessages is defined and errormessages is not null and errormessages.password is defined %}
+                                <p class="errorMessage">{{errormessages.password}}</p>
+                            {% endif %}
+                        </div>
+                        <button class="btn btn-primary" type="submit">{{submitvalue}}</button>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div><!-- /.col-->
+</div><!-- /.row -->
 {% endif %}

@@ -16,14 +16,14 @@ $password = $users['password'];
 if ( password_verify( $postdata['oldpassword'], $password ) == FALSE )
 {
     $render = $app['twig']->render( 'settings_update_form.twig', array(
-        'headline' => 'Passwort ändern:',
         'oldinput_for' => 'oldpassword',
-        'oldinput_text' => 'Altes Passwort:',
+        'oldinput_text' => 'Altes Passwort',
         'oldinput_name' => 'oldpassword',
         'newinput_for' => 'password',
-        'newinput_text' => 'Neues Passwort:',
+        'newinput_text' => 'Neues Passwort',
         'newinput_name' => 'password',
-        'message' => 'Das alte Passwort stimmt nicht mit Ihrem überein.'
+        'message' => 'Das alte Passwort stimmt nicht mit Ihrem überein.',
+        'message_type' => 'failuremessage'
             ) );
 
     return new Response( $render, 404 );
@@ -31,14 +31,14 @@ if ( password_verify( $postdata['oldpassword'], $password ) == FALSE )
 elseif ( $postdata['oldpassword'] == $postdata['password'] )
 {
     $render = $app['twig']->render( 'settings_update_form.twig', array(
-        'headline' => 'Passwort ändern:',
         'oldinput_for' => 'oldpassword',
-        'oldinput_text' => 'Altes Passwort:',
+        'oldinput_text' => 'Altes Passwort',
         'oldinput_name' => 'oldpassword',
         'newinput_for' => 'password',
-        'newinput_text' => 'Neues Passwort:',
+        'newinput_text' => 'Neues Passwort',
         'newinput_name' => 'password',
-        'message' => 'Das alte darf nicht mit dem neuen Passwort übereinstimmen!'
+        'message' => 'Das alte darf nicht mit dem neuen Passwort übereinstimmen!',
+        'message_type' => 'failuremessage'
             ) );
 
     return new Response( $render, 404 );
@@ -49,14 +49,14 @@ else
     if ( updatePassword( $app['db'], $postdata['password'], $id ) )
     {
         $render = $app['twig']->render( 'settings_update_form.twig', array(
-            'headline' => 'Passwort ändern:',
             'oldinput_for' => 'oldpassword',
-            'oldinput_text' => 'Altes Passwort:',
+            'oldinput_text' => 'Altes Passwort',
             'oldinput_name' => 'oldpassword',
             'newinput_for' => 'password',
-            'newinput_text' => 'Neues Passwort:',
+            'newinput_text' => 'Neues Passwort',
             'newinput_name' => 'password',
-            'message' => 'Das Passwort wurde geändert!'
+            'message' => 'Das Passwort wurde geändert!',
+            'message_type' => 'successmessage'
                 ) );
 
         return new Response( $render, 201 );
@@ -64,14 +64,14 @@ else
     else
     {
         $render = $app['twig']->render( 'settings_update_form.twig', array(
-            'headline' => 'Passwort ändern:',
             'oldinput_for' => 'oldpassword',
-            'oldinput_text' => 'Altes Passwort:',
+            'oldinput_text' => 'Altes Passwort',
             'oldinput_name' => 'oldpassword',
             'newinput_for' => 'password',
-            'newinput_text' => 'Neues Passwort:',
+            'newinput_text' => 'Neues Passwort',
             'newinput_name' => 'password',
-            'message' => 'Die Daten konnten nicht geändert werden!'
+            'message' => 'Die Daten konnten nicht geändert werden!',
+            'message_type' => 'failuremessage'
                 ) );
 
         return new Response( $render, 404 );

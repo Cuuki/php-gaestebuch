@@ -6,35 +6,44 @@
     {% endblock %}
     {% block css %}
         <link rel="stylesheet" type="text/css" href="../../../../../css/bootstrap.min.css">
+        <link href="../../../../../css/styles.css" rel="stylesheet">
     {% endblock %}
 {% endblock %}
 
 {% block header %}
-    {% include "header.twig" %}
 {% endblock %}
 
 {% block content %}
-    {% if message is defined %}
-        <p>{{ message }}</p>
-    {% endif %}
-    <div class="container">
-        <form  action="" method="post" class="form-signin">
-            <h2 class="form-signin-heading text-center">{{label_text}}</h2>
-            <label for="{{label_for}}" class="sr-only">{{label_text}}</label>
-            <input type="text" name="{{input_name}}" class="form-control" placeholder="{{input_name}}" required autofocus>
-            {% if errormessages is defined and errormessages is not null and errormessages.username is defined %}
-                <p class="errorMessage">{{errormessages.username}}</p>
-            {% endif %}
-            {% if errormessages is defined and errormessages is not null and errormessages.useremail is defined %}
-                <p class="errorMessage">{{errormessages.useremail}}</p>
-            {% endif %}
-            {% if errormessages is defined and errormessages is not null and errormessages.password is defined %}
-                <p class="errorMessage">{{errormessages.password}}</p>
-            {% endif %}                
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Ändern</button>
-        </form>
-        <p>
-            <a href="{{ app.url_generator.generate('update') }}{{ id }}">Zurück</a>
-        </p>
-    </div>
+<div class="row">
+    <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
+        <div class="login-panel panel panel-default">
+            <div class="panel-body">
+                {% if message is defined %}
+                <p class="{{message_type}}">{{message}}</p>
+                {% endif %}
+                <form action="" method="post">
+                    <fieldset>
+                        <div class="form-group">
+                            <label for="{{label_for}}" class="sr-only">{{label_text}}</label>
+                            <input type="text" name="{{input_name}}" class="form-control" placeholder="{{label_text}}" autofocus>
+                            {% if errormessages is defined and errormessages is not null and errormessages.username is defined %}
+                                <p class="errorMessage">{{errormessages.username}}</p>
+                            {% endif %}
+                            {% if errormessages is defined and errormessages is not null and errormessages.useremail is defined %}
+                                <p class="errorMessage">{{errormessages.useremail}}</p>
+                            {% endif %}
+                            {% if errormessages is defined and errormessages is not null and errormessages.password is defined %}
+                                <p class="errorMessage">{{errormessages.password}}</p>
+                            {% endif %}
+                        </div>
+                        <button class="btn btn-primary" type="submit">Ändern</button>
+                    </fieldset>
+                    <p class="text-right">
+                        <a href="{{ app.url_generator.generate('update') }}{{ id }}">Zurück</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div><!-- /.col-->
+</div><!-- /.row -->
 {% endblock %}

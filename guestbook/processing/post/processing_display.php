@@ -13,6 +13,7 @@ $render = $app['twig']->render( 'guestbook.twig', array(
     'lastpage' => $lastPage,
     'errormessages' => $errorMessages,
     'message' => $message,
+    'message_type' => $messageType,
     'postdata' => $postdata
         ) );
 

@@ -20,7 +20,7 @@ if ( !empty( $invalidInput ) )
 
     $render = $app['twig']->render( 'user_update_form.twig', array(
         'label_for' => 'useremail',
-        'label_text' => 'Neue E-Mail Adresse:',
+        'label_text' => 'Neue E-Mail Adresse',
         'id' => $id,
         'input_name' => 'useremail',
         'errormessages' => $errorMessages
@@ -42,8 +42,9 @@ else
     {
         $render = $app['twig']->render( 'user_update_form.twig', array(
             'message' => 'Der Benutzer existiert bereits.',
+            'message_type' => 'failuremessage',
             'label_for' => 'useremail',
-            'label_text' => 'Neue E-Mail Adresse:',
+            'label_text' => 'Neue E-Mail Adresse',
             'id' => $id,
             'input_name' => 'useremail'
                 ) );
@@ -54,8 +55,9 @@ else
     {
         $render = $app['twig']->render( 'user_update_form.twig', array(
             'message' => 'Die E-Mail Adresse wurde geändert.',
+            'message_type' => 'successmessage',
             'label_for' => 'useremail',
-            'label_text' => 'Neue E-Mail Adresse:',
+            'label_text' => 'Neue E-Mail Adresse',
             'id' => $id,
             'input_name' => 'useremail'
                 ) );
@@ -67,8 +69,9 @@ else
     {
         $render = $app['twig']->render( 'user_update_form.twig', array(
             'message' => 'Die Daten konnten nicht geändert werden!',
+            'message_type' => 'failuremessage',
             'label_for' => 'useremail',
-            'label_text' => 'Neue E-Mail Adresse:',
+            'label_text' => 'Neue E-Mail Adresse',
             'id' => $id,
             'input_name' => 'useremail'
                 ) );

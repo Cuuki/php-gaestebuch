@@ -6,36 +6,30 @@
     {% endblock %}
     {% block css %}
         <link rel="stylesheet" type="text/css" href="../../../css/bootstrap.min.css">
+        <link href="../../../css/styles.css" rel="stylesheet">
     {% endblock %}
 {% endblock %}
 
 {% block header %}
-    <h1>{{ headline }}</h1>
 {% endblock %}
 
 {% block content %}
-    <section>
-        <article>
-            <ul>
-                <li>
-                    <p>
-                        <a href="{{ app.url_generator.generate('changeUsername') }}">Benutzernamen ändern</a>
-                    </p>
-                </li>
-                <li>
-                    <p>
-                        <a href="{{ app.url_generator.generate('changePassword') }}">Passwort ändern</a>
-                    </p>
-                </li>
-                <li>
-                    <p>
-                        <a href="{{ app.url_generator.generate('changeEmail') }}">E-Mail ändern</a>
-                    </p>                    
-                </li>						
-            </ul>
-            <p>
-                <a href="{{ app.url_generator.generate('dashboard') }}">Zurück zur Übersicht</a>                
-            </p>
-        </article>
-    </section>	
+<h2>{{ headline }}</h2>
+<ul>
+    <li>
+        <p>
+            <a href="{{ app.url_generator.generate('changeUsername') }}">Benutzernamen ändern</a>
+        </p>
+    </li>
+    <li>
+        <p>
+            <a href="{{ app.url_generator.generate('changePassword') }}">Passwort ändern</a>
+        </p>
+    </li>
+    <li>
+        <p>
+            <a href="{{ app.url_generator.generate('changeEmail') }}">E-Mail ändern</a>
+        </p>                    
+    </li>						
+</ul>
 {% endblock %}

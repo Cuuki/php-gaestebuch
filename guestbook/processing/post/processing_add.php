@@ -30,6 +30,7 @@ $invalidInput = validateForm( $data );
 
 $errorMessages = NULL;
 $message = NULL;
+$messageType = NULL;
 
 // Prüfen ob ungültige Eingaben nicht empty sind, wenn nicht empty dann iteriere invalidInput
 if ( !empty( $invalidInput ) )
@@ -42,10 +43,12 @@ else
     {
         // hinweis, dass gespeichert wurde
         $message = "Ihr Beitrag wurde erfolgreich gespeichert.";
+        $messageType = "successmessage";
     }
     else
     {
         // fehlermeldung, keine weiterleitung
         $message = "Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.";
+        $messageType = "failuremessage";
     }
 }

@@ -6,27 +6,48 @@
     {% endblock %}
     {% block css %}
         <link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css">
+        <link href="../../css/styles.css" rel="stylesheet">
     {% endblock %}
 {% endblock %}
 
 {% block header %}
-    <h1>Code zusenden:</h1>
+    
 {% endblock %}
 
 {% block content %}
-    {% if message is defined %}
-        <p>{{message}}</p>
-    {% endif %}
-    <section>
-        <form action="" method="post">
-            <label for="email">
-                Geben Sie ihre E-Mail Adresse ein:
-            </label>		
-            <input type="text" name="email" value="">
-            <input name="reset" type="submit" value="Versenden">
-        </form>
-        <p>
-            <a href="{{ app.url_generator.generate('login') }}">Zurück</a>           
-        </p>
-    </section>
+<div class="row">
+    <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
+        <div class="login-panel panel panel-default">
+            <div class="panel-heading">
+                <h2>Code zusenden:</h2>
+            </div>
+            <div class="panel-body">
+                {% if message is defined %}
+                <p class="{{message_type}}">{{message}}</p>
+                {% endif %}
+                <form action="" method="post">
+                    <fieldset>
+                        <div class="form-group">
+                            <label for="email" class="sr-only">E-Mail:</label>
+                            <input class="form-control" placeholder="E-Mail" name="email" type="email" autofocus>
+                        </div>
+                        <button class="btn btn-primary" name="reset" type="submit">Versenden</button>
+                    </fieldset>
+                    {% if message is defined %}
+                        {% if message_type == "successmessage" %}
+                        <p class="text-right">
+                            <a href="{{ app.url_generator.generate('resetCode') }}">Weiter</a>
+                        </p>
+                        {% endif %}
+                    {% endif %}
+                    {% if message is not defined %}
+                    <p class="text-right">
+                        <a href="{{ app.url_generator.generate('login') }}">Zurück</a>                        
+                    </p>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+    </div><!-- /.col-->
+</div><!-- /.row -->
 {% endblock %}

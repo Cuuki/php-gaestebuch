@@ -5,39 +5,37 @@
         <title>Beitrag löschen - Adminpanel</title>
     {% endblock %}
     {% block css %}
-        <link rel="stylesheet" type="text/css" href="{{csspath}}">
+        <link rel="stylesheet" type="text/css" href="{{csspathone}}">
+        <link rel="stylesheet" type="text/css" href="{{csspathtwo}}">
     {% endblock %}
 {% endblock %}
 
 {% block header %}
-    <h1 class="heading">Beitrag löschen</h1>
 {% endblock %}
 
 {% block content %}
-        {% if message is defined %}
-            <p>{{message}}</p>
+    <h2>Beitrag löschen</h2>
+    {% if message is defined %}
+        <p class="{{message_type}}">{{message}}</p>
+    {% endif %}
+    {% if message is not defined %}
+        {% if posts == false %}
+            <p>Keine Beiträge vorhanden!</p>
         {% endif %}
-        {% if message is not defined %}
-            {% if posts == false %}
-                <p>Keine Beiträge vorhanden!</p>
-            {% endif %}
-            {% for post in posts %}
-                <p>{{ post.firstname }}</p>
-                <p>{{ post.lastname }}</p>
-                <p>{{ post.email }}</p>
-                <p>{{ post.content }}</p>
-                <p>{{ post.created }}</p>
-                <p>
-                    <a href="{{ app.url_generator.generate('postDelete') }}/{{ post.id_entry }}">Löschen</a>
-                </p>
-                <br>
-            {% endfor %}
-        {% endif %}
-        {% if message is not defined %}
-            {% include "pagination.twig" %}
+        {% for post in posts %}
+            <p>{{ post.firstname }}</p>
+            <p>{{ post.lastname }}</p>
+            <p>{{ post.email }}</p>
+            <p>{{ post.content }}</p>
+            <p>{{ post.created }}</p>
+            <p>
+                <a href="{{ app.url_generator.generate('postDelete') }}/{{ post.id_entry }}">Löschen</a>
+            </p>
             <br>
-        {% endif %}
-        <p>
-            <a href="{{ app.url_generator.generate('dashboard') }}">Zurück zur Übersicht</a>
-        </p>            	
+        {% endfor %}
+    {% endif %}
+    {% if message is not defined %}
+        {% include "pagination.twig" %}
+        <br>
+    {% endif %}          	
 {% endblock %}

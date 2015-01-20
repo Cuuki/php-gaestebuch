@@ -48,7 +48,8 @@ $result = getMail( $app['db'], $postdata['email'] );
 if ( $result['useremail'] == NULL )
 {
     $render = $app['twig']->render( 'reset_form.twig', array(
-        'message' => 'Es existiert kein Benutzer mit der angegebenen E-Mail Adresse.'
+        'message' => 'Es existiert kein Benutzer mit der angegebenen E-Mail Adresse.',
+        'message_type' => 'failuremessage'
             ) );
     return new Response( $render, 404 );
 }
@@ -66,7 +67,8 @@ mb_send_mail( $postdata['email'], $subject, $message );
 saveCode( $app['db'], $code, $result['id'] );
 
 $render = $app['twig']->render( 'reset_form.twig', array(
-    'message' => 'Sie erhalten in Kürze eine E-Mail mit dem Authentifizierungscode.'
+    'message' => 'Sie erhalten in Kürze eine E-Mail mit dem Authentifizierungscode.',
+    'message_type' => 'successmessage'
         ) );
 
-return new Response( $render . $app->redirect( $app['url_generator']->generate( 'resetCode' ) ), 201 );
+return new Response( $render, 201 );

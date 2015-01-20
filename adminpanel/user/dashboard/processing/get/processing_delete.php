@@ -19,7 +19,8 @@ if ( $role == 'adm' )
 {
     $render = $app['twig']->render( 'user_delete.twig', array(
         'headline' => 'Benutzer löschen:',
-        'message' => 'Sie haben nicht die nötigen Rechte um einen Benutzer zu löschen, wenden Sie sich an einen Administrator.'
+        'message' => 'Sie haben nicht die nötigen Rechte um einen Benutzer zu löschen, wenden Sie sich an einen Administrator.',
+        'message_type' => 'failuremessage'
             ) );
 
     return new Response( $render, 404 );
@@ -29,7 +30,8 @@ elseif ( $usernameSession == $usernameSelected )
 {
     $render = $app['twig']->render( 'user_delete.twig', array(
         'headline' => 'Benutzer löschen:',
-        'message' => 'Sie können sich nicht selbst löschen!'
+        'message' => 'Sie können sich nicht selbst löschen!',
+        'message_type' => 'failuremessage'
             ) );
 
     return new Response( $render, 404 );
@@ -39,6 +41,7 @@ elseif ( deleteUser( $app['db'], $id ) )
 {
     $render = $app['twig']->render( 'user_delete.twig', array(
         'message' => 'User erfolgreich gelöscht!',
+        'message_type' => 'successmessage',
         'headline' => 'Benutzer löschen:'
             ) );
 
@@ -48,6 +51,7 @@ else
 {
     $render = $app['twig']->render( 'user_delete.twig', array(
         'message' => 'User konnte nicht gelöscht werden, versuchen sie es erneut!',
+        'message_type' => 'failuremessage',
         'headline' => 'Benutzer löschen:'
             ) );
 

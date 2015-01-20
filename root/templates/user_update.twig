@@ -6,29 +6,29 @@
     {% endblock %}
     {% block css %}
         <link rel="stylesheet" type="text/css" href="../../../../css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../../css/styles.css">
     {% endblock %}
 {% endblock %}
 
 {% block header %}
-    {% include "header.twig" %}
 {% endblock %}
 
 {% block content %}
     {% if message is defined %}
-        <p>{{message}}</p>
+        <p class="{{message_type}}">{{message}}</p>
     {% endif %}
     {% if message is not defined %}
         {% for user in users %}
-                <p class="text-center">Benutzername: {{ user.username }}</p>
-                <p class="text-center">E-Mail: {{ user.useremail }}</p>
-                <p class="text-center">Passwort: {{ user.password }}</p>
-                <p class="text-center">
-                    <a href="{{ app.url_generator.generate('update') }}{{ user.id }}">Bearbeiten</a>
-                </p>
-                <br>
+        <p class="text-center">Benutzername: {{ user.username }}</p>
+        <p class="text-center">E-Mail: {{ user.useremail }}</p>
+        <p class="text-center">Passwort: {{ user.password }}</p>
+        <p class="text-center">
+            <a href="{{ app.url_generator.generate('update') }}{{ user.id }}">Bearbeiten</a>
+        </p>
+        <br>
         {% endfor %}
     {% endif %}
-    
+
     {% if message is not defined %}
         {% include "pagination.twig" %}
         <br>
