@@ -10,35 +10,31 @@
 {% endblock %}
 
 {% block header %}
-    <h1>{{ headline }}</h1>
-    {% include "userheader.twig" %}
+    {% include "header.twig" %}
 {% endblock %}
 
 {% block content %}
-<section>
-    <article>
     {% if message is not defined %} 
     {% if errormessages is not defined or errormessages is null %}
-        <h2>Daten einzeln ändern:</h2>
-            <p>Benutzername: {{ user.username }}</p>
-            <p>
+        <h2 class="text-center">Daten einzeln ändern:</h2>
+            <p class="text-center">Benutzername: {{ user.username }}</p>
+            <p class="text-center">
                 <a href="{{ user.id }}/username">Benutzername bearbeiten</a>
             </p>
             <br>
-            <p>E-Mail: {{ user.useremail }}</p>
-            <p>
+            <p class="text-center">E-Mail: {{ user.useremail }}</p>
+            <p class="text-center">
                 <a href="{{ user.id }}/email">E-Mail bearbeiten</a>
             </p>
             <br>
-            <p>Passwort: {{ user.password }}</p>
-            <p>
+            <p class="text-center">Passwort: {{ user.password }}</p>
+            <p class="text-center">
                 <a href="{{ user.id }}/password">Passwort bearbeiten</a>
             </p>
             <br>
         {%endif%}
     {% endif %}
-    </article>
-</section>
-    <h2>Alle Benutzerdaten ändern:</h2>
-    {% include "user_form.twig" %}
+
+{% include "user_form.twig" %}
+
 {% endblock %}

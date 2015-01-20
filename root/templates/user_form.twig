@@ -1,49 +1,41 @@
-<section id="form">
-    {% set value = {
-        'username' : '', 
-        'useremail' : '', 
-        'password' : '',
-    } %}
+{% set value = {
+    'username' : '', 
+    'useremail' : '', 
+    'password' : '',
+} %}
 
-    {% if errormessages is defined and errormessages is not null %}
-        {% set value = {
-            'username' : postdata.username,
-            'useremail' : postdata.useremail,
-            'password' : postdata.password
-        } %}
-    {% endif %}        
-    <article>
-        {% if message is defined %}
-            <p>{{message}}</p>
+{% if errormessages is defined and errormessages is not null %}
+    {% set value = {
+        'username' : postdata.username,
+        'useremail' : postdata.useremail,
+        'password' : postdata.password
+    } %}
+{% endif %}        
+
+{% if message is defined %}
+    <p>{{message}}</p>
+{% endif %}
+
+{% if message is not defined %}
+<div class="container">
+    <form  action="" method="post" class="form-signin">
+        <h2 class="form-signin-heading text-center">{{headline}}</h2>
+        <label for="username" class="sr-only">Benutzername</label>
+        <input type="text" name="username" value="{{value.username}}" class="form-control" placeholder="Benutzername" required autofocus>
+        {% if errormessages is defined and errormessages is not null and errormessages.username is defined %}
+            <p class="errorMessage">{{errormessages.username}}</p>
         {% endif %}
-        {% if message is not defined %}
-        <form  action="" method="post">
-            <label for="username">
-                Benutzername:
-            </label>
-            <input type="text" name="username" value="{{value.username}}">
-            {% if errormessages is defined and errormessages is not null and errormessages.username is defined %}
-                <p class="errorMessage">{{errormessages.username}}</p>
-            {% endif %}                
-            <label for="useremail">
-                E-Mail:
-            </label>
-            <input type="text" name="useremail" value="{{value.useremail}}">
-            {% if errormessages is defined and errormessages is not null and errormessages.useremail is defined %}
-                <p class="errorMessage">{{errormessages.useremail}}</p>
-            {% endif %}
-            <label for="password">
-                Passwort:
-            </label>
-            <input type="password" name="password" value="{{value.password}}">
-            {% if errormessages is defined and errormessages is not null and errormessages.password is defined %}
-                <p class="errorMessage">{{errormessages.password}}</p>
-            {% endif %}
-            <input type="submit" value="{{submitvalue}}">
-        </form>
+        <label for="useremail" class="sr-only">E-Mail</label>
+        <input type="text" name="useremail" value="{{value.useremail}}" class="form-control" placeholder="E-Mail" required>
+        {% if errormessages is defined and errormessages is not null and errormessages.useremail is defined %}
+            <p class="errorMessage">{{errormessages.useremail}}</p>
         {% endif %}
-        <p>
-            <a href="{{ app.url_generator.generate('dashboard') }}">Zurück zur Übersicht</a>
-        </p>
-    </article>
-</section>	
+        <label for="password" class="sr-only">Passwort</label>
+        <input type="password" name="password" value="{{value.password}}" class="form-control" placeholder="Passwort" required>
+        {% if errormessages is defined and errormessages is not null and errormessages.password is defined %}
+            <p class="errorMessage">{{errormessages.password}}</p>
+        {% endif %}
+        <button class="btn btn-lg btn-primary btn-block" type="submit">{{submitvalue}}</button>
+    </form>
+</div>
+{% endif %}

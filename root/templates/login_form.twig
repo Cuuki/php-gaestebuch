@@ -9,32 +9,23 @@
     {% endblock %}
 {% endblock %}
 
-{% block header %}
-    <h1 class="heading">Login:</h1>
-{% endblock %}
-
 {% block content %}
-    <section id='form'>
+    <div class="container">
+      <form action="" method="post" class="form-signin">
+        <h2 class="form-signin-heading text-center">Loggen Sie sich ein:</h2>
         {% if message is defined %}
-            <p>{{message}}</p>
+        <p>{{message}}</p>
         {% endif %}
-        <article>
-            <form action="" method="post">
-                <label for="username">
-                    Benutzername:
-                </label>		
-                <input type="text" name="username" id="username" value="">
-                <label for="password">
-                    Passwort:
-                </label>
-                <input type="password" name="password" id="password" value="">
-                <input name="login" type="submit" value="Einloggen">
-                <label for="staylogged">Angemeldet bleiben</label>
-                <input  name="staylogged" id="staylogged" type="checkbox" value="staylogged">
-            </form>
-            <p>
-                <a href="{{ app.url_generator.generate('reset') }}">Passwort vergessen?</a>
-            </p>
-        </article>
-    </section>
+        <label for="username" class="sr-only">Benutzername</label>
+        <input type="text" name="username" id="username" class="form-control" placeholder="Benutzername" required autofocus>
+        <label for="password" class="sr-only">Passwort</label>
+        <input type="password" name="password" id="password" class="form-control" placeholder="Passwort" required>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" name="staylogged" value="staylogged"> Angemeldet bleiben
+          </label>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" name="login" type="submit">Einloggen</button>
+      </form>
+    </div>   
 {% endblock %}

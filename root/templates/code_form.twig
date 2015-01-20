@@ -10,14 +10,14 @@
 {% endblock %}
 
 {% block header %}
-    <h1 class="heading">Neues Passwort anfordern:</h1>
+    <h1>Neues Passwort anfordern:</h1>
 {% endblock %}
 
 {% block content %}
     {% if message is defined %}
         <p>{{message}}</p>
     {% endif %}
-    <section id="form">
+    <section>
         <form action="" method="post">
             <label for="code">
                 Geben Sie den Code ein:

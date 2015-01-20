@@ -10,35 +10,31 @@
 {% endblock %}
 
 {% block header %}
-    <h1>Benutzer bearbeiten:</h1>
-    {% include "userheader.twig" %}
+    {% include "header.twig" %}
 {% endblock %}
 
 {% block content %}
-    <section id="form">
-        <article>
-            {% if message is defined %}
-                <p>{{ message }}</p>
+    {% if message is defined %}
+        <p>{{ message }}</p>
+    {% endif %}
+    <div class="container">
+        <form  action="" method="post" class="form-signin">
+            <h2 class="form-signin-heading text-center">{{label_text}}</h2>
+            <label for="{{label_for}}" class="sr-only">{{label_text}}</label>
+            <input type="text" name="{{input_name}}" class="form-control" placeholder="{{input_name}}" required autofocus>
+            {% if errormessages is defined and errormessages is not null and errormessages.username is defined %}
+                <p class="errorMessage">{{errormessages.username}}</p>
             {% endif %}
-            <form  action="" method="post">
-                <label for="{{label_for}}">
-                    {{label_text}}
-                </label>
-                <input type="text" name="{{input_name}}" value="">
-                {% if errormessages is defined and errormessages is not null and errormessages.username is defined %}
-                    <p class="errorMessage">{{errormessages.username}}</p>
-                {% endif %}
-                {% if errormessages is defined and errormessages is not null and errormessages.useremail is defined %}
-                    <p class="errorMessage">{{errormessages.useremail}}</p>
-                {% endif %}
-                {% if errormessages is defined and errormessages is not null and errormessages.password is defined %}
-                    <p class="errorMessage">{{errormessages.password}}</p>
-                {% endif %}                
-                <input type="submit" value="Ändern">
-            </form>
-            <p>
-                <a href="{{ app.url_generator.generate('update') }}{{ id }}">Zurück</a>
-            </p>                    
-        </article>
-    </section>	
+            {% if errormessages is defined and errormessages is not null and errormessages.useremail is defined %}
+                <p class="errorMessage">{{errormessages.useremail}}</p>
+            {% endif %}
+            {% if errormessages is defined and errormessages is not null and errormessages.password is defined %}
+                <p class="errorMessage">{{errormessages.password}}</p>
+            {% endif %}                
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Ändern</button>
+        </form>
+        <p>
+            <a href="{{ app.url_generator.generate('update') }}{{ id }}">Zurück</a>
+        </p>
+    </div>
 {% endblock %}

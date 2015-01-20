@@ -32,7 +32,7 @@ $app->mount( '/gb', new Guestbook\GuestbookControllerProvider() );
 $app->mount( '/ap', new Adminpanel\AdminpanelControllerProvider() );
 
 $app['session.storage.options'] = array(
-    'lifetime' => 900
+    'lifetime' => 1800
 );
 
 //$user = new Guestbook\User( $app['db'] );

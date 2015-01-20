@@ -25,7 +25,7 @@ if ( !empty( $invalidInput ) )
     $render = $app['twig']->render( 'user_update_id.twig', array(
         'errormessages' => $errorMessages,
         'postdata' => $postdata,
-        'headline' => 'Benutzer bearbeiten:',
+        'headline' => 'Alle Benutzerdaten bearbeiten:',
         'submitvalue' => 'Ändern'
             ) );
 
@@ -45,7 +45,7 @@ else
     {
         $render = $app['twig']->render( 'user_update_id.twig', array(
             'message' => 'Der Benutzer existiert bereits.',
-            'headline' => 'Benutzer hinzufügen:',
+            'headline' => 'Alle Benutzerdaten bearbeiten:',
             'submitvalue' => 'Anlegen'
                 ) );
 
@@ -55,7 +55,7 @@ else
     {
         $render = $app['twig']->render( 'user_update_id.twig', array(
             'message' => 'Die Daten wurden geändert!',
-            'headline' => 'Benutzer bearbeiten:',
+            'headline' => 'Alle Benutzerdaten bearbeiten:',
             'submitvalue' => 'Ändern'
                 ) );
 
@@ -66,7 +66,7 @@ else
     {
         $render = $app['twig']->render( 'user_update_id.twig', array(
             'message' => 'Die Daten konnten nicht geändert werden.',
-            'headline' => 'Benutzer bearbeiten:',
+            'headline' => 'Alle Benutzerdaten bearbeiten:',
             'submitvalue' => 'Ändern'
                 ) );
 
