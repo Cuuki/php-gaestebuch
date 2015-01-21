@@ -4,10 +4,6 @@
     {% block title %}
         <title>Benutzerdaten ändern - Adminpanel</title>
     {% endblock %}
-    {% block css %}
-        <link rel="stylesheet" type="text/css" href="../../../../css/bootstrap.min.css">
-        <link href="../../../../css/styles.css" rel="stylesheet">
-    {% endblock %}
 {% endblock %}
 
 {% block header %}
@@ -33,6 +29,9 @@
                         </div>
                         <button class="btn btn-primary" name="submit" type="submit">Ändern</button>
                     </fieldset>
+                                        <p class="text-right">
+                        <a href="{{ app.url_generator.generate('settings') }}">Zurück</a>                        
+                    </p>
                 </form>
             </div>
         </div>

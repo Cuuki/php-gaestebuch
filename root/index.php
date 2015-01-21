@@ -35,13 +35,6 @@ $app['session.storage.options'] = array(
     'lifetime' => 1800
 );
 
-//$user = new Guestbook\User( $app['db'] );
-//$user->set('username', 'Patrickads');
-//$user->set('useremail', 'asdsadsa@afdg.com');
-//$user->set('password', 'adsfsgdhfj231233e');
-//$user->set('role', 'Superman');
-//$user->insert( 'user');
-
 $app->before( function () use ( $app )
 {
     $getPath = $app['request_context']->getPathInfo();
@@ -66,6 +59,10 @@ $app['session']->start();
 
 // Letzte Aktivität in der Session
 $sessionLastUsed = $app['session']->getMetadataBag()->getLastUsed();
+$loggeduser = $app['session']->get( 'user' );
+
+$app['twig']->addGlobal('base_url', 'http://localhost/php-gaestebuch/root');
+$app['twig']->addGlobal('loggeduser', $loggeduser);
 
 // Wenn nach 15 Minuten (900sek) keine Aktivität in der Session war und das Cookie Lifetime nicht 0 ist zerstöre diese
 if ( ( $app['session']->get( 'cookie_lifetime' ) !== 0 ) && ( time() - $sessionLastUsed > 60 ) )

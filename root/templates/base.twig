@@ -1,17 +1,42 @@
 <!DOCTYPE html>
 <html lang="de">
     <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="{{base_url}}/css/bootstrap.min.css" rel="stylesheet">
+        <link href="{{base_url}}/css/datepicker3.css" rel="stylesheet">
+        <link href="{{base_url}}/css/styles.css" rel="stylesheet">
+        <!--[if lt IE 9]>
+            <script src="{{base_url}}/js/html5shiv.js"></script>
+            <script src="{{base_url}}/js/respond.min.js"></script>
+        <![endif]--> 
         {% block head %}
             {% block title %}{% endblock %}
-            <meta charset="utf-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
             {% block css %}{% endblock %}
             {% block script %}{% endblock %}
         {% endblock %}
     </head>
-    <body>	
+    <body>
         {% block header %}{% endblock %}
-        
         {% block content %}{% endblock %}
+        <script src="{{base_url}}/js/jquery-1.11.1.min.js"></script>
+        <script src="{{base_url}}/js/bootstrap.min.js"></script>
+        <script>
+            !function ($) {
+                $(document).on("click", "ul.nav li.parent > a > span.icon", function () {
+                    $(this).find('em:first').toggleClass("glyphicon-minus");
+                });
+                $(".sidebar span.icon").find('em:first').addClass("glyphicon-plus");
+            }(window.jQuery);
+
+            $(window).on('resize', function () {
+                if ($(window).width() > 768)
+                    $('#sidebar-collapse').collapse('show')
+            });
+            $(window).on('resize', function () {
+                if ($(window).width() <= 767)
+                    $('#sidebar-collapse').collapse('hide')
+            });
+        </script>
     </body>
 </html>

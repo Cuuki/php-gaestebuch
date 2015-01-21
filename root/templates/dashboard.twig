@@ -4,39 +4,37 @@
     {% block title %}
         <title>Dashboard - Adminpanel</title>
     {% endblock %}
-    {% block css %}
-        <link rel="stylesheet" type="text/css" href="../../../css/bootstrap.min.css">
-    {% endblock %}
 {% endblock %}
 
 {% block header %}
-    <!--{% include "header.twig" %}-->
+    
 {% endblock %}
 
 {% block content %}
-    <!--{% include "sidebar.twig" %}-->
-<!--<h2>Benutzerverwaltung:</h2>
-<ul>
-    <li>
-        <a href="{{ app.url_generator.generate('add') }}">Benutzer hinzufügen</a>
-    </li>					
-    <li>
-        <a href="{{ app.url_generator.generate('update') }}">Benutzerdaten bearbeiten</a>
-    </li>
-    <li>
-        <a href="{{ app.url_generator.generate('delete') }}">Benutzer löschen</a>
-    </li>
-</ul>
-<h2>Beitragsverwaltung:</h2>
-<ul>
-    <li>
-        <a href="{{ app.url_generator.generate('postAdd') }}">Beitrag hinzufügen</a>
-    </li>					
-    <li>
-        <a href="{{ app.url_generator.generate('postUpdate') }}">Beitrag bearbeiten</a>
-    </li>
-    <li>
-        <a href="{{ app.url_generator.generate('postDelete') }}">Beitrag löschen</a>
-    </li>						
-</ul>    -->
+<div class="container">
+    <h2>Benutzerverwaltung:</h2>
+    <ul>
+        <li>
+            <a href="{{ app.url_generator.generate('add') }}">Benutzer hinzufügen</a>
+        </li>					
+        <li>
+            <a href="{{ app.url_generator.generate('update') }}">Benutzerdaten bearbeiten</a>
+        </li>
+        <li>
+            <a href="{{ app.url_generator.generate('delete') }}">Benutzer löschen</a>
+        </li>
+    </ul>
+    <h2>Beitragsverwaltung:</h2>
+    <ul>
+        <li>
+            <a href="{{ app.url_generator.generate('postAdd') }}">Beitrag hinzufügen</a>
+        </li>					
+        <li>
+            <a href="{{ app.url_generator.generate('postUpdate') }}">Beitrag bearbeiten</a>
+        </li>
+        <li>
+            <a href="{{ app.url_generator.generate('postDelete') }}">Beitrag löschen</a>
+        </li>						
+    </ul>
+</div>
 {% endblock %}
