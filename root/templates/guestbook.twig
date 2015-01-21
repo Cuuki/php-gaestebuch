@@ -34,10 +34,14 @@
                     </h2>
                 </div>
                 {% if message is defined %}
-                <p class="{{message_type}}">{{message}}</p>
+                <div class="panel-body">
+                    <p class="{{message_type}}">{{message}}</p>
+                </div>
                 {% endif %}
                 {% if posts == false %}
-                <p>Keine Beiträge vorhanden!</p>
+                <div class="panel-body">
+                    <p>Keine Beiträge vorhanden!</p>
+                </div>
                 {% endif %}
                 {% for post in posts %}
                 <div class="panel-body">
