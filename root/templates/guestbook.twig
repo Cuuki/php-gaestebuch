@@ -8,28 +8,68 @@
 {% block header %}
 {% endblock %}
 {% block content %}
-    <h1 class="heading">Willkommen in diesem Gästebuch</h1>
-    <section id='posts'>
-        <article>
-            <h2 class='articleHeading'><a name='posts'>Letzte Beiträge:</a></h2>
-        </article>
-        {% if message is defined %}
-            <p class="{{message_type}}">{{message}}</p>
-            <br>
-        {% endif %}
-        {% if posts == false %}
-            <p>Keine Beiträge vorhanden!</p>
-        {% elseif errormessages is not defined or errormessages is null %}
-            {% for post in posts %}
-                <p>{{ post.firstname }}</p>
-                <p>{{ post.lastname }}</p>
-                <p>{{ post.email }}</p>
-                <p>{{ post.content }}</p>
-                <p>{{ post.created }}</p>
-                <br>
-            {% endfor %}
-            {% include "pagination.twig" %}
-        {% endif %}
-    </section>
+<div class="col-lg-12 main">
+    <div class="row">
+        <ol class="breadcrumb">
+            <li>
+                <a href="#">
+                    <span class="glyphicon glyphicon-book"></span>
+                </a>
+            </li>
+            <li class="active">Gästebuch</li>
+        </ol>
+    </div><!--/.row-->   
+    
+    {% if errormessages is not defined or errormessages is null %}
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span class="glyphicon glyphicon-heart-empty"></span>
+                    <strong>Willkommen im Gästebuch!</strong>
+                </div>
+                <div class="panel-heading">
+                    <h2>
+                        <a name='posts'>Letzte Beiträge:</a>
+                    </h2>
+                </div>
+                {% if message is defined %}
+                <p class="{{message_type}}">{{message}}</p>
+                {% endif %}
+                {% if posts == false %}
+                <p>Keine Beiträge vorhanden!</p>
+                {% endif %}
+                {% for post in posts %}
+                <div class="panel-body">
+                <p>
+                    <strong>Beitrag:</strong> {{ post.content }}
+                </p>
+                <p>
+                    <strong>Autor:</strong> {{ post.firstname }} {{ post.lastname }}
+                </p>
+                <p>
+                    <strong>E-Mail Adresse:</strong> {{ post.email }}
+                </p>
+                <p>
+                    <strong>Erstellt am:</strong> {{ post.created }}
+                </p>
+                </div>
+                {% endfor %}                   
+            </div>
+        </div>
+    </div><!--/.row-->
+    {% endif %}
+    
+    {% if errormessages is not defined or errormessages is null %}
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    {% include "pagination.twig" %}
+                </div>
+            </div>
+        </div>
+    </div><!--/.row-->
+    {% endif %}
 {% include "guestbookform.twig" %}
 {% endblock %}

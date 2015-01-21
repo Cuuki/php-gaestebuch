@@ -12,54 +12,57 @@
                 'textinput' : postdata.textinput
             } %}
         {% endif %}
-<div class="row">
-    <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
-        <div class="login-panel panel panel-default">
-            <div class="panel-heading">
-                <h2><a name='add'>Tragen Sie sich ein:</a></h2>
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2>
+                        <a name='add'>Tragen Sie sich ein:</a>
+                    </h2>
+                </div>
+                <div class="panel-body">
+                    <fieldset>
+                        <form action="" method="post">      
+                            <div class="form-group">
+                                <label for="firstname" class="sr-only">Vorname:</label>
+                                <input class="form-control" type="text" name="firstname" value="{{value.firstname}}" placeholder="Vorname">
+                                {% if errormessages is defined and errormessages is not null and errormessages.firstname is defined %}
+                                    <p class="errorMessage">{{errormessages.firstname}}</p>
+                                {% endif %}
+                            </div>
+                            <div class="form-group">
+                                <label for="lastname" class="sr-only">
+                                    Nachname:
+                                </label>
+                                <input class="form-control" type="text" name="lastname" value="{{value.lastname}}" placeholder="Nachname">
+                                {% if errormessages is defined and errormessages is not null and errormessages.lastname is defined %}
+                                    <p class="errorMessage">{{errormessages.lastname}}</p>
+                                {% endif %}
+                            </div>
+                            <div class="form-group">
+                                <label for="email" class="sr-only">
+                                    E-Mail Adresse:
+                                </label>
+                                <input class="form-control" type="email" name="email" value="{{value.email}}" placeholder="E-Mail">
+                                {% if errormessages is defined and errormessages is not null and errormessages.email is defined %}
+                                    <p class="errorMessage">{{errormessages.email}}</p>
+                                {% endif %}            
+                            </div>
+                            <div class="form-group">
+                                <label for="textinput" class="sr-only">
+                                   Beitrag (max. 1000 Zeichen):
+                                </label>
+                                <textarea class="form-control" name="textinput" rows="10" cols="20" placeholder="Beitrag (max. 1000 Zeichen)">{{value.textinput}}</textarea>
+                                {% if errormessages is defined and errormessages is not null and errormessages.textinput is defined %}
+                                    <p class="errorMessage">{{errormessages.textinput}}</p>
+                                {% endif %}
+                            </div>
+                            <button class="btn btn-primary" name="submit" type="submit">Hinzufügen</button>
+                            <button class="btn btn-primary" name="reset" type="reset">Eingabe löschen</button>
+                        </form>
+                    </fieldset>
+                </div>
             </div>
-            <div class="panel-body">
-                <fieldset>
-                    <form action="" method="post">      
-                        <div class="form-group">
-                            <label for="firstname" class="sr-only">Vorname:</label>
-                            <input class="form-control" type="text" name="firstname" value="{{value.firstname}}" placeholder="Vorname">
-                            {% if errormessages is defined and errormessages is not null and errormessages.firstname is defined %}
-                                <p class="errorMessage">{{errormessages.firstname}}</p>
-                            {% endif %}
-                        </div>
-                        <div class="form-group">
-                            <label for="lastname" class="sr-only">
-                                Nachname:
-                            </label>
-                            <input class="form-control" type="text" name="lastname" value="{{value.lastname}}" placeholder="Nachname">
-                            {% if errormessages is defined and errormessages is not null and errormessages.lastname is defined %}
-                                <p class="errorMessage">{{errormessages.lastname}}</p>
-                            {% endif %}
-                        </div>
-                        <div class="form-group">
-                            <label for="email" class="sr-only">
-                                E-Mail Adresse:
-                            </label>
-                            <input class="form-control" type="email" name="email" value="{{value.email}}" placeholder="E-Mail">
-                            {% if errormessages is defined and errormessages is not null and errormessages.email is defined %}
-                                <p class="errorMessage">{{errormessages.email}}</p>
-                            {% endif %}            
-                        </div>
-                        <div class="form-group">
-                            <label for="textinput" class="sr-only">
-                               Beitrag (max. 1000 Zeichen):
-                            </label>
-                            <textarea class="form-control" name="textinput" rows="10" cols="20" placeholder="Beitrag (max. 1000 Zeichen)">{{value.textinput}}</textarea>
-                            {% if errormessages is defined and errormessages is not null and errormessages.textinput is defined %}
-                                <p class="errorMessage">{{errormessages.textinput}}</p>
-                            {% endif %}
-                        </div>
-                        <button class="btn btn-primary" name="submit" type="submit">Hinzufügen</button>
-                        <button class="btn btn-primary" name="reset" type="reset">Eingabe löschen</button>
-                    </form>
-                </fieldset>
-            </div>
-        </div>
-    </div><!-- /.col-->
-</div><!-- /.row -->
+        </div><!-- /.col-->
+    </div><!-- /.row -->
+</div>	<!--/.main-->
