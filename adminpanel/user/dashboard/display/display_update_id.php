@@ -23,12 +23,9 @@ include_once USER_DIR . '/dashboard/update.php';
 // Ausgewählten Benutzer aus Datenbank holen mit $id aus URL
 $userData = getUser( $app['db'], $id );
 
-$loggeduser = $app['session']->get( 'user' );
-
 $render = $app['twig']->render( 'user_update_id.twig', array(
     'user' => $userData,
     'headline' => 'Alle Daten bearbeiten:',
-    'loggeduser' => $loggeduser,
     'submitvalue' => 'Ändern'
         ) );
 

@@ -2,10 +2,6 @@
 
 use Symfony\Component\HttpFoundation\Response;
 
-$loggeduser = $app['session']->get( 'user' );
-
-$render = $app['twig']->render( 'dashboard.twig', array(
-    'loggeduser' => $loggeduser
-) );
+$render = $app['twig']->render( 'dashboard.twig' );
 
 return new Response( $render, 201 );

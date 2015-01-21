@@ -23,16 +23,13 @@ include_once USER_DIR . '/../../guestbook/processing/get/processing_pagination.p
 
 $getAllUsers = getAllUsers( $app['db'] );
 
-$loggeduser = $app['session']->get( 'user' );
-
 $render = $app['twig']->render( 'user_update.twig', array(
     'users' => $getAllUsers,
     'firstpage' => $firstPage,
     'currentpage' => $currentpage,
     'pagenumber' => $pageNumber,
     'nextpage' => $nextPage,
-    'lastpage' => $lastPage,
-    'loggeduser' => $loggeduser
+    'lastpage' => $lastPage
         ) );
 
 return new Response( $render, 201 );

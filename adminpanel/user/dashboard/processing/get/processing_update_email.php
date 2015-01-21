@@ -2,12 +2,9 @@
 
 use Symfony\Component\HttpFoundation\Response;
 
-$loggeduser = $app['session']->get( 'user' );
-
 $render = $app['twig']->render( 'user_update_form.twig', array(
     'label_for' => 'useremail',
     'label_text' => 'Neue E-Mail Adresse',
-    'loggeduser' => $loggeduser,
     'id' => $id,
     'input_name' => 'useremail'
         ) );
