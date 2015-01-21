@@ -9,6 +9,7 @@ $posts = getPosts( $app['db'], $rowsperpage, $currentpage );
 
 $render = $app['twig']->render( 'post_delete.twig', array(
     'posts' => $posts,
+    'is_active_postmanagement' => true,
     'firstpage' => $firstPage,
     'currentpage' => $currentpage,
     'pagenumber' => $pageNumber,

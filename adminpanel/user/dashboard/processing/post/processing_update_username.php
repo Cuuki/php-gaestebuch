@@ -23,6 +23,7 @@ if ( !empty( $invalidInput ) )
         'label_text' => 'Neuer Benutzername',
         'id' => $id,
         'input_name' => 'username',
+        'is_active_usermanagement' => true,
         'errormessages' => $errorMessages
             ) );
 
@@ -46,6 +47,7 @@ else
             'label_for' => 'username',
             'label_text' => 'Neuer Benutzername',
             'id' => $id,
+            'is_active_usermanagement' => true,
             'input_name' => 'username'
                 ) );
 
@@ -59,6 +61,7 @@ else
             'label_for' => 'username',
             'label_text' => 'Neuer Benutzername',
             'id' => $id,
+            'is_active_usermanagement' => true,
             'input_name' => 'username'
                 ) );
 
@@ -73,6 +76,7 @@ else
             'label_for' => 'username',
             'label_text' => 'Neuer Benutzername',
             'id' => $id,
+            'is_active_usermanagement' => true,
             'input_name' => 'username'
                 ) );
 

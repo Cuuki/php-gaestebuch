@@ -24,6 +24,7 @@ if ( !empty( $invalidInput ) || $postdata['textinput'] == $oldcontent )
 
     $render = $app['twig']->render( 'post_update_id.twig', array(
         'errormessages' => $errorMessages,
+        'is_active_postmanagement' => true,
         'postdata' => $postdata
             ) );
 
@@ -35,6 +36,7 @@ else
     {
         $render = $app['twig']->render( 'post_update_id.twig', array(
             'message' => 'Die Daten wurden geändert!',
+            'is_active_postmanagement' => true,
             'message_type' => 'successmessage'
                 ) );
         
@@ -45,6 +47,7 @@ else
     {
         $render = $app['twig']->render( 'post_update_id.twig', array(
             'message' => 'Die Daten konnten nicht geändert werden!',
+            'is_active_postmanagement' => true,
             'message_type' => 'failuremessage'
                 ) );
         

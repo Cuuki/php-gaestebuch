@@ -19,6 +19,7 @@ if ( !empty( $invalidInput ) )
     $render = $app['twig']->render( 'user_add.twig', array(
         'errormessages' => $errorMessages,
         'postdata' => $postdata,
+        'is_active_usermanagement' => true,
         'headline' => 'Benutzer hinzufügen:',
         'submitvalue' => 'Anlegen'
             ) );
@@ -44,6 +45,7 @@ else
         $render = $app['twig']->render( 'user_add.twig', array(
             'message' => 'Der Benutzer existiert bereits.',
             'message_type' => 'failuremessage',
+            'is_active_usermanagement' => true,
             'headline' => 'Benutzer hinzufügen:',
             'submitvalue' => 'Anlegen'
                 ) );
@@ -58,6 +60,7 @@ else
         $render = $app['twig']->render( 'user_add.twig', array(
             'message' => 'Der Benutzer wurde hinzugefügt.',
             'message_type' => 'successmessage',
+            'is_active_usermanagement' => true,
             'headline' => 'Benutzer hinzufügen:',
             'submitvalue' => 'Anlegen'
                 ) );
@@ -69,6 +72,7 @@ else
         $render = $app['twig']->render( 'user_add.twig', array(
             'message' => 'Der Benutzer konnte nicht gespeichert werden!',
             'message_type' => 'failuremessage',
+            'is_active_usermanagement' => true,
             'headline' => 'Benutzer hinzufügen:',
             'submitvalue' => 'Anlegen'
                 ) );

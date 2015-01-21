@@ -13,6 +13,7 @@ if ( $role == 'adm' )
     $render = $app['twig']->render( 'user_delete.twig', array(
         'headline' => 'Benutzer löschen:',
         'message' => 'Sie haben nicht die nötigen Rechte um einen Benutzer zu löschen, wenden Sie sich an einen Administrator.',
+        'is_active_usermanagement' => true,
         'message_type' => 'failuremessage'
             ) );
 
@@ -26,6 +27,7 @@ $getAllUsers = getAllUsers( $app['db'] );
 
 $render = $app['twig']->render( 'user_delete.twig', array(
     'headline' => 'Benutzer löschen:',
+    'is_active_usermanagement' => true,
     'users' => $getAllUsers,
     'firstpage' => $firstPage,
     'currentpage' => $currentpage,

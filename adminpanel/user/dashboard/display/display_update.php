@@ -12,6 +12,7 @@ if ( $role == 'adm' )
 {
     $render = $app['twig']->render( 'user_update.twig', array(
         'message' => 'Sie haben nicht die nötigen Rechte um einen Benutzer zu bearbeiten, wenden Sie sich an einen Administrator.',
+        'is_active_usermanagement' => true,
         'message_type' => 'failuremessage'
             ) );
 
@@ -25,6 +26,7 @@ $getAllUsers = getAllUsers( $app['db'] );
 
 $render = $app['twig']->render( 'user_update.twig', array(
     'users' => $getAllUsers,
+    'is_active_usermanagement' => true,
     'firstpage' => $firstPage,
     'currentpage' => $currentpage,
     'pagenumber' => $pageNumber,

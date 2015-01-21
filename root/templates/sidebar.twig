@@ -1,40 +1,72 @@
 <div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
-    <form role="search">
-        <div class="form-group">
-            <input type="text" class="form-control" placeholder="Search">
-        </div>
-    </form>
     <ul class="nav menu">
-        <li class="active"><a href="index.html"><span class="glyphicon glyphicon-dashboard"></span> Dashboard</a></li>
-        <li><a href="widgets.html"><span class="glyphicon glyphicon-th"></span> Widgets</a></li>
-        <li><a href="charts.html"><span class="glyphicon glyphicon-stats"></span> Charts</a></li>
-        <li><a href="tables.html"><span class="glyphicon glyphicon-list-alt"></span> Tables</a></li>
-        <li><a href="forms.html"><span class="glyphicon glyphicon-pencil"></span> Forms</a></li>
-        <li><a href="panels.html"><span class="glyphicon glyphicon-info-sign"></span> Alerts &amp; Panels</a></li>
-        <li class="parent ">
+        <li role="presentation" class="divider"></li>
+        <li class="{% if is_active_dashboard is defined and is_active_dashboard == true %}active{% endif %}">
+            <a href="{{ app.url_generator.generate('dashboard') }}">
+                <span class="glyphicon glyphicon-dashboard"></span>Dashboard
+            </a>
+        </li>
+        <li class="parent {% if is_active_usermanagement is defined and is_active_usermanagement == true %}active{% endif %}">
             <a href="#">
-                <span class="glyphicon glyphicon-list"></span> Dropdown <span data-toggle="collapse" href="#sub-item-1" class="icon pull-right"><em class="glyphicon glyphicon-s glyphicon-plus"></em></span> 
+                <span class="glyphicon glyphicon-list"></span> Benutzerverwaltung
+                <span data-toggle="collapse" href="#sub-item-1" class="icon pull-right">
+                    <em class="glyphicon glyphicon-s glyphicon-plus"></em>
+                </span> 
             </a>
             <ul class="children collapse" id="sub-item-1">
                 <li>
-                    <a class="" href="#">
-                        <span class="glyphicon glyphicon-share-alt"></span> Sub Item 1
+                    <a href="{{ app.url_generator.generate('add') }}">
+                        <span class="glyphicon glyphicon-plus"></span> Hinzufügen
                     </a>
                 </li>
                 <li>
-                    <a class="" href="#">
-                        <span class="glyphicon glyphicon-share-alt"></span> Sub Item 2
+                    <a href="{{ app.url_generator.generate('update') }}">
+                        <span class="glyphicon glyphicon-pencil"></span> Bearbeiten
                     </a>
                 </li>
                 <li>
-                    <a class="" href="#">
-                        <span class="glyphicon glyphicon-share-alt"></span> Sub Item 3
+                    <a href="{{ app.url_generator.generate('delete') }}">
+                        <span class="glyphicon glyphicon-trash"></span> Löschen
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="parent {% if is_active_postmanagement is defined and is_active_postmanagement == true %}active{% endif %}">
+            <a href="#">
+                <span class="glyphicon glyphicon-list"></span> Beitragsverwaltung 
+                <span data-toggle="collapse" href="#sub-item-2" class="icon pull-right">
+                    <em class="glyphicon glyphicon-s glyphicon-plus"></em>
+                </span> 
+            </a>
+            <ul class="children collapse" id="sub-item-2">
+                <li>
+                    <a href="{{ app.url_generator.generate('postAdd') }}">
+                        <span class="glyphicon glyphicon-plus"></span> Hinzufügen
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ app.url_generator.generate('postUpdate') }}">
+                        <span class="glyphicon glyphicon-pencil"></span> Bearbeiten
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ app.url_generator.generate('postDelete') }}">
+                        <span class="glyphicon glyphicon-trash"></span> Löschen
                     </a>
                 </li>
             </ul>
         </li>
         <li role="presentation" class="divider"></li>
-        <li><a href="login.html"><span class="glyphicon glyphicon-user"></span> Login Page</a></li>
+        <li>
+            <a href="{{ app.url_generator.generate('guestbook') }}">
+                <span class="glyphicon glyphicon-book"></span>Zum Gästebuch
+            </a>
+        </li>
+        <li role="presentation" class="divider"></li>
+        <div class="attribution">
+            <a href="{{ app.url_generator.generate('logout') }}">
+                <span class="glyphicon glyphicon-log-out"></span>Ausloggen
+            </a>
+        </div>
     </ul>
-    <div class="attribution">Template by <a href="http://www.medialoot.com/item/lumino-admin-bootstrap-template/">Medialoot</a></div>
 </div>

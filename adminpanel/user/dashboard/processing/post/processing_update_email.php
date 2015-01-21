@@ -23,6 +23,7 @@ if ( !empty( $invalidInput ) )
         'label_text' => 'Neue E-Mail Adresse',
         'id' => $id,
         'input_name' => 'useremail',
+        'is_active_usermanagement' => true,
         'errormessages' => $errorMessages
             ) );
 
@@ -46,6 +47,7 @@ else
             'label_for' => 'useremail',
             'label_text' => 'Neue E-Mail Adresse',
             'id' => $id,
+            'is_active_usermanagement' => true,
             'input_name' => 'useremail'
                 ) );
 
@@ -59,6 +61,7 @@ else
             'label_for' => 'useremail',
             'label_text' => 'Neue E-Mail Adresse',
             'id' => $id,
+            'is_active_usermanagement' => true,
             'input_name' => 'useremail'
                 ) );
 
@@ -73,6 +76,7 @@ else
             'label_for' => 'useremail',
             'label_text' => 'Neue E-Mail Adresse',
             'id' => $id,
+            'is_active_usermanagement' => true,
             'input_name' => 'useremail'
                 ) );
 

@@ -23,6 +23,7 @@ if ( !empty( $invalidInput ) )
         'label_text' => 'Neues Passwort',
         'id' => $id,
         'input_name' => 'password',
+        'is_active_usermanagement' => true,
         'errormessages' => $errorMessages
             ) );
 
@@ -39,6 +40,7 @@ else
             'label_for' => 'password',
             'label_text' => 'Neues Passwort',
             'id' => $id,
+            'is_active_usermanagement' => true,
             'input_name' => 'password'
                 ) );
 
@@ -53,6 +55,7 @@ else
             'label_for' => 'password',
             'label_text' => 'Neues Passwort',
             'id' => $id,
+            'is_active_usermanagement' => true,
             'input_name' => 'password'
                 ) );
 
