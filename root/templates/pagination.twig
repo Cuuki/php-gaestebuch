@@ -1,9 +1,7 @@
 <nav>
   <ul class="pagination">
     <li class="{% if firstpage == currentpage %}active{% endif %}">
-        <a href="?currentpage={{ firstpage }}" aria-label="Erste Seite">
-            <span aria-hidden="true">&laquo;&laquo;</span>
-        </a>
+        <a href="?currentpage={{ firstpage }}" aria-label="Erste Seite">{{ firstpage }}</a>
     </li>
     <li>
         <a href="?currentpage={{ previouspage }}" aria-label="Zurück">
@@ -21,9 +19,7 @@
         </a>
     </li>
     <li class="{% if lastpage == currentpage %}active{% endif %}">
-        <a href="?currentpage={{ lastpage }}" aria-label="Letzte Seite">
-            <span aria-hidden="true">&raquo;&raquo;</span>
-        </a>
+        <a href="?currentpage={{ lastpage }}" aria-label="Letzte Seite">{{ lastpage }}</a>
     </li>
   </ul>
 </nav>

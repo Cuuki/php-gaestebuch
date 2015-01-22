@@ -12,27 +12,56 @@
 {% endblock %}
 
 {% block content %}
-    {% if message is not defined %} 
-    {% if errormessages is not defined or errormessages is null %}
-        <h2 class="text-center">Daten einzeln ändern:</h2>
-            <p class="text-center">Benutzername: {{ user.username }}</p>
-            <p class="text-center">
-                <a href="{{ user.id }}/username">Benutzername bearbeiten</a>
-            </p>
-            <br>
-            <p class="text-center">E-Mail: {{ user.useremail }}</p>
-            <p class="text-center">
-                <a href="{{ user.id }}/email">E-Mail bearbeiten</a>
-            </p>
-            <br>
-            <p class="text-center">Passwort: {{ user.password }}</p>
-            <p class="text-center">
-                <a href="{{ user.id }}/password">Passwort bearbeiten</a>
-            </p>
-            <br>
-        {%endif%}
-    {% endif %}
-
-{% include "user_form.twig" %}
-
+<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+    <div class="row">
+        <ol class="breadcrumb">
+            <li>
+                <a href="#">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                </a>
+            </li>
+            <li class="active">Bearbeiten</li>
+        </ol>
+    </div><!--/.row-->
+    
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">   
+                    <div class="panel-heading">
+                        <h2>Daten einzeln ändern</h2>
+                    </div>
+                {% if message is defined %}
+                <div class="panel-body">
+                    <p class="{{message_type}}">{{message}}</p>
+                </div>    
+                {% endif %}
+                {% if message is not defined %}
+                    {% if errormessages is not defined or errormessages is null %}
+                    <div class="panel-body">
+                        <p>
+                            <strong>Benutzername:</strong> {{ user.username }}
+                        </p>
+                        <p>
+                            <a href="{{ user.id }}/username">Benutzername bearbeiten</a>
+                        </p>
+                        <p>
+                            <strong>E-Mail:</strong> {{ user.useremail }}
+                        </p>
+                        <p>
+                            <a href="{{ user.id }}/email">E-Mail bearbeiten</a>
+                        </p>
+                        <p>
+                            <strong>Passwort:</strong> (Verschlüsselt)
+                        </p>
+                        <p>
+                            <a href="{{ user.id }}/password">Passwort bearbeiten</a>
+                        </p>
+                    </div>
+                    {%endif%}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% include "user_form.twig" %}
+</div><!-- /.col-->
 {% endblock %}

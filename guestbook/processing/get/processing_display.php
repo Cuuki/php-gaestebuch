@@ -5,6 +5,8 @@ use Symfony\Component\HttpFoundation\Response;
 $posts = getPosts( $app['db'], $rowsperpage, $currentpage );
 
 $render = $app['twig']->render( 'guestbook.twig', array(
+    'headline' => 'Tragen Sie sich ein:',
+    'submit_text' => 'Hinzufügen',
     'posts' => $posts,
     'firstpage' => $firstPage,
     'currentpage' => $currentpage,

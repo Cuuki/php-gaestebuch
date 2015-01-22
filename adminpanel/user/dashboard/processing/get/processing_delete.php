@@ -18,7 +18,6 @@ include_once USER_DIR . '/dashboard/delete.php';
 if ( $role == 'adm' )
 {
     $render = $app['twig']->render( 'user_delete.twig', array(
-        'headline' => 'Benutzer löschen:',
         'message' => 'Sie haben nicht die nötigen Rechte um einen Benutzer zu löschen, wenden Sie sich an einen Administrator.',
         'is_active_usermanagement' => true,
         'message_type' => 'failuremessage'
@@ -30,7 +29,6 @@ if ( $role == 'adm' )
 elseif ( $usernameSession == $usernameSelected )
 {
     $render = $app['twig']->render( 'user_delete.twig', array(
-        'headline' => 'Benutzer löschen:',
         'message' => 'Sie können sich nicht selbst löschen!',
         'is_active_usermanagement' => true,
         'message_type' => 'failuremessage'

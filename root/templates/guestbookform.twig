@@ -13,11 +13,11 @@
             } %}
         {% endif %}
     <div class="row">
-        <div class="col-md-10 col-md-offset-1">
+        <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h2>
-                        <a name='add'>Tragen Sie sich ein:</a>
+                        <a name='add'>{{ headline }}</a>
                     </h2>
                 </div>
                 <div class="panel-body">
@@ -57,7 +57,7 @@
                                     <p class="errorMessage">{{errormessages.textinput}}</p>
                                 {% endif %}
                             </div>
-                            <button class="btn btn-primary" name="submit" type="submit">Hinzufügen</button>
+                            <button class="btn btn-primary" name="submit" type="submit">{{ submit_text }}</button>
                             <button class="btn btn-primary" name="reset" type="reset">Eingabe löschen</button>
                         </form>
                     </fieldset>

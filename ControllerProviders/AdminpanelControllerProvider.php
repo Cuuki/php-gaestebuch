@@ -161,7 +161,7 @@ class AdminpanelControllerProvider implements ControllerProviderInterface
         } );
 
         // Benutzerdaten bearbeiten
-        $controllers->get( 'user/dashboard/update/', function () use ( $app, $apFunctions )
+        $controllers->get( 'user/dashboard/update/', function ( Request $currentpage ) use ( $app, $apFunctions )
         {
             return include_once USER_DIR . '/dashboard/display/display_update.php';
         } )->bind( 'update' );
@@ -207,7 +207,7 @@ class AdminpanelControllerProvider implements ControllerProviderInterface
         } );
 
         // Benutzer löschen
-        $controllers->get( 'user/dashboard/delete/', function () use ( $app, $apFunctions )
+        $controllers->get( 'user/dashboard/delete/', function ( Request $currentpage ) use ( $app, $apFunctions )
         {
             return include_once USER_DIR . '/dashboard/display/display_delete.php';
         } )->bind( 'delete' );
@@ -229,7 +229,7 @@ class AdminpanelControllerProvider implements ControllerProviderInterface
         } )->bind( 'postAdd' );
 
         //Beitrag bearbeiten
-        $controllers->get( 'post/update', function () use ( $app )
+        $controllers->get( 'post/update', function ( Request $currentpage ) use ( $app )
         {
             return include_once POST_DIR . '/display/display_update.php';
         } )->bind( 'postUpdate' );
@@ -245,7 +245,7 @@ class AdminpanelControllerProvider implements ControllerProviderInterface
         } );
 
         //Beitrag löschen        
-        $controllers->get( 'post/delete', function () use ( $app )
+        $controllers->get( 'post/delete', function ( Request $currentpage ) use ( $app )
         {
             return include_once POST_DIR . '/display/display_delete.php';
         } )->bind( 'postDelete' );
