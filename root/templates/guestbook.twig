@@ -45,29 +45,20 @@
                 {% endif %}
                 {% for post in posts %}
                 <div class="panel-body">
-                <p>
-                    <strong>Beitrag:</strong> {{ post.content }}
-                </p>
-                <p>
-                    <strong>Autor:</strong> {{ post.firstname }} {{ post.lastname }}
-                </p>
-                <p>
-                    <strong>E-Mail Adresse:</strong> {{ post.email }}
-                </p>
-                <p>
-                    <strong>Erstellt am:</strong> {{ post.created }}
-                </p>
+                    <p>
+                        <strong>Beitrag:</strong> {{ post.content }}
+                    </p>
+                    <p>
+                        <strong>Autor:</strong> {{ post.firstname }} {{ post.lastname }}
+                    </p>
+                    <p>
+                        <strong>E-Mail Adresse:</strong> {{ post.email }}
+                    </p>
+                    <p>
+                        <strong>Erstellt am:</strong> {{ post.created }}
+                    </p>
                 </div>
-                {% endfor %}                   
-            </div>
-        </div>
-    </div><!--/.row-->
-    {% endif %}
-    
-    {% if errormessages is not defined or errormessages is null %}
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            <div class="panel panel-default">
+                {% endfor %}
                 <div class="panel-body">
                     {% include "pagination.twig" %}
                 </div>

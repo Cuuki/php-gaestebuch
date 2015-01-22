@@ -14,6 +14,7 @@ $render = $app['twig']->render( 'post_update.twig', array(
     'currentpage' => $currentpage,
     'pagenumber' => $pageNumber,
     'nextpage' => $nextPage,
+    'previouspage' => $previousPage,
     'lastpage' => $lastPage,
         ) );
 

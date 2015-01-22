@@ -1,20 +1,15 @@
 <?php
 
-$firstPage = '';
-$pageNumber = array();
-$nextPage = '';
-$lastPage = '';
-
 $totalentries = totalEntries( $app['db'] );
 
 $rowsperpage = 5;
 
-$totalpages = totalPages( $totalentries, $rowsperpage );
+$lastPage = totalPages( $totalentries, $rowsperpage );
 
 // aktuelle Seite oder Default
-if ( isset( $_GET['currentpage'] ) && is_numeric( $_GET['currentpage'] ) )
+if ( null !== $currentpage->get( 'currentpage' ) && is_numeric( $currentpage->get( 'currentpage' ) ) )
 {
-    $currentpage = (int) $_GET['currentpage'];
+    $currentpage = (int) $currentpage->get( 'currentpage' );
 }
 else
 {
@@ -22,44 +17,29 @@ else
     $currentpage = 1;
 }
 
-if ( $currentpage > $totalpages )
+if ( $currentpage > $lastPage )
 {
     // Aktuelle Seite = letzter Seite
-    $currentpage = $totalpages;
+    $currentpage = $lastPage;
 }
 if ( $currentpage < 1 )
 {
     $currentpage = 1;
 }
 
-if ( $currentpage > 1 )
-{
-    $firstPage = '?currentpage=1';
-}
-
 // range of num links to show
 $range = 3;
+$pageNumber = array();
 
 // loop to show links to range of pages around current page
 for ( $pagenum = ($currentpage - $range); $pagenum < (($currentpage + $range) + 1); $pagenum++ )
 {
-    if ( ($pagenum > 0) && ($pagenum <= $totalpages) )
+    if ( ($pagenum > 1) && ($pagenum < $lastPage) )
     {
-        if ( $pagenum == $currentpage )
-        {
-            $currentPage = $pagenum;
-        }
-        else
-        {
-            array_push( $pageNumber, (string) $pagenum );
-        }
+        array_push( $pageNumber, (string) $pagenum );   
     }
 }
 
-// if not on last page, show forward and last page links
-if ( $currentpage != $totalpages )
-{
-    $nextpage = $currentpage + 1;
-    $nextPage = '?currentpage=' . $nextpage;
-    $lastPage = '?currentpage=' . $totalpages;
-}
+$nextPage = $currentpage + 1;
+$previousPage = $currentpage - 1;
+$firstPage = 1;

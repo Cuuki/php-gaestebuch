@@ -33,6 +33,7 @@ $render = $app['twig']->render( 'user_delete.twig', array(
     'currentpage' => $currentpage,
     'pagenumber' => $pageNumber,
     'nextpage' => $nextPage,
+    'previouspage' => $previousPage,
     'lastpage' => $lastPage
         ) );
 

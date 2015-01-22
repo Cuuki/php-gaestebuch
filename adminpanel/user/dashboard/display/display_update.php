@@ -31,6 +31,7 @@ $render = $app['twig']->render( 'user_update.twig', array(
     'currentpage' => $currentpage,
     'pagenumber' => $pageNumber,
     'nextpage' => $nextPage,
+    'previouspage' => $previousPage,
     'lastpage' => $lastPage
         ) );
 

@@ -10,6 +10,7 @@ $render = $app['twig']->render( 'guestbook.twig', array(
     'currentpage' => $currentpage,
     'pagenumber' => $pageNumber,
     'nextpage' => $nextPage,
+    'previouspage' => $previousPage,
     'lastpage' => $lastPage,
         ) );
 
