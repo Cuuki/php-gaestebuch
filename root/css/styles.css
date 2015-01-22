@@ -865,11 +865,3 @@ h1.page-header {
 .fixed-table-pagination .pagination-detail {
 	margin-top: 20px;
 }
-
-.successmessage {
-    color: #02B234;
-}
-
-.failuremessage, .errorMessage {
-    color: #FF0000;
-}

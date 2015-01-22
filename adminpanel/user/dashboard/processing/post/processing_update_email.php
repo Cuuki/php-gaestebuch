@@ -32,7 +32,7 @@ if ( !empty( $invalidInput ) )
 else
 {
     include_once USER_DIR . '/dashboard/update.php';
-    $userData = getAllUsers( $app['db'] );
+    $userData = getAllUsers( $app['db'], $rowsperpage, $currentpage );
 
     foreach ( $userData as $user )
     {

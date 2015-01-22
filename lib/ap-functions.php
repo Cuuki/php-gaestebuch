@@ -44,11 +44,21 @@ function getUser ( $db, $id )
 /**
  * @return array
  */
-function getAllUsers ( $db, $rowsperpage, $currentpage )
+function getUsersLimit ( $db, $rowsperpage, $currentpage )
 {
     $offset = ($currentpage - 1) * $rowsperpage;   
     
     $select = 'SELECT * FROM user ORDER BY id ASC LIMIT ' . (int) $offset . ', ' . (int) $rowsperpage . '';
+
+    return $db->fetchAll( $select );
+}
+
+/**
+ * @return array
+ */
+function getAllUsers ( $db )
+{
+    $select = 'SELECT * FROM user';
 
     return $db->fetchAll( $select );
 }
