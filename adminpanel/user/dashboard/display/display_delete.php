@@ -20,9 +20,10 @@ if ( $role == 'adm' )
 }
 
 include_once USER_DIR . '/../../lib/pagination.php';
+$totalentries = totalEntries( $app['db'], 'user' );
 include_once USER_DIR . '/../../guestbook/processing/get/processing_pagination.php';
 
-$getAllUsers = getAllUsers( $app['db'] );
+$getAllUsers = getAllUsers( $app['db'], $rowsperpage, $currentpage );
 
 $render = $app['twig']->render( 'user_delete.twig', array(
     'is_active_usermanagement' => true,

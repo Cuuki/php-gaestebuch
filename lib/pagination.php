@@ -3,12 +3,22 @@
 /**
  * @return int
  */
-function totalEntries ( $db )
+function totalEntries ( $db, $case )
 {
     // wie viele Zeilen hat Tabelle
-    $select = "SELECT COUNT(*) as anzahl FROM guestbook";
-    $row = $db->fetchColumn( $select );
-    
+    switch ( $case )
+    {
+        case 'guestbook':
+            $guestbook = "SELECT COUNT(*) as anzahl FROM guestbook";
+            $row = $db->fetchColumn( $guestbook );
+            break;
+
+        case 'user':
+            $user = "SELECT COUNT(*) as anzahl FROM user";
+            $row = $db->fetchColumn( $user );
+            break;
+    }
+
     return (int) $row;
 }
 

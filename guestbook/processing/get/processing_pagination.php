@@ -1,7 +1,5 @@
 <?php
 
-$totalentries = totalEntries( $app['db'] );
-
 $rowsperpage = 5;
 
 $lastPage = totalPages( $totalentries, $rowsperpage );
