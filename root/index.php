@@ -65,7 +65,7 @@ $app['twig']->addGlobal('base_url', 'http://localhost/php-gaestebuch/root');
 $app['twig']->addGlobal('loggeduser', $loggeduser);
 
 // Wenn nach 15 Minuten (900sek) keine Aktivität in der Session war und das Cookie Lifetime nicht 0 ist zerstöre diese
-if ( ( $app['session']->get( 'cookie_lifetime' ) !== 0 ) && ( time() - $sessionLastUsed > 60 ) )
+if ( ( $app['session']->get( 'cookie_lifetime' ) !== 0 ) && ( time() - $sessionLastUsed > 900 ) )
 {
     session_destroy();
 }
