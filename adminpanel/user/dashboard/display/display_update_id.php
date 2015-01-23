@@ -11,7 +11,7 @@ $role = $users['role'];
 if ( $role == 'adm' )
 {
     $render = $app['twig']->render( 'user_update_id.twig', array(
-        'headline' => 'Alle Daten bearbeiten:',
+        'headline' => 'Alles bearbeiten',
         'message' => 'Sie haben nicht die nötigen Rechte um einen Benutzer zu bearbeiten, wenden Sie sich an einen Administrator.',
         'is_active_usermanagement' => true,
         'message_type' => 'failuremessage'
@@ -27,7 +27,7 @@ $userData = getUser( $app['db'], $id );
 $render = $app['twig']->render( 'user_update_id.twig', array(
     'user' => $userData,
     'is_active_usermanagement' => true,
-    'headline' => 'Alle Daten bearbeiten:',
+    'headline' => 'Alles bearbeiten',
     'submitvalue' => 'Ändern'
         ) );
 

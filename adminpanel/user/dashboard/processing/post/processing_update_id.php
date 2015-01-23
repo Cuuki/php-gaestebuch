@@ -26,7 +26,7 @@ if ( !empty( $invalidInput ) )
         'errormessages' => $errorMessages,
         'postdata' => $postdata,
         'is_active_usermanagement' => true,
-        'headline' => 'Alle Daten bearbeiten:',
+        'headline' => 'Alles bearbeiten',
         'submitvalue' => 'Ändern'
             ) );
 
@@ -48,7 +48,7 @@ else
             'message' => 'Der Benutzer existiert bereits.',
             'message_type' => 'failuremessage',
             'is_active_usermanagement' => true,
-            'headline' => 'Alle Daten bearbeiten:',
+            'headline' => 'Alles bearbeiten',
             'submitvalue' => 'Anlegen'
                 ) );
 
@@ -60,7 +60,7 @@ else
             'message' => 'Die Daten wurden geändert!',
             'message_type' => 'successmessage',
             'is_active_usermanagement' => true,
-            'headline' => 'Alle Daten bearbeiten:',
+            'headline' => 'Alles bearbeiten',
             'submitvalue' => 'Ändern'
                 ) );
 
@@ -73,7 +73,7 @@ else
             'message' => 'Die Daten konnten nicht geändert werden.',
             'message_type' => 'failuremessage',
             'is_active_usermanagement' => true,
-            'headline' => 'Alle Daten bearbeiten:',
+            'headline' => 'Alles bearbeiten',
             'submitvalue' => 'Ändern'
                 ) );
 

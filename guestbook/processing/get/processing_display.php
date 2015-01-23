@@ -5,16 +5,19 @@ use Symfony\Component\HttpFoundation\Response;
 $posts = getPosts( $app['db'], $rowsperpage, $currentpage );
 
 $isLogged = false;
+$isActive = false;
 
 if ( $app['session']->get( 'user' ) )
 {
     $isLogged = true;
+    $isActive = true;
 }
 
 $render = $app['twig']->render( 'guestbook.twig', array(
     'headline' => 'Tragen Sie sich ein:',
     'submit_text' => 'Hinzufügen',
     'is_logged_in' => $isLogged,
+    'is_active_guestbook' => $isActive,
     'posts' => $posts,
     'firstpage' => $firstPage,
     'currentpage' => $currentpage,

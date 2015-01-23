@@ -1,4 +1,4 @@
-    <div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
+    <div id="sidebar-collapse" class="col-sm-4 col-md-3 col-lg-2 sidebar">
         <ul class="nav menu">
             <li role="presentation" class="divider"></li>
             <li class="{% if is_active_dashboard is defined and is_active_dashboard == true %}active{% endif %}">
@@ -57,7 +57,7 @@
                 </ul>
             </li>
             <li role="presentation" class="divider"></li>
-            <li>
+            <li class="{% if is_active_guestbook is defined and is_active_guestbook == true %}active{% endif %}">
                 <a href="{{ app.url_generator.generate('guestbook') }}">
                     <span class="glyphicon glyphicon-book"></span>Zum Gästebuch
                 </a>

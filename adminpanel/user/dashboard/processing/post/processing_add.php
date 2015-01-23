@@ -20,7 +20,7 @@ if ( !empty( $invalidInput ) )
         'errormessages' => $errorMessages,
         'postdata' => $postdata,
         'is_active_usermanagement' => true,
-        'headline' => 'Benutzer hinzufügen:',
+        'headline' => 'Benutzer hinzufügen',
         'submitvalue' => 'Anlegen'
             ) );
 
@@ -46,7 +46,7 @@ else
             'message' => 'Der Benutzer existiert bereits.',
             'message_type' => 'failuremessage',
             'is_active_usermanagement' => true,
-            'headline' => 'Benutzer hinzufügen:',
+            'headline' => 'Benutzer hinzufügen',
             'submitvalue' => 'Anlegen'
                 ) );
 
@@ -61,7 +61,7 @@ else
             'message' => 'Der Benutzer wurde hinzugefügt.',
             'message_type' => 'successmessage',
             'is_active_usermanagement' => true,
-            'headline' => 'Benutzer hinzufügen:',
+            'headline' => 'Benutzer hinzufügen',
             'submitvalue' => 'Anlegen'
                 ) );
 
@@ -73,7 +73,7 @@ else
             'message' => 'Der Benutzer konnte nicht gespeichert werden!',
             'message_type' => 'failuremessage',
             'is_active_usermanagement' => true,
-            'headline' => 'Benutzer hinzufügen:',
+            'headline' => 'Benutzer hinzufügen',
             'submitvalue' => 'Anlegen'
                 ) );
 
