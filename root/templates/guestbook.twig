@@ -6,11 +6,18 @@
     {% endblock %}
 {% endblock %}
 {% block header %}
+    {% if is_logged_in == true %}
+        {% include "header.twig" %}
+        {% include "sidebar.twig" %}        
+    {% endif %}
 {% endblock %}
 {% block content %}
 <div class="row">
+    {% if is_logged_in == true %}
+    <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+    {% else %}
     <div class="col-lg-12 main">
-        <!-- austauschen durch "col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main" wenn user eingeloggt --> 
+    {% endif %}
         <ol class="breadcrumb">
             <li>
                 <a href="#">
@@ -19,10 +26,13 @@
             </li>
             <li class="active">Gästebuch</li>
         </ol>
-    </div><!--/.row-->   
-    
+    </div>
     {% if errormessages is not defined or errormessages is null %}
+    {% if is_logged_in == true %}
+    <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2">
+    {% else %}
     <div class="col-lg-12">
+    {% endif %}
         <div class="panel panel-default">
             <div class="panel-heading">
                 <span class="glyphicon glyphicon-heart-empty"></span>
@@ -65,7 +75,11 @@
         </div>
     </div>
     {% endif %}
+    {% if is_logged_in == true %}
+    <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2">
+    {% else %}
     <div class="col-lg-12">
+    {% endif %}
     {% include "guestbookform.twig" %}
     </div>
 </div><!--/.row-->
