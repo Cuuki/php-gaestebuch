@@ -1,72 +1,72 @@
-<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
-    <ul class="nav menu">
-        <li role="presentation" class="divider"></li>
-        <li class="{% if is_active_dashboard is defined and is_active_dashboard == true %}active{% endif %}">
-            <a href="{{ app.url_generator.generate('dashboard') }}">
-                <span class="glyphicon glyphicon-dashboard"></span>Dashboard
-            </a>
-        </li>
-        <li class="parent {% if is_active_usermanagement is defined and is_active_usermanagement == true %}active{% endif %}">
-            <a href="#">
-                <span class="glyphicon glyphicon-list"></span> Benutzerverwaltung
-                <span data-toggle="collapse" href="#sub-item-1" class="icon pull-right">
-                    <em class="glyphicon glyphicon-s glyphicon-plus"></em>
-                </span> 
-            </a>
-            <ul class="children collapse" id="sub-item-1">
-                <li>
-                    <a href="{{ app.url_generator.generate('add') }}">
-                        <span class="glyphicon glyphicon-plus"></span> Hinzufügen
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ app.url_generator.generate('update') }}">
-                        <span class="glyphicon glyphicon-pencil"></span> Bearbeiten
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ app.url_generator.generate('delete') }}">
-                        <span class="glyphicon glyphicon-trash"></span> Löschen
-                    </a>
-                </li>
-            </ul>
-        </li>
-        <li class="parent {% if is_active_postmanagement is defined and is_active_postmanagement == true %}active{% endif %}">
-            <a href="#">
-                <span class="glyphicon glyphicon-list"></span> Beitragsverwaltung 
-                <span data-toggle="collapse" href="#sub-item-2" class="icon pull-right">
-                    <em class="glyphicon glyphicon-s glyphicon-plus"></em>
-                </span> 
-            </a>
-            <ul class="children collapse" id="sub-item-2">
-                <li>
-                    <a href="{{ app.url_generator.generate('postAdd') }}">
-                        <span class="glyphicon glyphicon-plus"></span> Hinzufügen
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ app.url_generator.generate('postUpdate') }}">
-                        <span class="glyphicon glyphicon-pencil"></span> Bearbeiten
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ app.url_generator.generate('postDelete') }}">
-                        <span class="glyphicon glyphicon-trash"></span> Löschen
-                    </a>
-                </li>
-            </ul>
-        </li>
-        <li role="presentation" class="divider"></li>
-        <li>
-            <a href="{{ app.url_generator.generate('guestbook') }}">
-                <span class="glyphicon glyphicon-book"></span>Zum Gästebuch
-            </a>
-        </li>
-        <li role="presentation" class="divider"></li>
-        <div class="attribution">
-            <a href="{{ app.url_generator.generate('logout') }}">
-                <span class="glyphicon glyphicon-log-out"></span>Ausloggen
-            </a>
-        </div>
-    </ul>
-</div>
+    <div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
+        <ul class="nav menu">
+            <li role="presentation" class="divider"></li>
+            <li class="{% if is_active_dashboard is defined and is_active_dashboard == true %}active{% endif %}">
+                <a href="{{ app.url_generator.generate('dashboard') }}">
+                    <span class="glyphicon glyphicon-dashboard"></span>Dashboard
+                </a>
+            </li>
+            <li class="parent {% if is_active_usermanagement is defined and is_active_usermanagement == true %}active{% endif %}">
+                <a href="#">
+                    <span class="glyphicon glyphicon-list"></span> Benutzerverwaltung
+                    <span data-toggle="collapse" href="#sub-item-1" class="icon pull-right">
+                        <em class="glyphicon glyphicon-s glyphicon-plus"></em>
+                    </span> 
+                </a>
+                <ul class="children collapse" id="sub-item-1">
+                    <li>
+                        <a href="{{ app.url_generator.generate('add') }}">
+                            <span class="glyphicon glyphicon-plus"></span> Hinzufügen
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ app.url_generator.generate('update') }}">
+                            <span class="glyphicon glyphicon-pencil"></span> Bearbeiten
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ app.url_generator.generate('delete') }}">
+                            <span class="glyphicon glyphicon-trash"></span> Löschen
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="parent {% if is_active_postmanagement is defined and is_active_postmanagement == true %}active{% endif %}">
+                <a href="#">
+                    <span class="glyphicon glyphicon-list"></span> Beitragsverwaltung 
+                    <span data-toggle="collapse" href="#sub-item-2" class="icon pull-right">
+                        <em class="glyphicon glyphicon-s glyphicon-plus"></em>
+                    </span> 
+                </a>
+                <ul class="children collapse" id="sub-item-2">
+                    <li>
+                        <a href="{{ app.url_generator.generate('postAdd') }}">
+                            <span class="glyphicon glyphicon-plus"></span> Hinzufügen
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ app.url_generator.generate('postUpdate') }}">
+                            <span class="glyphicon glyphicon-pencil"></span> Bearbeiten
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ app.url_generator.generate('postDelete') }}">
+                            <span class="glyphicon glyphicon-trash"></span> Löschen
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li role="presentation" class="divider"></li>
+            <li>
+                <a href="{{ app.url_generator.generate('guestbook') }}">
+                    <span class="glyphicon glyphicon-book"></span>Zum Gästebuch
+                </a>
+            </li>
+            <li role="presentation" class="divider"></li>
+            <div class="attribution">
+                <a href="{{ app.url_generator.generate('logout') }}">
+                    <span class="glyphicon glyphicon-log-out"></span>Ausloggen
+                </a>
+            </div>
+        </ul>
+    </div>
