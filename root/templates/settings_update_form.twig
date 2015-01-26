@@ -39,6 +39,15 @@
                             <label for="{{newinput_for}}" class="sr-only">{{newinput_text}}</label>
                             <input class="form-control" type="text" name="{{newinput_name}}" placeholder="{{newinput_text}}">
                         </div>
+                        {% if errormessages is defined and errormessages is not null and errormessages.username is defined %}
+                            <p class="errorMessage">{{errormessages.username}}</p>
+                        {% endif %}
+                        {% if errormessages is defined and errormessages is not null and errormessages.useremail is defined %}
+                            <p class="errorMessage">{{errormessages.useremail}}</p>
+                        {% endif %}
+                        {% if errormessages is defined and errormessages is not null and errormessages.password is defined %}
+                            <p class="errorMessage">{{errormessages.password}}</p>
+                        {% endif %}
                         <button class="btn btn-primary" name="submit" type="submit">Ändern</button>
                     </fieldset>
                     <p class="text-right">

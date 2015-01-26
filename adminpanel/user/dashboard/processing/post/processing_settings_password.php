@@ -12,6 +12,9 @@ $users = getLogindata( $app['db'], $app['session']->get( 'user' ) );
 $id = $users['id'];
 $password = $users['password'];
 
+$data = $this->sanitizeIndividualFields( $postdata );
+$invalidInput = validateForm( $data );
+
 // Wenn altes Passwort nicht mit dem aus der Session übereinstimmt
 if ( password_verify( $postdata['oldpassword'], $password ) == FALSE )
 {
@@ -42,6 +45,25 @@ elseif ( $postdata['oldpassword'] == $postdata['password'] )
             ) );
 
     return new Response( $render, 404 );
+}
+elseif ( !empty( $invalidInput ) )
+{
+    $errorMessages = getErrorMessages( $invalidInput );
+
+    $render = $app['twig']->render( 'settings_update_form.twig', array(
+        'oldinput_for' => 'oldpassword',
+        'oldinput_text' => 'Altes Passwort',
+        'oldinput_name' => 'oldpassword',
+        'newinput_for' => 'password',
+        'newinput_text' => 'Neues Passwort',
+        'newinput_name' => 'password',
+        'errormessages' => $errorMessages,
+        'message' => 'Sie haben kein valides Passwort angegeben!',
+        'message_type' => 'failuremessage'            
+    ) );
+
+    return new Response( $render, 404 );
+
 }
 else
 {

@@ -15,6 +15,7 @@ $app->register( new Silex\Provider\SessionServiceProvider() );
 $app->register( new Silex\Provider\TwigServiceProvider(), array(
     'twig.path' => __DIR__ . '/templates'
 ) );
+//Datenbankverbindung registrieren
 $app->register( new Silex\Provider\DoctrineServiceProvider(), array(
     'db.options' => array(
         'driver' => 'pdo_mysql',
@@ -59,8 +60,11 @@ $app['session']->start();
 
 // Letzte Aktivität in der Session
 $sessionLastUsed = $app['session']->getMetadataBag()->getLastUsed();
+
+//User aus Session abfragen
 $loggeduser = $app['session']->get( 'user' );
 
+//Standardroute festlegen für Sources
 $app['twig']->addGlobal('base_url', 'http://localhost/php-gaestebuch/root');
 $app['twig']->addGlobal('loggeduser', $loggeduser);
 

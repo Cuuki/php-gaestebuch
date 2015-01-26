@@ -11,6 +11,9 @@ $users = getLogindata( $app['db'], $app['session']->get( 'user' ) );
 
 $id = $users['id'];
 
+$data = $this->sanitizeIndividualFields( $postdata );
+$invalidInput = validateForm( $data );
+
 // Wenn alter Benutzername nicht mit dem aus der Session übereinstimmt
 if ( $postdata['oldusername'] != $app['session']->get( 'user' ) )
 {
@@ -37,6 +40,24 @@ elseif ( $postdata['oldusername'] == $postdata['username'] )
         'newinput_text' => 'Neuer Benutzername',
         'newinput_name' => 'username',
         'message' => 'Der alte darf nicht mit dem neuen Benutzernamen übereinstimmen!',
+        'message_type' => 'failuremessage'
+            ) );
+
+    return new Response( $render, 404 );
+}
+elseif ( !empty( $invalidInput ) )
+{
+    $errorMessages = getErrorMessages( $invalidInput );
+
+    $render = $app['twig']->render( 'settings_update_form.twig', array(
+        'oldinput_for' => 'oldusername',
+        'oldinput_text' => 'Alter Benutzername',
+        'oldinput_name' => 'oldusername',
+        'newinput_for' => 'username',
+        'newinput_text' => 'Neuer Benutzername',
+        'newinput_name' => 'username',
+        'errormessages' => $errorMessages,
+        'message' => 'Sie haben keinen validen Benutzernamen angegeben!',
         'message_type' => 'failuremessage'
             ) );
 
