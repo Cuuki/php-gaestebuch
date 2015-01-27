@@ -44,14 +44,26 @@
                         <strong>Beitrag:</strong> {{ post.content }}
                     </p>
                     <p>
-                        <strong>Autor:</strong> {{ post.firstname }} {{ post.lastname }}
+                        <a href="{{ post.id_entry }}/content">Beitrag bearbeiten</a>
+                    </p>                    
+                    <p>
+                        <strong>Vorname:</strong> {{ post.firstname }}
                     </p>
+                    <p>
+                        <a href="{{ post.id_entry }}/firstname">Vorname bearbeiten</a>
+                    </p>
+                    <p>
+                        <strong>Nachname</strong> {{ post.lastname }}
+                    </p>
+                    <p>
+                        <a href="{{ post.id_entry }}/lastname">Nachname bearbeiten</a>
+                    </p> 
                     <p>
                         <strong>E-Mail:</strong> {{ post.email }}
                     </p>
                     <p>
-                        <strong>Erstellt am:</strong> {{ post.created }}
-                    </p>
+                        <a href="{{ post.id_entry }}/email">E-Mail bearbeiten</a>
+                    </p>                    
                 </div>
                 {%endif%}
             {% endif %}

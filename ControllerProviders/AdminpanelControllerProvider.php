@@ -244,6 +244,45 @@ class AdminpanelControllerProvider implements ControllerProviderInterface
             return include_once POST_DIR . '/processing/post/processing_update_id.php';
         } );
 
+        $controllers->get( 'post/update/{id}/firstname', function ( $id ) use ( $app )
+        {
+            return include_once POST_DIR . '/processing/get/processing_update_firstname.php';
+        } );
+
+        $controllers->post( 'post/update/{id}/firstname', function ( $id, Request $firstname ) use ( $app, $gbFunctions )
+        {
+            return include_once POST_DIR . '/processing/post/processing_update_firstname.php';
+        } );
+
+        $controllers->get( 'post/update/{id}/lastname', function ( $id ) use ( $app )
+        {
+            return include_once POST_DIR . '/processing/get/processing_update_lastname.php';
+        } );
+
+        $controllers->post( 'post/update/{id}/lastname', function ( $id, Request $lastname ) use ( $app, $gbFunctions )
+        {
+            return include_once POST_DIR . '/processing/post/processing_update_lastname.php';
+        } );
+
+        $controllers->get( 'post/update/{id}/email', function ( $id ) use ( $app )
+        {
+            return include_once POST_DIR . '/processing/get/processing_update_email.php';
+        } );
+
+        $controllers->post( 'post/update/{id}/email', function ( $id, Request $email ) use ( $app, $gbFunctions )
+        {
+            return include_once POST_DIR . '/processing/post/processing_update_email.php';
+        } );
+        $controllers->get( 'post/update/{id}/content', function ( $id ) use ( $app )
+        {
+            return include_once POST_DIR . '/processing/get/processing_update_content.php';
+        } );
+
+        $controllers->post( 'post/update/{id}/content', function ( $id, Request $content ) use ( $app, $gbFunctions )
+        {
+            return include_once POST_DIR . '/processing/post/processing_update_content.php';
+        } );            
+        
         //Beitrag löschen        
         $controllers->get( 'post/delete', function ( Request $currentpage ) use ( $app )
         {
@@ -291,6 +330,22 @@ class AdminpanelControllerProvider implements ControllerProviderInterface
 
             case isset( $params['password'] ):
                 $data['password'] = filter_var( trim( $params['password'] ), FILTER_SANITIZE_STRING );
+                break;
+
+            case isset( $params['firstname'] ):
+                $data['firstname'] = filter_var( trim( $params['firstname'] ), FILTER_SANITIZE_STRING );
+                break;
+
+            case isset( $params['lastname'] ):
+                $data['lastname'] = filter_var( trim( $params['lastname'] ), FILTER_SANITIZE_STRING );
+                break;            
+                        
+            case isset( $params['email'] ):
+                $data['email'] = filter_var( trim( $params['email'] ), FILTER_VALIDATE_EMAIL );
+                break;
+                        
+            case isset( $params['textinput'] ):
+                $data['textinput'] = filter_var( trim( $params['textinput'] ), FILTER_SANITIZE_STRING );
                 break;
         }
 

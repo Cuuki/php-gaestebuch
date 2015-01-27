@@ -22,12 +22,12 @@
             </li>
             <li class="active">Hinzufügen</li>
         </ol>
-    </div>
-    {% if message is defined %}
-    <div class="panel-body">
-        <p class="{{message_type}}">{{ message }}</p>        
+        {% if message is defined %}
+        <div class="panel-body">
+            <p class="{{message_type}}">{{ message }}</p>        
+        </div>    
+        {% endif %}
     </div>    
-    {% endif %}
     {% include "user_form.twig" %}
 </div>
 {% endblock %}

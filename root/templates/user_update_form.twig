@@ -33,22 +33,45 @@
                     <fieldset>
                         <div class="form-group">
                             <label for="{{label_for}}" class="sr-only">{{label_text}}</label>
+                            {% if input_name != "content" %}
                             <input type="text" name="{{input_name}}" class="form-control" placeholder="{{label_text}}" autofocus>
+                            {% endif %}
+                            {% if input_name == "content" %}
+                            <textarea class="form-control" name="{{input_name}}" rows="10" cols="20" placeholder="{{label_text}}"></textarea>                          
+                            {% endif %}                            
+                            {% if errormessages is defined and errormessages is not null and errormessages.textinput is defined %}
+                            <p class="errorMessage">{{errormessages.textinput}}</p>
+                            {% endif %}                            
                             {% if errormessages is defined and errormessages is not null and errormessages.username is defined %}
-                                <p class="errorMessage">{{errormessages.username}}</p>
+                            <p class="errorMessage">{{errormessages.username}}</p>
                             {% endif %}
                             {% if errormessages is defined and errormessages is not null and errormessages.useremail is defined %}
-                                <p class="errorMessage">{{errormessages.useremail}}</p>
+                            <p class="errorMessage">{{errormessages.useremail}}</p>
                             {% endif %}
                             {% if errormessages is defined and errormessages is not null and errormessages.password is defined %}
-                                <p class="errorMessage">{{errormessages.password}}</p>
+                            <p class="errorMessage">{{errormessages.password}}</p>
                             {% endif %}
+                            {% if errormessages is defined and errormessages is not null and errormessages.firstname is defined %}
+                            <p class="errorMessage">{{errormessages.firstname}}</p>
+                            {% endif %}
+                            {% if errormessages is defined and errormessages is not null and errormessages.lastname is defined %}
+                            <p class="errorMessage">{{errormessages.lastname}}</p>
+                            {% endif %}
+                            {% if errormessages is defined and errormessages is not null and errormessages.email is defined %}
+                                <p class="errorMessage">{{errormessages.email}}</p>
+                            {% endif %}                            
                         </div>
                         <button class="btn btn-primary" type="submit">Ändern</button>
                     </fieldset>
+                    {% if post is not defined %}
                     <p class="text-right">
                         <a href="{{ app.url_generator.generate('update') }}{{ id }}">Zurück</a>
                     </p>
+                    {% else %}
+                    <p class="text-right">
+                        <a href="{{ app.url_generator.generate('postUpdate') }}/{{ id }}">Zurück</a>
+                    </p>                        
+                    {% endif %}
                 </form>
             </div>
         </div>            
