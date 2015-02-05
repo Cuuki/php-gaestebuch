@@ -11,76 +11,90 @@
     {% endif %}
 {% endblock %}
 {% block content %}
-<div class="row">
+<div class="row {% if is_logged_in == true %}row-offcanvas row-offcanvas-left{% endif %}">
     {% if is_logged_in == true %}
-    {% include "sidebar.twig" %}    
-    <div class="col-sm-8 col-sm-offset-4 col-lg-10 col-lg-offset-2 main">
+    {% include "sidebar.twig" %}
+    <div class="col-sm-7 col-sm-offset-1">
     {% else %}
-    <div class="col-lg-12 main">
+    <div class="col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1">
     {% endif %}
+        {% if is_logged_in == true %}
+        <div class="visible-xs">
+            <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">
+                <i class="mdi-action-view-list"></i> Menu
+            </button>
+        </div> 
+        {% endif %}
         <ol class="breadcrumb">
             <li>
-                <a href="#">
-                    <span class="glyphicon glyphicon-book"></span>
+                <a href="javascript:void(0)">
+                    <i class="mdi-action-book"></i>
                 </a>
             </li>
-            <li class="active">Gästebuch</li>
+            <li class="active">Gästebuch</li>                
         </ol>
-    </div>
-    {% if errormessages is not defined or errormessages is null %}
-    {% if is_logged_in == true %}
-    <div class="col-sm-8 col-sm-offset-4 col-lg-10 col-lg-offset-2">
-    {% else %}
-    <div class="col-lg-12">
-    {% endif %}
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <span class="glyphicon glyphicon-heart-empty"></span>
-                <strong>Willkommen im Gästebuch!</strong>
-            </div>
-            <div class="panel-heading">
-                <h2>
-                    <a name='posts'>Letzte Beiträge:</a>
-                </h2>
-            </div>
-            {% if message is defined %}
-            <div class="panel-body">
+        {% if errormessages is not defined or errormessages is null %}
+            <section class="well">
+                <h3>
+                    <i class="mdi-action-favorite-outline"></i> Willkommen im Gästebuch!
+                </h3>
+                {% if posts == true %}
+                <h4>
+                    <a name='posts'>Letzte Beiträge</a>
+                </h4>
+                {% endif %}
+                {% if message is defined %}
                 <p class="{{message_type}}">{{message}}</p>
-            </div>
-            {% endif %}
-            {% if posts == false %}
-            <div class="panel-body">
+                <p class="text-right">
+                    <a href="{{ app.url_generator.generate('guestbook') }}{{ site_one }}">Zurück</a>
+                </p>
+                {% endif %}
+                {% if posts == false %}
                 <p>Keine Beiträge vorhanden!</p>
-            </div>
+                {% endif %}                
+            </section>
+            {% if message is not defined and errormessages is not defined %}
+                {% for post in posts %}
+                <article class="well">
+                    <h4>
+                        <strong>Autor:</strong> {{ post.firstname }} {{ post.lastname }}
+                    </h4>                    
+                    <p>
+                        <strong>Beitrag:</strong> {{ post.content }}
+                    </p>
+                    <p>
+                        <strong>E-Mail:</strong> {{ post.email }}
+                    </p>
+                    <p>
+                        <strong>Erstellt am:</strong> {{ post.created }}
+                    </p>
+                </article>
+                {% endfor %}
+                {% if posts == true %}
+                    {% if lastpage != firstpage %}
+                    <div class="well visible-lg">
+                        {% include "pagination_lg.twig" %}
+                    </div>
+                    <div class="well visible-md">
+                        {% include "pagination_md.twig" %}
+                    </div>
+                    <div class="well visible-sm">
+                        {% include "pagination_sm.twig" %}
+                    </div>
+                    <div class="well visible-xs">
+                        {% include "pagination_xs.twig" %}
+                    </div>
+                    {% endif %}
+                {% endif %}
             {% endif %}
-            {% for post in posts %}
-            <div class="panel-body">
-                <p>
-                    <strong>Beitrag:</strong> {{ post.content }}
-                </p>
-                <p>
-                    <strong>Autor:</strong> {{ post.firstname }} {{ post.lastname }}
-                </p>
-                <p>
-                    <strong>E-Mail:</strong> {{ post.email }}
-                </p>
-                <p>
-                    <strong>Erstellt am:</strong> {{ post.created }}
-                </p>
-            </div>
-            {% endfor %}
-            <div class="panel-body">
-                {% include "pagination.twig" %}
-            </div>
-        </div>
+        {% endif %}
+        <section class="well">
+            <h3>
+                <a name='add'>{{ headline }}</a>                
+            </h3>
+            {% include "guestbookform.twig" %}
+        </section>
     </div>
-    {% endif %}
-    {% if is_logged_in == true %}
-    <div class="col-sm-8 col-sm-offset-4 col-lg-10 col-lg-offset-2">
-    {% else %}
-    <div class="col-lg-12">
-    {% endif %}
-    {% include "guestbookform.twig" %}
-    </div>
+    <div class="col-sm-1"></div>
 </div>
 {% endblock %}

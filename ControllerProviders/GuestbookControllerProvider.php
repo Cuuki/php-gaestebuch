@@ -8,8 +8,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 class GuestbookControllerProvider implements ControllerProviderInterface
 {
-    private $data;
-
     public function connect ( Application $app )
     {
         // Dateien einbinden
@@ -21,19 +19,11 @@ class GuestbookControllerProvider implements ControllerProviderInterface
 
         $controllers->get( '/', function ( Request $currentpage ) use ( $app )
         {
-            include_once __DIR__ . '/../lib/pagination.php';
-            $totalentries = totalEntries( $app['db'], 'guestbook' );
-            include_once __DIR__ . '/../guestbook/processing/get/processing_pagination.php';
             return include_once __DIR__ . '/../guestbook/processing/get/processing_display.php';
         } )->bind( 'guestbook' );
 
         $controllers->post( '/', function ( Request $firstname, Request $lastname, Request $email, Request $textinput, Request $currentpage ) use ( $app, $gbFunctions )
         {
-            include_once __DIR__ . '/../guestbook/processing/post/processing_add.php';
-            include_once __DIR__ . '/../lib/pagination.php';
-            $totalentries = totalEntries( $app['db'], 'guestbook' );
-            include_once __DIR__ . '/../guestbook/processing/get/processing_pagination.php';
-
             return include_once __DIR__ . '/../guestbook/processing/post/processing_display.php';
         } );
 

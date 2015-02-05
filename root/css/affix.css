@@ -1,0 +1,14 @@
+@media (min-width: 767px) {
+    #sidebar.affix-top {
+        position: static;
+    }
+
+    #sidebar.affix {
+        position: fixed;
+    }
+
+    .col-sm-7 {
+        position: absolute;
+        left: 25%;
+    }
+}

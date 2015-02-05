@@ -1,63 +1,58 @@
-{% set value = {
-    'firstname' : '', 
-    'lastname' : '', 
-    'email' : '', 
-    'textinput' : ''
-} %}
-{% if errormessages is defined and errormessages is not null %}
-    {% set value = {
-        'firstname' : postdata.firstname,
-        'lastname' : postdata.lastname,
-        'email' : postdata.email,
-        'textinput' : postdata.textinput
-    } %}
-{% endif %}
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <h2>
-            <a name='add'>{{ headline }}</a>
-        </h2>
-    </div>
-    <div class="panel-body">
-        <fieldset>
-            <form action="" method="post">      
-                <div class="form-group">
-                    <label for="firstname" class="sr-only">Vorname:</label>
-                    <input class="form-control" type="text" name="firstname" value="{{value.firstname}}" placeholder="Vorname">
-                    {% if errormessages is defined and errormessages is not null and errormessages.firstname is defined %}
-                        <p class="errorMessage">{{errormessages.firstname}}</p>
-                    {% endif %}
+<fieldset>
+    <form action="" method="post" id="guestbookform" class="form-horizontal">      
+        <div class="form-group">
+            <label for="firstname" class="sr-only control-label">Vorname</label>
+            <div class="col-lg-12">
+                <div class="form-control-wrapper">
+                    <input class="form-control" type="text" id="firstname" name="firstname" value="{% if postdata is defined %}{{postdata.firstname}}{% endif %}" placeholder="Vorname">
+                    <span class="material-input"></span>
+                </div>                  
+            </div>
+        </div>
+        {% if errormessages is defined and errormessages is not null and errormessages.firstname is defined %}
+        <p class="alert alert-dismissable alert-danger">{{errormessages.firstname}}</p>
+        {% endif %}
+        <div class="form-group">
+            <label for="lastname" class="sr-only control-label">Nachname</label>
+            <div class="col-lg-12">
+                <div class="form-control-wrapper">                
+                    <input class="form-control" type="text" id="lastname" name="lastname" value="{% if postdata is defined %}{{postdata.lastname}}{% endif %}" placeholder="Nachname">
+                    <span class="material-input"></span>
                 </div>
-                <div class="form-group">
-                    <label for="lastname" class="sr-only">
-                        Nachname:
-                    </label>
-                    <input class="form-control" type="text" name="lastname" value="{{value.lastname}}" placeholder="Nachname">
-                    {% if errormessages is defined and errormessages is not null and errormessages.lastname is defined %}
-                        <p class="errorMessage">{{errormessages.lastname}}</p>
-                    {% endif %}
+            </div>
+        </div>
+        {% if errormessages is defined and errormessages is not null and errormessages.lastname is defined %}
+        <p class="alert alert-dismissable alert-danger">{{errormessages.lastname}}</p>
+        {% endif %}            
+        <div class="form-group">
+            <label for="email" class="sr-only control-label">E-Mail Adresse</label>
+            <div class="col-lg-12">
+                <div class="form-control-wrapper">                
+                    <input class="form-control" type="email" id="email" name="email" value="{% if postdata is defined %}{{postdata.email}}{% endif %}" placeholder="E-Mail">
+                    <span class="material-input"></span>
                 </div>
-                <div class="form-group">
-                    <label for="email" class="sr-only">
-                        E-Mail Adresse:
-                    </label>
-                    <input class="form-control" type="email" name="email" value="{{value.email}}" placeholder="E-Mail">
-                    {% if errormessages is defined and errormessages is not null and errormessages.email is defined %}
-                        <p class="errorMessage">{{errormessages.email}}</p>
-                    {% endif %}            
+            </div>
+        </div>
+        {% if errormessages is defined and errormessages is not null and errormessages.email is defined %}
+        <p class="alert alert-dismissable alert-danger">{{errormessages.email}}</p>
+        {% endif %}              
+        <div class="form-group">
+            <label for="textinput" class="sr-only control-label">Beitrag (max. 1000 Zeichen)</label>
+            <div class="col-lg-12">
+                <div class="form-control-wrapper">                
+                    <textarea class="form-control" id="textinput" name="textinput" rows="10" cols="20" placeholder="Beitrag (max. 1000 Zeichen)">{% if postdata is defined %}{{postdata.textinput}}{% endif %}</textarea>
+                    <span class="material-input"></span>
                 </div>
-                <div class="form-group">
-                    <label for="textinput" class="sr-only">
-                       Beitrag (max. 1000 Zeichen):
-                    </label>
-                    <textarea class="form-control" name="textinput" rows="10" cols="20" placeholder="Beitrag (max. 1000 Zeichen)">{{value.textinput}}</textarea>
-                    {% if errormessages is defined and errormessages is not null and errormessages.textinput is defined %}
-                        <p class="errorMessage">{{errormessages.textinput}}</p>
-                    {% endif %}
-                </div>
+            </div>
+        </div>
+        {% if errormessages is defined and errormessages is not null and errormessages.textinput is defined %}
+        <p class="alert alert-dismissable alert-danger">{{errormessages.textinput}}</p>
+        {% endif %}
+        <div class="form-group">
+            <div class="col-lg-12">          
                 <button class="btn btn-primary" name="submit" type="submit">{{ submit_text }}</button>
-                <button class="btn btn-primary" name="reset" type="reset">Eingabe löschen</button>
-            </form>
-        </fieldset>
-    </div>
-</div>
+                <button class="btn btn-default" id="advanced-reset-btn" name="reset">Löschen</button>
+            </div>
+        </div>
+    </form>
+</fieldset>

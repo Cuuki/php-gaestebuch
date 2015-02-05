@@ -9,74 +9,61 @@ $postdata = array(
 );
 
 $postdata = $this->sanitizeLogindata( $postdata );
-
 $invalidInput = validateForm( $postdata );
 
 if ( !empty( $invalidInput ) )
 {
-    $errorMessages = getErrorMessages( $invalidInput );
-
-    $render = $app['twig']->render( 'user_add.twig', array(
-        'errormessages' => $errorMessages,
-        'postdata' => $postdata,
-        'is_active_usermanagement' => true,
-        'headline' => 'Benutzer hinzufügen',
-        'submitvalue' => 'Anlegen'
-            ) );
-
-    return new Response( $render, 404 );
+    return new Response( $app['twig']->render( 'user_add.twig', array(
+                'errormessages' => getErrorMessages( $invalidInput ),
+                'postdata' => $postdata,
+                'is_active_usermanagement' => true,
+                'headline' => 'Benutzer hinzufügen',
+                'submitvalue' => 'Anlegen'
+            ) ), 404 );
 }
 else
 {
-//    $subject = 'Neu angelegter Benutzer';
-//    $emailmessage = 'Hallo ' . $postdata['username'] . ',' . PHP_EOL . 'Sie wurden von ' . $app['session']->get( 'user' ) .
-//            ' als neuer Benutzer für das Adminpanel hinzugefügt. Sie können sich nun mit folgendem Passwort anmelden: ' . $postdata['password'] .
-//            ' (Sie können das Passwort jederzeit auf Ihrem Profil ändern).' . PHP_EOL . 'Mit freundlichen Grüßen' . PHP_EOL . 'Ihr Service Team';
-    $userData = getAllUsers( $app['db'] );
-    
-    foreach ( $userData as $user )
+    foreach ( getAllUsers( $app['db'] ) as $user )
     {
-        $username = $user['username'];
-        $useremail = $user['useremail'];
+        $usernames[] = $user['username'];
+        $useremails[] = $user['useremail'];
     }
-    
-    if ( $postdata['username'] == $username || $postdata['useremail'] == $useremail )
-    {
-        $render = $app['twig']->render( 'user_add.twig', array(
-            'message' => 'Der Benutzer existiert bereits.',
-            'message_type' => 'failuremessage',
-            'is_active_usermanagement' => true,
-            'headline' => 'Benutzer hinzufügen',
-            'submitvalue' => 'Anlegen'
-                ) );
 
-        return new Response( $render, 404 );
+    if ( in_array( $postdata['username'], $usernames, true ) || in_array( $postdata['useremail'], $useremails, true ) )
+    {
+        return new Response( $app['twig']->render( 'user_add.twig', array(
+                    'message' => 'Der Benutzer existiert bereits.',
+                    'message_type' => 'alert alert-dismissable alert-danger',
+                    'is_active_usermanagement' => true,
+                    'headline' => 'Benutzer hinzufügen',
+                    'submitvalue' => 'Anlegen'
+                ) ), 404 );
     }
     elseif ( saveLogindata( $postdata, $app['db'] ) )
     {
+        // $subject = 'Neu angelegter Benutzer';
+        // $emailmessage = 'Hallo ' . $postdata['username'] . ',' . PHP_EOL . 'Sie wurden von ' . $app['session']->get( 'user' ) .
+        // ' als neuer Benutzer für das Adminpanel hinzugefügt. Sie können sich nun mit folgendem Passwort anmelden: ' . $postdata['password'] .
+        // ' (Sie können das Passwort jederzeit auf Ihrem Profil ändern).' . PHP_EOL . 'Mit freundlichen Grüßen' . PHP_EOL . 'Ihr Service Team';                        
         // Mail an angegebene E-Mail Adresse mit Logindaten
-//        mb_send_mail( $postdata['useremail'], $subject, $emailmessage );
+        // mb_send_mail( $postdata['useremail'], $subject, $emailmessage );
 
-        $render = $app['twig']->render( 'user_add.twig', array(
-            'message' => 'Der Benutzer wurde hinzugefügt.',
-            'message_type' => 'successmessage',
-            'is_active_usermanagement' => true,
-            'headline' => 'Benutzer hinzufügen',
-            'submitvalue' => 'Anlegen'
-                ) );
-
-        return new Response( $render, 201 );
+        return new Response( $app['twig']->render( 'user_add.twig', array(
+                    'message' => 'Der Benutzer wurde hinzugefügt.',
+                    'message_type' => 'alert alert-dismissable alert-success',
+                    'is_active_usermanagement' => true,
+                    'headline' => 'Benutzer hinzufügen',
+                    'submitvalue' => 'Anlegen'
+                ) ), 201 );
     }
     else
     {
-        $render = $app['twig']->render( 'user_add.twig', array(
-            'message' => 'Der Benutzer konnte nicht gespeichert werden!',
-            'message_type' => 'failuremessage',
-            'is_active_usermanagement' => true,
-            'headline' => 'Benutzer hinzufügen',
-            'submitvalue' => 'Anlegen'
-                ) );
-
-        return new Response( $render, 404 );
+        return new Response( $app['twig']->render( 'user_add.twig', array(
+                    'message' => 'Der Benutzer konnte nicht gespeichert werden!',
+                    'message_type' => 'alert alert-dismissable alert-danger',
+                    'is_active_usermanagement' => true,
+                    'headline' => 'Benutzer hinzufügen',
+                    'submitvalue' => 'Anlegen'
+                ) ), 404 );
     }
 }

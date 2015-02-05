@@ -8,38 +8,41 @@
 
 {% block content %}
 <div class="row">
-    <div class="col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
-        <div class="login-panel panel panel-default">
-            <div class="panel-heading">
-                <h2>Code zusenden:</h2>
-            </div>
-            <div class="panel-body">
-                {% if message is defined %}
-                <p class="{{message_type}}">{{message}}</p>
-                {% endif %}
-                <form action="" method="post">
-                    <fieldset>
-                        <div class="form-group">
-                            <label for="email" class="sr-only">E-Mail:</label>
-                            <input class="form-control" placeholder="E-Mail" name="email" type="email" autofocus>
+    <div class="col-lg-4 col-lg-offset-4 col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1">    
+        <section class="well">
+            <h3>Code zusenden</h3>
+            <fieldset>
+                <form action="" method="post" class="form-horizontal">
+                    <div class="form-group">
+                        <label for="email" class="sr-only control-label">E-Mail</label>
+                        <div class="col-lg-12">
+                            <div class="form-control-wrapper">
+                                <input class="form-control" placeholder="E-Mail" id="email" name="email" type="email" >                        
+                                <span class="material-input"></span>
+                            </div>
                         </div>
-                        <button class="btn btn-primary" name="reset" type="submit">Versenden</button>
-                    </fieldset>
+                    </div>
                     {% if message is defined %}
-                        {% if message_type == "successmessage" %}
-                        <p class="text-right">
-                            <a href="{{ app.url_generator.generate('resetCode') }}">Weiter</a>
-                        </p>
-                        {% endif %}
-                    {% endif %}
-                    {% if message is not defined %}
+                    <p class="{{message_type}}">{{message}}</p>
+                    {% endif %}                    
+                    <div class="form-group">
+                        <div class="col-lg-12">
+                            <button class="btn btn-primary" name="reset" type="submit">Versenden</button>                            
+                        </div>
+                    </div>
+                </form>
+                {% if message is defined %}
+                    {% if message_type == "alert alert-dismissable alert-success" %}
                     <p class="text-right">
-                        <a href="{{ app.url_generator.generate('login') }}">Zurück</a>                        
+                        <a href="{{ app.url_generator.generate('resetCode') }}">Weiter</a>
                     </p>
                     {% endif %}
-                </form>
-            </div>
-        </div>
+                {% endif %}
+                <p class="text-right">
+                    <a href="{{ app.url_generator.generate('login') }}">Zurück</a>                        
+                </p>
+            </fieldset>
+        </section>
     </div>
 </div>
 {% endblock %}

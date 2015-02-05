@@ -11,23 +11,33 @@
 {% endblock %}
 
 {% block content %}
-<div class="row">
+<div class="row row-offcanvas row-offcanvas-left">
     {% include "sidebar.twig" %}
-    <div class="col-sm-8 col-sm-offset-4 col-lg-10 col-lg-offset-2 main">        
+    <div class="col-sm-7 col-sm-offset-1">
+        <div class="visible-xs">
+            <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">
+                <i class="mdi-action-view-list"></i> Menu
+            </button>
+        </div>        
         <ol class="breadcrumb">
             <li>
-                <a href="#">
-                    <span class="glyphicon glyphicon-plus"></span>
+                <a href="javascript:void(0)">
+                    <span class="mdi-content-add"></span>
                 </a>
             </li>
             <li class="active">Hinzufügen</li>
         </ol>
-        {% if message is defined %}
-        <div class="panel-body">
-            <p class="{{message_type}}">{{ message }}</p>        
-        </div>    
-        {% endif %}
-    </div>    
-    {% include "user_form.twig" %}
+        <section class="well">
+            <h3>{{headline}}</h3>
+            {% if message is defined %}
+            <p class="{{message_type}}">{{ message }}</p>
+            <p class="text-right">
+                <a href="{{ app.url_generator.generate('add') }}">Zurück</a>
+            </p>
+            {% endif %} 
+            {% include "user_form.twig" %}
+        </section>
+    </div>
+    <div class="col-sm-1"></div>
 </div>
 {% endblock %}

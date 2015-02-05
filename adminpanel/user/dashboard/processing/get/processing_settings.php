@@ -2,6 +2,6 @@
 
 use Symfony\Component\HttpFoundation\Response;
 
-$render = $app['twig']->render( 'settings.twig' );
-
-return new Response( $render, 201 );
+return new Response( $app['twig']->render( 'settings.twig', array(
+            'is_active_settings' => true,
+        ) ), 201 );

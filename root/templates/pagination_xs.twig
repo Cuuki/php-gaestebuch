@@ -1,0 +1,15 @@
+<nav class="text-center">
+  <ul class="pagination pagination-sm">
+    <li class="{% if firstpage == currentpage %}active{% endif %}">
+        <a href="?currentpage={{ firstpage }}" aria-label="Erste Seite">First</a>
+    </li>
+    {% for number in pagenumber %}
+    <li class="{% if number == currentpage %}active{% endif %}">
+        <a href="?currentpage={{ number }}">{{ number }}</a>
+    </li>     
+    {% endfor %}    
+    <li class="{% if lastpage == currentpage %}active{% endif %}">
+        <a href="?currentpage={{ lastpage }}" aria-label="Letzte Seite">Last</a>
+    </li> 
+  </ul>
+</nav>

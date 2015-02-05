@@ -11,70 +11,82 @@
 {% endblock %}
 
 {% block content %}
-<div class="row">
+<div class="row row-offcanvas row-offcanvas-left active">
     {% include "sidebar.twig" %}
-    <div class="col-sm-8 col-sm-offset-4 col-lg-10 col-lg-offset-2 main">
-        <ol class="breadcrumb">
-            <li>
-                <a href="#">
-                    <span class="glyphicon glyphicon-pencil"></span>
-                </a>
-            </li>
-            <li class="active">Bearbeiten</li>
-        </ol>
-    </div>
-    <div class="col-sm-8 col-sm-offset-4 col-lg-10 col-lg-offset-2">
-        <div class="login-panel panel panel-default">
-            <div class="panel-body">
-                {% if message is defined %}
-                <p class="{{message_type}}">{{message}}</p>
-                {% endif %}
-                <form action="" method="post">
-                    <fieldset>
-                        <div class="form-group">
-                            <label for="{{label_for}}" class="sr-only">{{label_text}}</label>
-                            {% if input_name != "content" %}
-                            <input type="text" name="{{input_name}}" class="form-control" placeholder="{{label_text}}" autofocus>
-                            {% endif %}
-                            {% if input_name == "content" %}
-                            <textarea class="form-control" name="{{input_name}}" rows="10" cols="20" placeholder="{{label_text}}"></textarea>                          
-                            {% endif %}                            
-                            {% if errormessages is defined and errormessages is not null and errormessages.textinput is defined %}
-                            <p class="errorMessage">{{errormessages.textinput}}</p>
-                            {% endif %}                            
-                            {% if errormessages is defined and errormessages is not null and errormessages.username is defined %}
-                            <p class="errorMessage">{{errormessages.username}}</p>
-                            {% endif %}
-                            {% if errormessages is defined and errormessages is not null and errormessages.useremail is defined %}
-                            <p class="errorMessage">{{errormessages.useremail}}</p>
-                            {% endif %}
-                            {% if errormessages is defined and errormessages is not null and errormessages.password is defined %}
-                            <p class="errorMessage">{{errormessages.password}}</p>
-                            {% endif %}
-                            {% if errormessages is defined and errormessages is not null and errormessages.firstname is defined %}
-                            <p class="errorMessage">{{errormessages.firstname}}</p>
-                            {% endif %}
-                            {% if errormessages is defined and errormessages is not null and errormessages.lastname is defined %}
-                            <p class="errorMessage">{{errormessages.lastname}}</p>
-                            {% endif %}
-                            {% if errormessages is defined and errormessages is not null and errormessages.email is defined %}
-                                <p class="errorMessage">{{errormessages.email}}</p>
-                            {% endif %}                            
-                        </div>
-                        <button class="btn btn-primary" type="submit">Ändern</button>
-                    </fieldset>
-                    {% if post is not defined %}
-                    <p class="text-right">
-                        <a href="{{ app.url_generator.generate('update') }}{{ id }}">Zurück</a>
-                    </p>
-                    {% else %}
-                    <p class="text-right">
-                        <a href="{{ app.url_generator.generate('postUpdate') }}/{{ id }}">Zurück</a>
-                    </p>                        
+    <div class="col-sm-7 col-sm-offset-1">
+        <div class="visible-xs">
+            <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">
+                <i class="mdi-action-view-list"></i> Menu
+            </button>
+        </div>
+        <section class="well">
+            <h3>{{label_text}}</h3>
+            <fieldset>
+                <form action="" method="post" class="form-horizontal">
+                    <div class="form-group">
+                        <label for="{{label_for}}" class="sr-only control-label">{{label_text}}</label>
+                        <div class="col-lg-12">
+                            <div class="form-control-wrapper">                                
+                                {% if input_name != "content" and input_name != "role" %}
+                                <input type="text" id="{{input_name}}" name="{{input_name}}" class="form-control" placeholder="{{label_text}}" >
+                                <span class="material-input"></span>
+                                {% endif %}
+                                {% if input_name == "content" %}
+                                <textarea class="form-control" id="{{input_name}}" name="{{input_name}}" rows="10" cols="20" placeholder="{{label_text}}"></textarea>
+                                <span class="material-input"></span>
+                                {% endif %}
+                                {% if input_name == "role" %}
+                                <select name="role" id="role" class="form-control">
+                                    <option>Editor</option>
+                                    <option>Administrator</option>
+                                </select>
+                                <span class="material-input"></span>                 
+                                {% endif %}
+                            </div>
+                        </div>                         
+                    </div>
+                    {% if errormessages is defined and errormessages is not null and errormessages.textinput is defined %}
+                    <p class="alert alert-dismissable alert-danger">{{errormessages.textinput}}</p>
+                    {% endif %}                            
+                    {% if errormessages is defined and errormessages is not null and errormessages.username is defined %}
+                    <p class="alert alert-dismissable alert-danger">{{errormessages.username}}</p>
                     {% endif %}
+                    {% if errormessages is defined and errormessages is not null and errormessages.useremail is defined %}
+                    <p class="alert alert-dismissable alert-danger">{{errormessages.useremail}}</p>
+                    {% endif %}
+                    {% if errormessages is defined and errormessages is not null and errormessages.password is defined %}
+                    <p class="alert alert-dismissable alert-danger">{{errormessages.password}}</p>
+                    {% endif %}
+                    {% if errormessages is defined and errormessages is not null and errormessages.firstname is defined %}
+                    <p class="alert alert-dismissable alert-danger">{{errormessages.firstname}}</p>
+                    {% endif %}
+                    {% if errormessages is defined and errormessages is not null and errormessages.lastname is defined %}
+                    <p class="alert alert-dismissable alert-danger">{{errormessages.lastname}}</p>
+                    {% endif %}
+                    {% if errormessages is defined and errormessages is not null and errormessages.email is defined %}
+                        <p class="alert alert-dismissable alert-danger">{{errormessages.email}}</p>
+                    {% endif %}
+                    {% if message is defined %}
+                    <p class="{{message_type}}">{{message}}</p>
+                    {% endif %}                    
+                    <div class="form-group">
+                        <div class="col-lg-12">   
+                            <button class="btn btn-primary" type="submit">Ändern</button>
+                        </div>
+                    </div>
                 </form>
-            </div>
-        </div>            
-    </div>
+            </fieldset>                        
+            {% if post is not defined %}
+            <p class="text-right">
+                <a href="{{ app.url_generator.generate('update') }}{{ id }}">Zurück</a>
+            </p>
+            {% else %}
+            <p class="text-right">
+                <a href="{{ app.url_generator.generate('postUpdate') }}/{{ id }}">Zurück</a>
+            </p>                        
+            {% endif %}
+        </section>
+    </div>            
+    <div class="col-sm-1"></div>
 </div>
 {% endblock %}

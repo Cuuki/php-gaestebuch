@@ -11,50 +11,71 @@
 {% endblock %}
 
 {% block content %}
-<div class="row">
+<div class="row row-offcanvas row-offcanvas-left">
     {% include "sidebar.twig" %}
-    <div class="col-sm-8 col-sm-offset-4 col-lg-10 col-lg-offset-2 main">			
+    <div class="col-sm-7 col-sm-offset-1">
+        <div class="visible-xs">
+            <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">
+                <i class="mdi-action-view-list"></i> Menu
+            </button>
+        </div>			
         <ol class="breadcrumb">
             <li>
-                <a href="#">
-                    <span class="glyphicon glyphicon-trash"></span>
+                <a href="javascript:void(0)">
+                    <span class="mdi-action-delete"></span>
                 </a>
             </li>
             <li class="active">Löschen</li>
         </ol>
-    </div>
-    <div class="col-sm-8 col-sm-offset-4 col-lg-10 col-lg-offset-2">
-        <div class="panel panel-default">  
-            <div class="panel-heading">
-                <h2>Benutzer löschen</h2>
-            </div>
+        <section class="well">
+            <h3>Benutzer löschen</h3>        
             {% if message is defined %}
-            <div class="panel-body">
-                <p class="{{message_type}}">{{message}}</p>
-            </div>
-            {% endif %} 
-            {% if message is not defined %}
-                {% for user in users %}
-                <div class="panel-body">
-                <p>
-                    <strong>Benutzername:</strong> {{ user.username }}
+            <p class="{{message_type}}">{{message}}</p>
+                {% if no_access is not defined or no_access == false %}
+                <p class="text-right">
+                    <a href="{{ app.url_generator.generate('delete') }}">Zurück</a>
                 </p>
+                {% endif %}
+            {% endif %}
+            {% if users == false %}
+            <p>Keine Benutzer vorhanden!</p>
+            {% endif %}              
+        </section>
+        {% if message is not defined %}
+            {% for user in users %}
+            <article class="well">
+                <h4>
+                    <strong>Benutzername:</strong> {{ user.username }}
+                </h4>
                 <p>
                     <strong>E-Mail:</strong> {{ user.useremail }}
                 </p>
                 <p>
-                    <strong>Passwort:</strong> (Verschlüsselt)
-                </p>
+                    <strong>Rolle:</strong> {{ user.role }}
+                </p>                
                 <p>
                     <a href="{{ app.url_generator.generate('delete') }}{{ user.id }}">Löschen</a>
                 </p>
+            </article>
+            {% endfor %}
+            {% if users == true %}            
+                {% if lastpage != firstpage %}
+                <div class="well visible-lg">
+                    {% include "pagination_lg.twig" %}
                 </div>
-                {% endfor %}
-                <div class="panel-body">
-                    {% include "pagination.twig" %}
+                <div class="well visible-md">
+                    {% include "pagination_md.twig" %}
                 </div>
+                <div class="well visible-sm">
+                    {% include "pagination_sm.twig" %}
+                </div>
+                <div class="well visible-xs">
+                    {% include "pagination_xs.twig" %}
+                </div>
+                {% endif %}
             {% endif %}
-        </div>
+        {% endif %}
     </div>
+    <div class="col-sm-1"></div>
 </div>
 {% endblock %}

@@ -7,9 +7,9 @@ $postdata = array(
     'password' => $password->get( 'password' ),
     'staylogged' => $staylogged->get( 'staylogged' )
 );
+
 // Daten aus Datenbank holen
 $logindata = getLogindata( $app['db'], $postdata['username'] );
-
 $hash = $logindata['password'];
 
 // mit Eingabe vergleichen, Authentifizierung
@@ -27,6 +27,7 @@ if ( password_verify( $postdata['password'], $hash ) )
     }
     // Sessionnamen auf Usernamen setzen
     $app['session']->set( 'user', $postdata['username'] );
+    // Loginzeit setzen
     $app['session']->set( 'time', time() );
 
     // Weiterleiten auf Dashboard
@@ -34,9 +35,8 @@ if ( password_verify( $postdata['password'], $hash ) )
 }
 else
 {
-    $render = $app['twig']->render( 'login_form.twig', array(
-        'message' => 'Login fehlgeschlagen. Ihre Daten sind nicht korrekt.',
-        'message_type' => 'failuremessage'
-            ) );
-    return new Response( $render, 404 );
+    return new Response( $app['twig']->render( 'login_form.twig', array(
+                'message' => 'Login fehlgeschlagen. Ihre Daten sind nicht korrekt.',
+                'message_type' => 'alert alert-dismissable alert-danger'
+            ) ), 404 );
 }

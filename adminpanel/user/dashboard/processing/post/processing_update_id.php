@@ -2,81 +2,69 @@
 
 use Symfony\Component\HttpFoundation\Response;
 
+include_once USER_DIR . '/update.php';
+
 $postdata = array(
     'username' => $username->get( 'username' ),
     'useremail' => $useremail->get( 'useremail' ),
     'password' => $password->get( 'password' )
 );
 
-include_once USER_DIR . '/dashboard/update.php';
+$postdata = $this->sanitizeLogindata( $postdata );
+$invalidInput = validateForm( $postdata );
 
 $userData = getUser( $app['db'], $id );
 
-$id = $userData['id'];
-
-$postdata = $this->sanitizeLogindata( $postdata );
-
-$invalidInput = validateForm( $postdata );
-
 if ( !empty( $invalidInput ) )
 {
-    $errorMessages = getErrorMessages( $invalidInput );
-
-    $render = $app['twig']->render( 'user_update_id.twig', array(
-        'errormessages' => $errorMessages,
-        'postdata' => $postdata,
-        'is_active_usermanagement' => true,
-        'headline' => 'Alles bearbeiten',
-        'submitvalue' => 'Ändern'
-            ) );
-
-    return new Response( $render, 404 );
+    return new Response( $app['twig']->render( 'user_update_id.twig', array(
+                'user' => $userData,
+                'errormessages' => getErrorMessages( $invalidInput ),
+                'postdata' => $postdata,
+                'is_active_usermanagement' => true,
+                'headline' => 'Alles bearbeiten',
+                'submitvalue' => 'Ändern'
+            ) ), 404 );
 }
 else
 {
-    $userData = getAllUsers( $app['db'] );
-
-    foreach ( $userData as $user )
+    foreach ( getAllUsers( $app['db'] ) as $user )
     {
-        $username = $user['username'];
-        $useremail = $user['useremail'];
+        $usernames[] = $user['username'];
+        $useremails[] = $user['useremail'];
     }
 
-    if ( $postdata['username'] == $username || $postdata['useremail'] == $useremail )
+    if ( in_array( $postdata['username'], $usernames, true ) || in_array( $postdata['useremail'], $useremails, true ) )
     {
-        $render = $app['twig']->render( 'user_update_id.twig', array(
-            'message' => 'Der Benutzer existiert bereits.',
-            'message_type' => 'failuremessage',
-            'is_active_usermanagement' => true,
-            'headline' => 'Alles bearbeiten',
-            'submitvalue' => 'Anlegen'
-                ) );
-
-        return new Response( $render, 404 );
+        return new Response( $app['twig']->render( 'user_update_id.twig', array(
+                    'message' => 'Der Benutzer existiert bereits.',
+                    'user' => $userData,
+                    'message_type' => 'alert alert-dismissable alert-danger',
+                    'is_active_usermanagement' => true,
+                    'headline' => 'Alles bearbeiten',
+                    'submitvalue' => 'Anlegen'
+                ) ), 404 );
     }
-    elseif ( updateUser( $app['db'], $postdata, $id ) )
+    elseif ( updateUser( $app['db'], $postdata, $userData['id'] ) )
     {
-        $render = $app['twig']->render( 'user_update_id.twig', array(
-            'message' => 'Die Daten wurden geändert!',
-            'message_type' => 'successmessage',
-            'is_active_usermanagement' => true,
-            'headline' => 'Alles bearbeiten',
-            'submitvalue' => 'Ändern'
-                ) );
-
-        return new Response( $render, 201 );
+        return new Response( $app['twig']->render( 'user_update_id.twig', array(
+                    'message' => 'Die Daten wurden geändert!',
+                    'user' => $userData,
+                    'message_type' => 'alert alert-dismissable alert-success',
+                    'is_active_usermanagement' => true,
+                    'headline' => 'Alles bearbeiten',
+                    'submitvalue' => 'Ändern'
+                ) ), 201 );
     }
     // Wenn User in Datenbank schon so existiert wie das geänderte Meldung ausgeben weil dieser nicht mehrfach vorkommen darf
     else
     {
-        $render = $app['twig']->render( 'user_update_id.twig', array(
-            'message' => 'Die Daten konnten nicht geändert werden.',
-            'message_type' => 'failuremessage',
-            'is_active_usermanagement' => true,
-            'headline' => 'Alles bearbeiten',
-            'submitvalue' => 'Ändern'
-                ) );
-
-        return new Response( $render, 404 );
+        return new Response( $app['twig']->render( 'user_update_id.twig', array(
+                    'message' => 'Die Daten konnten nicht geändert werden.',
+                    'message_type' => 'alert alert-dismissable alert-danger',
+                    'is_active_usermanagement' => true,
+                    'headline' => 'Alles bearbeiten',
+                    'submitvalue' => 'Ändern'
+                ) ), 404 );
     }
 }

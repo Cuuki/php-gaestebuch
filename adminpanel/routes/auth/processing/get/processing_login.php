@@ -8,6 +8,4 @@ if ( ($app['session']->get( 'user' )) != NULL )
     return $app->redirect( $app['url_generator']->generate( 'dashboard' ) );
 }
 
-$render = $app['twig']->render( 'login_form.twig' );
-
-return new Response( $render, 201 );
+return new Response( $app['twig']->render( 'login_form.twig' ), 201 );

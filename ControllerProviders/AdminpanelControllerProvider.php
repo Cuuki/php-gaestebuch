@@ -19,7 +19,7 @@ class AdminpanelControllerProvider implements ControllerProviderInterface
         include_once __DIR__ . '/../lib/debug.php';
         $gbFunctions = include_once __DIR__ . '/../lib/gb-functions.php';
         $apFunctions = include_once __DIR__ . '/../lib/ap-functions.php';
-        include_once __DIR__ . '/../adminpanel/sudo-config.php';
+        include_once __DIR__ . '/../adminpanel/user/sudo-config.php';
 
         $controllers = $app['controllers_factory'];
 
@@ -206,13 +206,23 @@ class AdminpanelControllerProvider implements ControllerProviderInterface
             return include_once USER_DIR . '/dashboard/processing/post/processing_update_password.php';
         } );
 
+        $controllers->get( 'user/dashboard/update/{id}/role', function ( $id ) use ( $app )
+        {
+            return include_once USER_DIR . '/dashboard/processing/get/processing_update_role.php';
+        } );
+
+        $controllers->post( 'user/dashboard/update/{id}/role', function ( $id, Request $role ) use ( $app, $apFunctions, $gbFunctions )
+        {
+            return include_once USER_DIR . '/dashboard/processing/post/processing_update_role.php';
+        } );        
+        
         // Benutzer löschen
         $controllers->get( 'user/dashboard/delete/', function ( Request $currentpage ) use ( $app, $apFunctions )
         {
             return include_once USER_DIR . '/dashboard/display/display_delete.php';
         } )->bind( 'delete' );
 
-        $controllers->get( 'user/dashboard/delete/{id}', function( $id ) use ( $app, $apFunctions )
+        $controllers->get( 'user/dashboard/delete/{id}', function( $id, Request $currentpage ) use ( $app, $apFunctions )
         {
             return include_once USER_DIR . '/dashboard/processing/get/processing_delete.php';
         } );
@@ -289,7 +299,7 @@ class AdminpanelControllerProvider implements ControllerProviderInterface
             return include_once POST_DIR . '/display/display_delete.php';
         } )->bind( 'postDelete' );
 
-        $controllers->get( 'post/delete/{id}', function ( $id ) use ( $app )
+        $controllers->get( 'post/delete/{id}', function ( Request $currentpage, $id ) use ( $app )
         {
             return include_once POST_DIR . '/processing/get/processing_delete_id.php';
         } );

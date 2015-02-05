@@ -1,11 +1,55 @@
-Dies ist ein Gästebuch. Das Projekt befindet sich in einem ständigen Ausbauprozess und dient als Lehrmaßnahme.
+Deutsch
+Beschreibung:
+Dies ist ein Gästebuch mit zugehöriger Adminverwaltung ( User, Beiträge ).
+Der Superuser und der normale User werden zu Testzwecken in der Datei "sudo-config.php" ( unter /adminpanel/user ) automatisch angelegt.
+Die Dokumentation über die Struktur der benötigten Tabellen in der Datenbank befindet sich unter /docu.
+Die Index-Datei befindet sich unter /root.
 
-Zugang Adminpanel:
+Vorraussetzungen:
+PHP 5.5 oder höher
+Composer
+"silex/silex": "1.2.1",
+"twig/twig": "~1.0",
+"doctrine/orm": "2.3.6",
+"palma/DoctrineORMServiceProvider": "1.0.*@dev"
+(Grunt, Less)
 
-Rolle Superadmin
+Zugang Adminverwaltung:
+#Rolle Administrator
 Benutzername: sudo
 Passwort: sudo
+Rechte: Benutzer hinzufügen, bearbeiten, löschen / Beiträge hinzufügen, bearbeiten, löschen
 
-Rolle Admin
+#Rolle Redakteur
 Benutzername: adm
 Passwort: adm
+Rechte: Benutzer hinzufügen / Beiträge hinzufügen, bearbeiten, löschen
+
+
+
+English
+Description:
+This is a guestbook with an associated adminpanel ( user, posts ).
+The superuser and the normal user are automatically created for testing purposes in the file "sudo-config.php" ( under /adminpanel/user ).
+The documentation about the structure of the required tables in the database are located under /docu.
+The index-file is located under /root.
+
+Access adminpanel:
+#Role Administrator
+Username: sudo
+Password: sudo
+Rights: add, update, delete User / add, update, delete Post
+
+#Role Editor
+Username: adm
+Password: adm
+Rights: add User / add, update, delete Post
+
+Requirements:
+PHP 5.5 or higher
+Composer
+"silex/silex": "1.2.1",
+"twig/twig": "~1.0",
+"doctrine/orm": "2.3.6",
+"palma/DoctrineORMServiceProvider": "1.0.*@dev"
+(Grunt, Less)

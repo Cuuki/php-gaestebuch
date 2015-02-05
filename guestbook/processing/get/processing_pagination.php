@@ -26,12 +26,12 @@ if ( $currentpage < 1 )
 }
 
 // range of num links to show
-$range = 3;
+$range = 1;
 $pageNumber = array();
 
 // loop to show links to range of pages around current page
 for ( $pagenum = ($currentpage - $range); $pagenum < (($currentpage + $range) + 1); $pagenum++ )
-{
+{   
     if ( ($pagenum > 1) && ($pagenum < $lastPage) )
     {
         array_push( $pageNumber, (string) $pagenum );   
@@ -41,3 +41,6 @@ for ( $pagenum = ($currentpage - $range); $pagenum < (($currentpage + $range) + 
 $nextPage = $currentpage + 1;
 $previousPage = $currentpage - 1;
 $firstPage = 1;
+
+$pagesBefore = $currentpage - $range - 1 - $firstPage;
+$pagesAfter = $lastPage - $currentpage - $range - 1;

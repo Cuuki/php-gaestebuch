@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 28, 2014 at 09:21 AM
+-- Generation Time: Jan 30, 2015 at 03:30 PM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.11
 
@@ -25,27 +25,26 @@ SET time_zone = "+00:00";
 --
 -- Table structure for table `user`
 --
--- Creation: Sep 01, 2014 at 02:42 PM
---
 
 CREATE TABLE IF NOT EXISTS `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(30) NOT NULL,
   `useremail` varchar(50) NOT NULL,
   `password` char(128) NOT NULL,
-  `role` enum('suadm','adm') NOT NULL DEFAULT 'adm',
+  `role` enum('Administrator','Editor') NOT NULL DEFAULT 'Editor',
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `useremail` (`useremail`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=18 ;
 
 --
 -- Dumping data for table `user`
 --
 
 INSERT INTO `user` (`id`, `username`, `useremail`, `password`, `role`) VALUES
-(10, 'sudo', 'sudo@master.com', '$2y$10$avUVfWv7RzJo3BdJhSBWUuQFWodT1JAgH98PpKs4tEFB8UYJipNpO', 'suadm'),
-(12, 'adm', 'adm@test.com', '$2y$10$/lK9VJ.lEv.ijceslgf/KupaTu/u2hozdDS5lWDi8dsWErxwJxaZy', 'adm');
+(13, 'sudo', 'sudo@example.de', '$2y$10$/IC3bxENuxuMB8vYDcn5o.grK5PcLQs4z79FGNE7N7kNSSeB396Sa', 'Administrator'),
+(16, 'adm', 'adm@example.de', '$2y$10$BLLibsVJ/UxYSHLOwov87e2ZNDflgBOeAes5OnPx2GFSYDq3OHHVq', 'Editor'),
+(17, 'Patrick', 'patrick.soellner@publicis.de', '$2y$10$N6F4zNGUbPJnBwfGC6cuiOtCH9EgICba93hyYwO1ppKJtZRyL5mcW', 'Editor');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

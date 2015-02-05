@@ -11,39 +11,37 @@
 {% endblock %}
 
 {% block content %}
-<div class="row">
+<div id="content" class="row row-offcanvas row-offcanvas-left">
     {% include "sidebar.twig" %}
-    <div class="col-sm-8 col-sm-offset-4 col-lg-10 col-lg-offset-2 main">			
+    <div class="col-sm-7 col-sm-offset-1">
+        <div class="visible-xs">
+            <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">
+                <i class="mdi-action-view-list"></i> Menu
+            </button>
+        </div>
         <ol class="breadcrumb">
             <li>
-                <a href="#">
-                    <span class="glyphicon glyphicon-home"></span>
+                <a href="javascript:void(0)">
+                    <i class="mdi-action-home"></i>
                 </a>
             </li>
-            <li class="active">Dashboard</li>
+            <li class="active">Übersicht</li>
         </ol>
-    </div>	<!--/.main-->
-    <div class="col-sm-8 col-sm-offset-4 col-lg-10 col-lg-offset-2">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <span class="glyphicon glyphicon-heart-empty"></span>
-                <strong>Wilkommen im Adminbereich!</strong>
-            </div>
-            <div class="panel-body">
-                <h3>Hier können Sie Benutzer und Beiträge verwalten.</h2>
-            </div>
-        </div>
+        <section class="well">         
+            <h4>
+                <i class="mdi-action-favorite-outline"></i>
+                <strong> Wilkommen im Adminbereich!</strong>
+            </h4>
+            <p>Hier können Sie Benutzer und Beiträge verwalten.</p>
+        </section>
+        <section class="well">   
+            <h4>
+                <i class="mdi-action-query-builder"></i>
+                <strong> Eingeloggt seid:</strong>
+            </h4>
+            <p>{{loggedinsince}}</p>
+        </section>
     </div>
-    <div class="col-sm-8 col-sm-offset-4 col-lg-10 col-lg-offset-2">
-        <div class="panel panel-default">
-            <div class="panel-heading" id="accordion">
-                <span class="glyphicon glyphicon-time"></span>
-                <strong>Eingeloggt seid:</strong>
-            </div>
-            <div class="panel-body">
-                <h3>{{loggedinsince}}</h2>
-            </div>
-        </div>
-    </div><!--/.col-->       
-</div><!--/.row-->
+    <div class="col-sm-1"></div>
+</div>
 {% endblock %}

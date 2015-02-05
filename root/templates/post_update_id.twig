@@ -11,64 +11,76 @@
 {% endblock %}
 
 {% block content %}
-<div class="row">
+<div class="row row-offcanvas row-offcanvas-left">
     {% include "sidebar.twig" %}
-    <div class="col-sm-8 col-sm-offset-4 col-lg-10 col-lg-offset-2 main">			
+    <div class="col-sm-7 col-sm-offset-1">
+        <div class="visible-xs">
+            <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">
+                <i class="mdi-action-view-list"></i> Menu
+            </button>
+        </div> 			
         <ol class="breadcrumb">
             <li>
-                <a href="#">
-                    <span class="glyphicon glyphicon-pencil"></span>
+                <a href="javascript:void(0)">
+                    <span class="mdi-content-create"></span>
                 </a>
             </li>
             <li class="active">Bearbeiten</li>
         </ol>
-    </div>
-    <div class="col-sm-8 col-sm-offset-4 col-lg-10 col-lg-offset-2">
-        <div class="panel panel-default">
-            {% if message is not defined %}
-                {% if errormessages is not defined or errormessages is null %}    
-                <div class="panel-heading">
-                    <h2>Beitrag bearbeiten</h2>
-                </div>
-                {% endif %}                
+        {% if message is not defined %}
+        <article class="well">
+            {% if errormessages is not defined or errormessages is null %}            
+            <h2>Einzeln ändern:</h2>
+            {%endif%}
+            <h4>
+                <strong>Vorname:</strong> {{ post.firstname }}
+            </h4>
+            {% if errormessages is not defined or errormessages is null %}                        
+            <p>
+                <a href="{{ post.id_entry }}/firstname">Vorname bearbeiten</a>
+            </p>
             {% endif %}
+            <p>
+                <strong>Nachname</strong> {{ post.lastname }}
+            </p>
+            {% if errormessages is not defined or errormessages is null %}                
+            <p>
+                <a href="{{ post.id_entry }}/lastname">Nachname bearbeiten</a>
+            </p>
+            {% endif %}            
+            <p>
+                <strong>Beitrag:</strong> {{ post.content }}
+            </p>
+            {% if errormessages is not defined or errormessages is null %}
+            <p>
+                <a href="{{ post.id_entry }}/content">Beitrag bearbeiten</a>
+            </p>
+            {% endif %}
+            <p>
+                <strong>E-Mail:</strong> {{ post.email }}
+            </p>
+            {% if errormessages is not defined or errormessages is null %}
+            <p>
+                <a href="{{ post.id_entry }}/email">E-Mail bearbeiten</a>
+            </p>
+            {% endif %}
+        </article>
+        {% endif %}
+        <section class="well">
+            <h3>
+                <a name='add'>{{ headline }}</a>                
+            </h3>            
             {% if message is defined %}
-            <div class="panel-body">
-                <p class="{{message_type}}">{{message}}</p>
-            </div>
-            {% endif %}                
-            {% if message is not defined %}
-                {% if errormessages is not defined or errormessages is null %}    
-                <div class="panel-body">
-                    <p>
-                        <strong>Beitrag:</strong> {{ post.content }}
-                    </p>
-                    <p>
-                        <a href="{{ post.id_entry }}/content">Beitrag bearbeiten</a>
-                    </p>                    
-                    <p>
-                        <strong>Vorname:</strong> {{ post.firstname }}
-                    </p>
-                    <p>
-                        <a href="{{ post.id_entry }}/firstname">Vorname bearbeiten</a>
-                    </p>
-                    <p>
-                        <strong>Nachname</strong> {{ post.lastname }}
-                    </p>
-                    <p>
-                        <a href="{{ post.id_entry }}/lastname">Nachname bearbeiten</a>
-                    </p> 
-                    <p>
-                        <strong>E-Mail:</strong> {{ post.email }}
-                    </p>
-                    <p>
-                        <a href="{{ post.id_entry }}/email">E-Mail bearbeiten</a>
-                    </p>                    
-                </div>
-                {%endif%}
+            <p class="{{message_type}}">{{message}}</p>
+            <p class="text-right">
+                <a href="{{ app.url_generator.generate('postUpdate') }}">Zurück</a>            
+            </p>            
             {% endif %}
-            {% include "guestbookform.twig" %}
-        </div>
+            {% if message is not defined %}
+                {% include "guestbookform.twig" %}
+            {% endif %}
+        </section>
     </div>
+    <div class="col-sm-1"></div>
 </div>
 {% endblock %}

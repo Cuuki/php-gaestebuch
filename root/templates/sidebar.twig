@@ -1,72 +1,88 @@
-    <div id="sidebar-collapse" class="col-sm-4 col-md-3 col-lg-2 sidebar">
-        <ul class="nav menu">
-            <li role="presentation" class="divider"></li>
+<div class="col-sm-3 sidebar-offcanvas" id="sidebar">
+    <div class="well">
+        <ul class="nav nav-pills nav-stacked">
             <li class="{% if is_active_dashboard is defined and is_active_dashboard == true %}active{% endif %}">
                 <a href="{{ app.url_generator.generate('dashboard') }}">
-                    <span class="glyphicon glyphicon-dashboard"></span>Dashboard
+                    <i class="mdi-action-dashboard"></i> Übersicht
                 </a>
             </li>
-            <li class="parent {% if is_active_usermanagement is defined and is_active_usermanagement == true %}active{% endif %}">
-                <a href="#">
-                    <span class="glyphicon glyphicon-list"></span> Benutzerverwaltung
-                    <span data-toggle="collapse" href="#sub-item-1" class="icon pull-right">
-                        <em class="glyphicon glyphicon-s glyphicon-plus"></em>
-                    </span> 
+            <li class="divider"><hr></li>
+            <li class="dropdown {% if is_active_usermanagement is defined and is_active_usermanagement == true %}active{% endif %}">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#" data-target="#">
+                    <i class="mdi-action-list"></i> Benutzer
+                    <b class="caret"></b>
                 </a>
-                <ul class="children collapse" id="sub-item-1">
+                <ul class="dropdown-menu">
                     <li>
                         <a href="{{ app.url_generator.generate('add') }}">
-                            <span class="glyphicon glyphicon-plus"></span> Hinzufügen
+                            <i class="mdi-content-add"></i> Hinzufügen
                         </a>
                     </li>
                     <li>
                         <a href="{{ app.url_generator.generate('update') }}">
-                            <span class="glyphicon glyphicon-pencil"></span> Bearbeiten
+                            <i class="mdi-content-create"></i> Bearbeiten
                         </a>
                     </li>
                     <li>
                         <a href="{{ app.url_generator.generate('delete') }}">
-                            <span class="glyphicon glyphicon-trash"></span> Löschen
+                            <i class="mdi-action-delete"></i> Löschen
                         </a>
                     </li>
                 </ul>
             </li>
-            <li class="parent {% if is_active_postmanagement is defined and is_active_postmanagement == true %}active{% endif %}">
-                <a href="#">
-                    <span class="glyphicon glyphicon-list"></span> Beitragsverwaltung 
-                    <span data-toggle="collapse" href="#sub-item-2" class="icon pull-right">
-                        <em class="glyphicon glyphicon-s glyphicon-plus"></em>
-                    </span> 
+            <li class="dropdown {% if is_active_postmanagement is defined and is_active_postmanagement == true %}active{% endif %}">
+                <a  class="dropdown-toggle" data-toggle="dropdown" href="#" data-target="#">
+                    <i class="mdi-action-list"></i> Beitrag 
+                    <b class="caret"></b>
                 </a>
-                <ul class="children collapse" id="sub-item-2">
+                <ul class="dropdown-menu">
                     <li>
                         <a href="{{ app.url_generator.generate('postAdd') }}">
-                            <span class="glyphicon glyphicon-plus"></span> Hinzufügen
+                            <i class="mdi-content-add"></i> Hinzufügen
                         </a>
                     </li>
                     <li>
                         <a href="{{ app.url_generator.generate('postUpdate') }}">
-                            <span class="glyphicon glyphicon-pencil"></span> Bearbeiten
+                            <i class="mdi-content-create"></i> Bearbeiten
                         </a>
                     </li>
                     <li>
                         <a href="{{ app.url_generator.generate('postDelete') }}">
-                            <span class="glyphicon glyphicon-trash"></span> Löschen
+                            <i class="mdi-action-delete"></i> Löschen
                         </a>
                     </li>
                 </ul>
             </li>
-            <li role="presentation" class="divider"></li>
             <li class="{% if is_active_guestbook is defined and is_active_guestbook == true %}active{% endif %}">
                 <a href="{{ app.url_generator.generate('guestbook') }}">
-                    <span class="glyphicon glyphicon-book"></span>Zum Gästebuch
+                    <i class="mdi-action-book"></i> Gästebuch
                 </a>
+            </li>            
+            <li class="divider"><hr></li>
+            <li class="dropdown {% if is_active_settings is defined and is_active_settings == true %}active{% endif %}">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#" data-target="#">
+                    <i class="mdi-action-account-circle"></i> {{loggeduser}} 
+                    <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="{{ app.url_generator.generate('settings') }}">
+                            <i class="mdi-action-settings"></i> Settings
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ app.url_generator.generate('logout') }}">
+                            <i class="mdi-navigation-cancel"></i> Ausloggen
+                        </a>
+                    </li>
+                </ul>
             </li>
-            <li role="presentation" class="divider"></li>
-            <div class="attribution">
-                <a href="{{ app.url_generator.generate('logout') }}">
-                    <span class="glyphicon glyphicon-log-out"></span>Ausloggen
+            <li class="divider"><hr></li>
+            <li>
+                <a href="#top">
+                    <i class="mdi-navigation-expand-less"></i> Nach oben
                 </a>
-            </div>
+            </li>            
         </ul>
     </div>
+</div>

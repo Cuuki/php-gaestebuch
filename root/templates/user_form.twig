@@ -13,39 +13,49 @@
 {% endif %}        
 
 {% if message is not defined %} 
-<div class="col-sm-8 col-sm-offset-4 col-lg-10 col-lg-offset-2">
-    <div class="login-panel panel panel-default">
-        <div class="panel-heading">
-            <h2>{{headline}}</h2>
+<fieldset>        
+    <form  action="" method="post" class="form-horizontal">
+        <div class="form-group">
+            <label for="username" class="sr-only control-label">Benutzername</label>
+            <div class="col-lg-12">
+                <div class="form-control-wrapper">
+                    <input type="text" id="username" name="username" value="{{value.username}}" class="form-control" placeholder="Benutzername"  >
+                    <span class="material-input"></span>
+                </div>
+            </div>
         </div>
-        <div class="panel-body">
-            <form  action="" method="post">
-                <fieldset>
-                    <div class="form-group">
-                        <label for="username" class="sr-only">Benutzername</label>
-                        <input type="text" name="username" value="{{value.username}}" class="form-control" placeholder="Benutzername"  autofocus>
-                        {% if errormessages is defined and errormessages is not null and errormessages.username is defined %}
-                            <p class="errorMessage">{{errormessages.username}}</p>
-                        {% endif %}
-                    </div>
-                    <div class="form-group">
-                        <label for="useremail" class="sr-only">E-Mail</label>
-                        <input type="text" name="useremail" value="{{value.useremail}}" class="form-control" placeholder="E-Mail" >
-                        {% if errormessages is defined and errormessages is not null and errormessages.useremail is defined %}
-                            <p class="errorMessage">{{errormessages.useremail}}</p>
-                        {% endif %}
-                    </div>
-                    <div class="form-group">
-                        <label for="password" class="sr-only">Passwort</label>
-                        <input type="password" name="password" value="{{value.password}}" class="form-control" placeholder="Passwort" >
-                        {% if errormessages is defined and errormessages is not null and errormessages.password is defined %}
-                            <p class="errorMessage">{{errormessages.password}}</p>
-                        {% endif %}
-                    </div>
-                    <button class="btn btn-primary" type="submit">{{submitvalue}}</button>
-                </fieldset>
-            </form>
+        {% if errormessages is defined and errormessages is not null and errormessages.username is defined %}
+            <p class="alert alert-dismissable alert-danger">{{errormessages.username}}</p>
+        {% endif %}                
+        <div class="form-group">
+            <div class="col-lg-12">
+                <div class="form-control-wrapper">
+                    <label for="useremail" class="sr-only control-label">E-Mail</label>
+                    <input type="text" id="useremail" name="useremail" value="{{value.useremail}}" class="form-control" placeholder="E-Mail" >
+                    <span class="material-input"></span>
+                </div>
+            </div>                
         </div>
-    </div>
-</div>
+        {% if errormessages is defined and errormessages is not null and errormessages.useremail is defined %}
+            <p class="alert alert-dismissable alert-danger">{{errormessages.useremail}}</p>
+        {% endif %}            
+        <div class="form-group">
+            <div class="col-lg-12">
+                <div class="form-control-wrapper">                
+                    <label for="password" class="sr-only control-label">Passwort</label>
+                    <input type="password" id="password" name="password" value="{{value.password}}" class="form-control" placeholder="Passwort" >
+                    <span class="material-input"></span>
+                </div>
+            </div>                
+        </div>
+        {% if errormessages is defined and errormessages is not null and errormessages.password is defined %}
+            <p class="alert alert-dismissable alert-danger">{{errormessages.password}}</p>
+        {% endif %}   
+        <div class="form-group">
+            <div class="col-lg-12">            
+                <button class="btn btn-primary" type="submit">{{submitvalue}}</button>
+            </div>
+        </div>
+    </form>
+</fieldset>
 {% endif %}

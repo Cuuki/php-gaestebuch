@@ -2,100 +2,91 @@
 
 use Symfony\Component\HttpFoundation\Response;
 
+include_once USER_DIR . '/update.php';
+
 $postdata = array(
     'oldpassword' => $password->get( 'oldpassword' ),
     'password' => $password->get( 'password' )
 );
 
-$users = getLogindata( $app['db'], $app['session']->get( 'user' ) );
-
-$id = $users['id'];
-$password = $users['password'];
-
 $data = $this->sanitizeIndividualFields( $postdata );
 $invalidInput = validateForm( $data );
 
-// Wenn altes Passwort nicht mit dem aus der Session übereinstimmt
-if ( password_verify( $postdata['oldpassword'], $password ) == FALSE )
-{
-    $render = $app['twig']->render( 'settings_update_form.twig', array(
-        'oldinput_for' => 'oldpassword',
-        'oldinput_text' => 'Altes Passwort',
-        'oldinput_name' => 'oldpassword',
-        'newinput_for' => 'password',
-        'newinput_text' => 'Neues Passwort',
-        'newinput_name' => 'password',
-        'message' => 'Das alte Passwort stimmt nicht mit Ihrem überein.',
-        'message_type' => 'failuremessage'
-            ) );
+$users = getLogindata( $app['db'], $app['session']->get( 'user' ) );
 
-    return new Response( $render, 404 );
+// Wenn altes Passwort nicht mit dem aus der Session übereinstimmt
+if ( password_verify( $postdata['oldpassword'], $users['password'] ) == FALSE )
+{
+    return new Response( $app['twig']->render( 'settings_update_form.twig', array(
+                'is_active_settings' => true,
+                'oldinput_for' => 'oldpassword',
+                'oldinput_text' => 'Altes Passwort',
+                'oldinput_name' => 'oldpassword',
+                'newinput_for' => 'password',
+                'newinput_text' => 'Neues Passwort',
+                'newinput_name' => 'password',
+                'message' => 'Das alte Passwort stimmt nicht mit Ihrem überein.',
+                'message_type' => 'alert alert-dismissable alert-danger'
+            ) ), 404 );
 }
 elseif ( $postdata['oldpassword'] == $postdata['password'] )
 {
-    $render = $app['twig']->render( 'settings_update_form.twig', array(
-        'oldinput_for' => 'oldpassword',
-        'oldinput_text' => 'Altes Passwort',
-        'oldinput_name' => 'oldpassword',
-        'newinput_for' => 'password',
-        'newinput_text' => 'Neues Passwort',
-        'newinput_name' => 'password',
-        'message' => 'Das alte darf nicht mit dem neuen Passwort übereinstimmen!',
-        'message_type' => 'failuremessage'
-            ) );
-
-    return new Response( $render, 404 );
+    return new Response( $app['twig']->render( 'settings_update_form.twig', array(
+                'is_active_settings' => true,
+                'oldinput_for' => 'oldpassword',
+                'oldinput_text' => 'Altes Passwort',
+                'oldinput_name' => 'oldpassword',
+                'newinput_for' => 'password',
+                'newinput_text' => 'Neues Passwort',
+                'newinput_name' => 'password',
+                'message' => 'Das alte darf nicht mit dem neuen Passwort übereinstimmen!',
+                'message_type' => 'alert alert-dismissable alert-danger'
+            ) ), 404 );
 }
 elseif ( !empty( $invalidInput ) )
 {
-    $errorMessages = getErrorMessages( $invalidInput );
-
-    $render = $app['twig']->render( 'settings_update_form.twig', array(
-        'oldinput_for' => 'oldpassword',
-        'oldinput_text' => 'Altes Passwort',
-        'oldinput_name' => 'oldpassword',
-        'newinput_for' => 'password',
-        'newinput_text' => 'Neues Passwort',
-        'newinput_name' => 'password',
-        'errormessages' => $errorMessages,
-        'message' => 'Sie haben kein valides Passwort angegeben!',
-        'message_type' => 'failuremessage'            
-    ) );
-
-    return new Response( $render, 404 );
-
+    return new Response( $app['twig']->render( 'settings_update_form.twig', array(
+                'is_active_settings' => true,
+                'oldinput_for' => 'oldpassword',
+                'oldinput_text' => 'Altes Passwort',
+                'oldinput_name' => 'oldpassword',
+                'newinput_for' => 'password',
+                'newinput_text' => 'Neues Passwort',
+                'newinput_name' => 'password',
+                'errormessages' => getErrorMessages( $invalidInput ),
+                'message' => 'Sie haben kein valides Passwort angegeben!',
+                'message_type' => 'alert alert-dismissable alert-danger'
+            ) ), 404 );
 }
 else
 {
-    include_once USER_DIR . '/dashboard/update.php';
-    if ( updatePassword( $app['db'], $postdata['password'], $id ) )
+    if ( updatePassword( $app['db'], $postdata['password'], $users['id'] ) )
     {
-        $render = $app['twig']->render( 'settings_update_form.twig', array(
-            'oldinput_for' => 'oldpassword',
-            'oldinput_text' => 'Altes Passwort',
-            'oldinput_name' => 'oldpassword',
-            'newinput_for' => 'password',
-            'newinput_text' => 'Neues Passwort',
-            'newinput_name' => 'password',
-            'message' => 'Das Passwort wurde geändert!',
-            'message_type' => 'successmessage'
-                ) );
-
-        return new Response( $render, 201 );
+        return new Response( $app['twig']->render( 'settings_update_form.twig', array(
+                    'is_active_settings' => true,
+                    'oldinput_for' => 'oldpassword',
+                    'oldinput_text' => 'Altes Passwort',
+                    'oldinput_name' => 'oldpassword',
+                    'newinput_for' => 'password',
+                    'newinput_text' => 'Neues Passwort',
+                    'newinput_name' => 'password',
+                    'message' => 'Das Passwort wurde geändert!',
+                    'relog' => true,
+                    'message_type' => 'alert alert-dismissable alert-success'
+                ) ), 201 );
     }
     else
     {
-        $render = $app['twig']->render( 'settings_update_form.twig', array(
-            'oldinput_for' => 'oldpassword',
-            'oldinput_text' => 'Altes Passwort',
-            'oldinput_name' => 'oldpassword',
-            'newinput_for' => 'password',
-            'newinput_text' => 'Neues Passwort',
-            'newinput_name' => 'password',
-            'message' => 'Die Daten konnten nicht geändert werden!',
-            'message_type' => 'failuremessage'
-                ) );
-
-        return new Response( $render, 404 );
+        return new Response( $app['twig']->render( 'settings_update_form.twig', array(
+                    'is_active_settings' => true,
+                    'oldinput_for' => 'oldpassword',
+                    'oldinput_text' => 'Altes Passwort',
+                    'oldinput_name' => 'oldpassword',
+                    'newinput_for' => 'password',
+                    'newinput_text' => 'Neues Passwort',
+                    'newinput_name' => 'password',
+                    'message' => 'Die Daten konnten nicht geändert werden!',
+                    'message_type' => 'alert alert-dismissable alert-danger'
+                ) ), 404 );
     }
 }

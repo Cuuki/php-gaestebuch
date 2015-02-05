@@ -11,25 +11,28 @@
 {% endblock %}
 
 {% block content %}
-<div class="row">
+<div class="row row-offcanvas row-offcanvas-left">
     {% include "sidebar.twig" %}
-    <div class="col-sm-8 col-sm-offset-4 col-lg-10 col-lg-offset-2 main">
+    <div class="col-sm-7 col-sm-offset-1">
+        <div class="visible-xs">
+            <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">
+                <i class="mdi-action-view-list"></i> Menu
+            </button>
+        </div>
         <ol class="breadcrumb">
             <li>
-                <a href="#">
-                    <span class="glyphicon glyphicon-cog"></span>
+                <a href="javascript:void(0)">
+                    <span class="mdi-action-settings"></span>
                 </a>
             </li>
             <li class="active">Profil</li>
         </ol>
-    </div> 
-    <div class="col-sm-8 col-sm-offset-4 col-lg-10 col-lg-offset-2">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <span class="glyphicon glyphicon-heart-empty"></span>
+        <section class="well">
+            <h4>
+                <i class="mdi-action-favorite-outline"></i>
                 <strong>Wilkommen auf Ihrem Profil!</strong>
-            </div>
-            <div class="panel-body">
+            </h4>
+            <ul>
                 <li>
                     <p>
                         <a href="{{ app.url_generator.generate('changeUsername') }}">Benutzernamen ändern</a>
@@ -44,9 +47,10 @@
                     <p>
                         <a href="{{ app.url_generator.generate('changeEmail') }}">E-Mail ändern</a>
                     </p>  
-                </li>
-            </div>
-        </div>
+                </li>                
+            </ul>
+        </section>
     </div>
+    <div class="col-sm-1"></div>
 </div>
 {% endblock %}

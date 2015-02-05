@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 28, 2014 at 09:24 AM
+-- Generation Time: Feb 04, 2015 at 10:32 AM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.11
 
@@ -25,25 +25,27 @@ SET time_zone = "+00:00";
 --
 -- Table structure for table `auth_codes`
 --
--- Creation: Oct 17, 2014 at 09:46 AM
---
 
 CREATE TABLE IF NOT EXISTS `auth_codes` (
   `code_id` int(11) NOT NULL AUTO_INCREMENT,
-  `code` int(11) NOT NULL,
+  `code` varchar(50) NOT NULL,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `id_user` int(11) NOT NULL,
   PRIMARY KEY (`code_id`),
   UNIQUE KEY `code` (`code`),
+  KEY `id_user` (`id_user`),
   KEY `created` (`created`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
--- Dumping data for table `auth_codes`
+-- Constraints for dumped tables
 --
 
-INSERT INTO `auth_codes` (`code_id`, `code`, `created`, `id_user`) VALUES
-(3, 5213, '2014-10-28 08:23:58', 12);
+--
+-- Constraints for table `auth_codes`
+--
+ALTER TABLE `auth_codes`
+  ADD CONSTRAINT `auth_codes_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`) ON DELETE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
