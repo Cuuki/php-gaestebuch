@@ -72,9 +72,15 @@
             </h3>            
             {% if message is defined %}
             <p class="{{message_type}}">{{message}}</p>
-            <p class="text-right">
-                <a href="{{ app.url_generator.generate('postUpdate') }}">Zurück</a>            
-            </p>            
+                {% if message_type == 'alert alert-dismissable alert-danger' %}
+                <p class="text-right">
+                    <a href="{{ app.url_generator.generate('postUpdate') }}/{{post.id_entry}}">Zurück</a>            
+                </p>
+                {% else %}
+                <p class="text-right">
+                    <a href="{{ app.url_generator.generate('postUpdate') }}">Zurück</a>            
+                </p>                
+                {% endif %}
             {% endif %}
             {% if message is not defined %}
                 {% include "guestbookform.twig" %}

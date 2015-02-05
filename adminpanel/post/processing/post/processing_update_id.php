@@ -16,12 +16,24 @@ $entryData = getEntry( $app['db'], $id );
 $postdata = sanitizeData( $postdata );
 $invalidInput = validateForm( $postdata );
 
-if ( !empty( $invalidInput ) || $postdata['textinput'] == $entryData['content'] )
+if ( !empty( $invalidInput ) )
 {
     return new Response( $app['twig']->render( 'post_update_id.twig', array(
                 'headline' => 'Daten ändern',
                 'submit_text' => 'Ändern',
                 'errormessages' => getErrorMessages( $invalidInput ),
+                'is_active_postmanagement' => true,
+                'post' => $entryData,
+                'postdata' => $postdata
+            ) ), 404 );
+}
+elseif( $postdata['textinput'] == $entryData['content'] )
+{
+    return new Response( $app['twig']->render( 'post_update_id.twig', array(
+                'headline' => 'Daten ändern',
+                'submit_text' => 'Ändern',
+                'message' => 'Geben Sie mindestens einen neuen Beitrag an!',
+                'message_type' => 'alert alert-dismissable alert-danger',
                 'is_active_postmanagement' => true,
                 'post' => $entryData,
                 'postdata' => $postdata

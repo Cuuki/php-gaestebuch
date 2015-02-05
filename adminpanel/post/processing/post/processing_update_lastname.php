@@ -30,7 +30,7 @@ else
     if ( $postdata['lastname'] == $entrydata['lastname'] )
     {
         return new Response( $app['twig']->render( 'user_update_form.twig', array(
-                    'message' => 'Der Vorname ist identisch mit dem alten.',
+                    'message' => 'Der Nachname ist identisch mit dem alten.',
                     'message_type' => 'alert alert-dismissable alert-danger',
                     'label_for' => 'lastname',
                     'label_text' => 'Neuer Nachname',
