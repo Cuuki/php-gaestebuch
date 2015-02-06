@@ -15,13 +15,14 @@ $app->register( new Silex\Provider\SessionServiceProvider() );
 $app->register( new Silex\Provider\TwigServiceProvider(), array(
     'twig.path' => __DIR__ . '/templates'
 ) );
+
 //Datenbankverbindung registrieren
 $app->register( new Silex\Provider\DoctrineServiceProvider(), array(
     'db.options' => array(
         'driver' => 'pdo_mysql',
         'dbname' => 'gaestebuch',
         'user' => 'root',
-        'password' => 'XDrAgonStOrM129',
+        'password' => fread( fopen( __DIR__ . '/../.secure/pass', 'r' ), filesize( __DIR__ . '/../.secure/pass' ) ),
         'host' => 'localhost',
         'charset' => 'utf8',
     )

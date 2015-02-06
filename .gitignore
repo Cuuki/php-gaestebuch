@@ -3,3 +3,4 @@ log/*.log
 /nbproject
 /node_modules
 .DS_Store
+/.secure
